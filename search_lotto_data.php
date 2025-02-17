@@ -74,7 +74,8 @@ $result = $stmt->fetchAll();
             <?php endif; ?>
 
             <?php if (!empty($_POST) && $message === ''): ?> <!-- แสดงข้อมูลเมื่อมีการกดปุ่มค้นหาและเงื่อนไขไม่ว่าง -->
-                <table id="DataTable" class="display table table-striped table-hover table-responsive table-bordered">
+                <table id="DataTable"
+                       class="display table table-striped table-hover table-responsive table-bordered">
                     <thead>
                     <tr>
                         <th width="5%">ลำดับ</th>
@@ -167,8 +168,8 @@ $result = $stmt->fetchAll();
 </script>
 
 <script>
-    $(document).ready(function(){
-        $('#closetBtn').click(function(){
+    $(document).ready(function () {
+        $('#closetBtn').click(function () {
             window.close(); // ปิดหน้าต่าง
         });
     });
