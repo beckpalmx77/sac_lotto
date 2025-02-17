@@ -5,15 +5,20 @@ require_once 'config/connect_lotto_db.php';
 // ตรวจสอบว่ามีการส่งข้อมูลเงื่อนไขมาหรือไม่
 $condition = '';
 $params = [];
+$message = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!empty($_POST['lotto_name'])) {
-        $condition .= " AND lotto_name LIKE :lotto_name";
-        $params[':lotto_name'] = "%" . $_POST['lotto_name'] . "%";
-    }
-    if (!empty($_POST['lotto_phone'])) {
-        $condition .= " AND lotto_phone LIKE :lotto_phone";
-        $params[':lotto_phone'] = "%" . $_POST['lotto_phone'] . "%";
+    if (empty($_POST['lotto_name']) && empty($_POST['lotto_phone'])) {
+        $message = 'กรุณาป้อนเงื่อนไข (ชื่อร้าน หรือ หมายเลขโทรศัพท์) ก่อน';
+    } else {
+        if (!empty($_POST['lotto_name'])) {
+            $condition .= " AND lotto_name LIKE :lotto_name";
+            $params[':lotto_name'] = "%" . $_POST['lotto_name'] . "%";
+        }
+        if (!empty($_POST['lotto_phone'])) {
+            $condition .= " AND lotto_phone LIKE :lotto_phone";
+            $params[':lotto_phone'] = "%" . $_POST['lotto_phone'] . "%";
+        }
     }
 }
 
@@ -61,7 +66,14 @@ $result = $stmt->fetchAll();
                 </div>
             </form>
 
-            <?php if (!empty($_POST)): ?> <!-- แสดงข้อมูลเมื่อมีการกดปุ่มค้นหา -->
+            <!-- แสดงข้อความแจ้งเตือนหากไม่มีการกรอกข้อมูล -->
+            <?php if ($message): ?>
+                <div class="alert alert-danger" role="alert" style="color: white; background-color: red;">
+                    <?= $message ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($_POST) && $message === ''): ?> <!-- แสดงข้อมูลเมื่อมีการกดปุ่มค้นหาและเงื่อนไขไม่ว่าง -->
                 <table id="DataTable" class="display table table-striped table-hover table-responsive table-bordered">
                     <thead>
                     <tr>

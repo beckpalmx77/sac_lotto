@@ -9,7 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $period_year = $_POST['period_year'];
 
     // สร้างคำสั่ง SQL สำหรับดึงข้อมูลจาก ims_lotto_period
-    $sql = "SELECT * FROM ims_lotto_period WHERE period_no = :period_no AND period_month = :period_month AND period_year = :period_year ORDER BY lotto_type DESC";
+    $sql = "SELECT ims_lotto_period.*,prize.prize_id,prize.detail,prize.prize FROM ims_lotto_period 
+            LEFT JOIN ims_lotto_prize prize ON prize.prize_id = ims_lotto_period.lotto_type 
+            WHERE period_no = :period_no AND period_month = :period_month AND period_year = :period_year ORDER BY lotto_type DESC";
 
     // เตรียมคำสั่ง SQL
     $stmt = $conn->prepare($sql);
