@@ -1,6 +1,6 @@
 <?php
-define('DB_HOST','localhost');
-//define('DB_HOST','171.100.56.194');
+//define('DB_HOST','localhost');
+define('DB_HOST','171.100.56.194');
 //define('DB_HOST','192.168.88.40');
 //define('DB_HOST','192.168.88.7');
 define('DB_PORT','3307');
