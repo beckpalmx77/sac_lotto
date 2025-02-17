@@ -1,0 +1,1 @@
+id = 194 lotto_number = 250 file = file_67b2eb8b321352.33085193.png,file_67b2eb8b322b02.27535009.png | file_67b2eb8b323924.26779292.png
