@@ -193,7 +193,7 @@
                             $('#lotto_type').val(lotto_type);
                             $('#lotto_number_result').val(lotto_number_result);
                             $('.modal-title').html("<i class='fa fa-edit'></i> แก้ไขข้อมูล");
-                            $('#action').val('EDIT');
+                            $('#action').val('UPDATE');
                             $('#save').val('บันทึก');
                         }
                     }

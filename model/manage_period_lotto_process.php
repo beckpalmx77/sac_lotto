@@ -87,38 +87,44 @@ if ($_POST["action"] === 'ADD') {
     }
 }
 
-
 if ($_POST["action"] === 'UPDATE') {
 
-    if ($_POST["lotto_number_result"] != '') {
+    // ตรวจสอบค่าที่จำเป็นทั้งหมด
+    if (!empty($_POST["id"]) && !empty($_POST["lotto_number_result"])) {
 
         $id = $_POST["id"];
-        $period_no = $_POST["period_no"];
-        $period_month = $_POST["period_month"];
-        $period_year = $_POST["period_year"];
-        $lotto_type = $_POST["lotto_type"];
         $lotto_number_result = $_POST["lotto_number_result"];
 
-        // Prepare the query to check if a record exists, parameterized for security
-        $sql_find = "SELECT COUNT(*) FROM ims_lotto_period WHERE period_no = :period_no";
+        // ตรวจสอบว่ามี id อยู่หรือไม่
+        $sql_find = "SELECT COUNT(*) FROM ims_lotto_period WHERE id = :id";
         $stmt = $conn->prepare($sql_find);
-        $stmt->bindParam(':period_no', $period_no, PDO::PARAM_STR);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $nRows = $stmt->fetchColumn();
 
+        /*
+                $my_file = fopen("cond.txt", "w") or die("Unable to open file!");
+                fwrite($my_file, " cond = " . $sql_find . " | " . $id);
+                fclose($my_file);
+        */
         if ($nRows > 0) {
-            // Prepare the UPDATE statement
-            $sql_update = "UPDATE ims_lotto_period SET lotto_number_result = :lotto_number_result
-                           WHERE id = :id";
+            // อัปเดตหมายเลขลอตเตอรี่
+            $sql_update = "UPDATE ims_lotto_period SET lotto_number_result = :lotto_number_result WHERE id = :id";
             $query = $conn->prepare($sql_update);
             $query->bindParam(':lotto_number_result', $lotto_number_result, PDO::PARAM_STR);
             $query->bindParam(':id', $id, PDO::PARAM_INT);
-            $query->execute();
-            echo $save_success;
+            if ($query->execute()) {
+                echo $save_success;
+            } else {
+                echo $error;
+            }
         } else {
-            // If no record found, you may want to return an error or handle it
             echo $error;
         }
+        exit;
+    } else {
+        echo "กรุณาระบุ ID และหมายเลขลอตเตอรี่";
+        exit;
     }
 }
 
