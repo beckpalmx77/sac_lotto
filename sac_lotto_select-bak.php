@@ -26,23 +26,6 @@ include('includes/Header.php');
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="customer_select">เลือกรายชื่อลูกค้า ถ้าค้นหาไม่พบให้พิมพ์ชื่อร้านค้าในช่อง ชื่อร้านค้า</label>
-                                        <select id="customer_select" class="form-control" style="width: 100%;">
-                                            <option value="">-- ค้นหารายชื่อลูกค้า --</option>
-                                            <?php
-                                            $sql = "SELECT * FROM ims_customer_master";
-                                            $stmt = $conn->prepare($sql);
-                                            $stmt->execute();
-                                            $customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                            foreach ($customers as $customer) {
-                                                echo "<option value='{$customer['id']}' data-name='{$customer['customer_name']}' data-phone='{$customer['phone']}' data-province='{$customer['province']}' data-sale='{$customer['sale_name']}'>{$customer['customer_name']}</option>";
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -208,9 +191,6 @@ include('includes/Header.php');
 <link rel="stylesheet" href="vendor/datatables/v11/buttons.dataTables.min.css"/>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <style>
 
@@ -506,28 +486,6 @@ include('includes/Header.php');
     $(document).ready(function () {
         $('#SearchBtn').click(function () {
             window.open('search_lotto_data', '_blank');
-        });
-    });
-</script>
-
-<script>
-    $(document).ready(function () {
-        $('#customer_select').select2({
-            placeholder: "พิมพ์เพื่อค้นหารายชื่อลูกค้า",
-            allowClear: true
-        });
-
-        $('#customer_select').on('change', function () {
-            let selected = $(this).find(':selected');
-            let name = selected.data('name');
-            let phone = selected.data('phone');
-            let province = selected.data('province');
-            let sale = selected.data('sale');
-
-            $('#lotto_name').val(name);
-            $('#lotto_phone').val(phone);
-            $('#lotto_province').val(province).change();
-            $('#sale_name').val(sale).change();
         });
     });
 </script>
