@@ -27,7 +27,9 @@ include('includes/Header.php');
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label for="customer_select"><b style="color: blue;">เลือกรายชื่อลูกค้า</b> <b style="color: orangered;">ถ้าค้นหาไม่พบให้พิมพ์ชื่อร้านค้าในช่อง</b><b style="color: green;"> ชื่อร้านค้า</b></label>
+                                        <label for="customer_select"><b style="color: blue;">เลือกรายชื่อลูกค้า</b> <b
+                                                    style="color: orangered;">ถ้าค้นหาไม่พบให้พิมพ์ชื่อร้านค้าในช่อง</b><b
+                                                    style="color: green;"> ชื่อร้านค้า</b></label>
                                         <select id="customer_select" class="form-control" style="width: 100%;">
                                             <option value="">-- ค้นหารายชื่อลูกค้า --</option>
                                             <?php
@@ -46,7 +48,8 @@ include('includes/Header.php');
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="lotto_name" class="control-label"><b style="color: green;"> ชื่อร้านค้า</b></label>
+                                                <label for="lotto_name" class="control-label"><b style="color: green;">
+                                                        ชื่อร้านค้า</b></label>
                                                 <input type="text" class="form-control" id="lotto_name"
                                                        name="lotto_name"
                                                        required="true"
@@ -510,7 +513,7 @@ include('includes/Header.php');
     });
 </script>
 
-<script>
+<!--script>
     $(document).ready(function () {
         $('#customer_select').select2({
             placeholder: "พิมพ์เพื่อค้นหารายชื่อลูกค้า",
@@ -528,6 +531,44 @@ include('includes/Header.php');
             $('#lotto_phone').val(phone);
             $('#lotto_province').val(province).change();
             $('#sale_name').val(sale).change();
+        });
+    });
+</script-->
+
+<script>
+    $(document).ready(function () {
+        // กำหนด Select2
+        $('#customer_select').select2({
+            placeholder: "พิมพ์เพื่อค้นหารายชื่อลูกค้า",
+            allowClear: true
+        });
+
+        // เมื่อมีการเลือกจาก Select2
+        $('#customer_select').on('change', function () {
+            let selected = $(this).find(':selected');
+            let name = selected.data('name');
+            let phone = selected.data('phone');
+            let province = selected.data('province');
+            let sale = selected.data('sale');
+
+            $('#lotto_name').val(name);
+            $('#lotto_phone').val(phone);
+
+            // ค้นหาและกำหนดค่า Province
+            $('#lotto_province option').each(function () {
+                let optionText = $(this).text();
+                if (optionText.includes(province.replace('จ.', '').trim())) {
+                    $('#lotto_province').val($(this).val()).change();
+                }
+            });
+
+            // ค้นหาและกำหนดค่า Sale
+            $('#sale_name option').each(function () {
+                let optionText = $(this).text();
+                if (optionText.includes(sale)) {
+                    $('#sale_name').val($(this).val()).change();
+                }
+            });
         });
     });
 </script>
