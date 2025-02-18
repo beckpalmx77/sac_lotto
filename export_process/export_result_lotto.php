@@ -1,83 +1,89 @@
 <?php
-include('../config/connect_lotto_db.php');
+require_once '../config/connect_lotto_db.php';
+require_once '../vendor/PhpXlsxGenerator-master/PhpXlsxGenerator.php';
+require_once '../util/month_util.php';
 
-// ตรวจสอบว่าเป็น POST request หรือไม่
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+try {
+    // รับค่าจาก URL
+    $period_no = $_GET['period_no'] ;
+    $period_month = $_GET['period_month'] ;
+    $period_year = $_GET['period_year'] ;
 
-    // รับค่าที่ส่งมาจากฟอร์ม
-    $period_no = $_POST['period_no'];
-    $period_month = $_POST['period_month'];
-    $period_year = $_POST['period_year'];
+    // ตรวจสอบค่าที่รับมา
+    if (empty($period_no) || empty($period_month) || empty($period_year)) {
+        throw new Exception("กรุณากรอกข้อมูลให้ครบถ้วน");
+    }
 
-    // สร้างคำสั่ง SQL สำหรับดึงข้อมูลจาก ims_lotto_period
-    $sql = "SELECT * FROM ims_lotto_period WHERE period_no = :period_no AND period_month = :period_month AND period_year = :period_year ORDER BY lotto_type DESC";
+    // สร้างชื่อไฟล์
+    $fileName = "sac_lotto_result_" . date('Y-m-d_H-i-s') . ".xlsx";
 
-    // เตรียมคำสั่ง SQL
+    // Query ข้อมูลรางวัล
+    $sql = "SELECT ims_lotto_period.*, prize.prize_id, prize.detail, prize.prize 
+            FROM ims_lotto_period
+            LEFT JOIN ims_lotto_prize prize ON prize.prize_id = ims_lotto_period.lotto_type
+            WHERE period_no = :period_no AND period_month = :period_month AND period_year = :period_year
+            ORDER BY lotto_type DESC";
+
     $stmt = $conn->prepare($sql);
-
-    // ผูกค่าพารามิเตอร์กับตัวแปร
     $stmt->bindParam(':period_no', $period_no, PDO::PARAM_STR);
     $stmt->bindParam(':period_month', $period_month, PDO::PARAM_STR);
     $stmt->bindParam(':period_year', $period_year, PDO::PARAM_STR);
-
-    // ทำการ execute คำสั่ง SQL
     $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     // ตรวจสอบผลลัพธ์
-    if ($stmt->rowCount() > 0) {
-        // กำหนดชื่อไฟล์ Excel
-        $fileName = "lotto_results_" . date('Y-m-d_H-i-s') . ".csv";
+    if (!$results) {
+        throw new Exception("ไม่พบข้อมูลสำหรับงวดที่ระบุ");
+    }
+    $month_name = isset($month_arr[$period_month]) ? $month_arr[$period_month] : 'ไม่พบเดือน';
+    $excelData[] = ["ผลการออกรางวัลงวดวันที่ : " . $period_no . " เดือน : " . $month_name . " ปี : " . $period_year];
+    $excelData[] = [""];  // เพิ่มบรรทัดว่างก่อนเริ่มข้อมูลรางวัล
+    foreach ($results as $row) {
+        $excelData[] = ["เลขที่ถูกรางวัล : {$row->detail}" . " คือ {$row->lotto_number_result}"];
+        $excelData[] = ["รางวัล: {$row->prize}"];
+        $excelData[] = ['ลำดับที่', 'ชื่อร้าน', 'หมายเลขโทรศัพท์', 'จังหวัด', 'หมายเลขที่เลือก', 'ชื่อ Sale'];
 
-        // กำหนด header สำหรับการดาวน์โหลดไฟล์
-        @header('Content-type: text/csv; charset=UTF-8');
-        @header('Content-Encoding: UTF-8');
-        @header("Content-Disposition: attachment; filename=" . $fileName);
-
-        // สร้างไฟล์ CSV ด้วยฟังก์ชัน fputcsv()
-        $output = fopen('php://output', 'w');
-
-        // เขียนชื่อหัวข้อของแต่ละคอลัมน์
-        fputcsv($output, array('ลำดับ', 'ประเภทรางวัล', 'ผลรางวัล', 'ผู้ถูกรางวัล', 'หมายเลขที่เลือก', 'เบอร์โทร', 'จังหวัด'));
-
-        // แสดงผลรางวัล
-        $line_no = 1;
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            // ตรวจสอบประเภทของรางวัล
-            if ($row['lotto_type'] == 2) {
-                $lotto_type_desc = "เลขท้าย 3 ตัว ";
-                $where = "WHERE lotto_number = " . $row['lotto_number_result'];
-            } else {
-                $lotto_type_desc = "เลขท้าย 2 ตัว ";
-                $lotto_number_result_last2 = substr($row['lotto_number_result'], -2);
-                $where = "WHERE lotto_number LIKE '%" . $lotto_number_result_last2 . "'"; // เปรียบเทียบเลขท้าย 2 ตัว
-            }
-
-            // ค้นหาผู้ถูกรางวัลจากตาราง ims_lotto
-            $sql_str = "SELECT * FROM ims_lotto " . $where;
-            $stmt_lotto = $conn->prepare($sql_str);
-            $stmt_lotto->execute();
-
-            if ($stmt_lotto->rowCount() > 0) {
-                // ถ้ามีผู้ถูกรางวัล
-                while ($lotto = $stmt_lotto->fetch(PDO::FETCH_ASSOC)) {
-                    // เขียนข้อมูลในไฟล์ CSV
-                    fputcsv($output, array(
-                        $line_no++,
-                        $lotto_type_desc,
-                        $row['lotto_number_result'],
-                        $lotto['lotto_name'],
-                        $lotto['lotto_number'],
-                        $lotto['lotto_phone'],
-                        $lotto['lotto_province']
-                    ));
-                }
-            }
+        // เตรียมเงื่อนไข SQL ตามประเภทของรางวัล
+        if ($row->lotto_type == 2) {
+            $sql_lotto = "SELECT * FROM ims_lotto WHERE lotto_number = :lotto_number";
+            $stmt_lotto = $conn->prepare($sql_lotto);
+            $stmt_lotto->bindParam(':lotto_number', $row->lotto_number_result, PDO::PARAM_STR);
+        } else {
+            $last2 = substr($row->lotto_number_result, -2);
+            $sql_lotto = "SELECT * FROM ims_lotto WHERE lotto_number LIKE :pattern";
+            $pattern = "%$last2";
+            $stmt_lotto = $conn->prepare($sql_lotto);
+            $stmt_lotto->bindParam(':pattern', $pattern, PDO::PARAM_STR);
         }
 
-        // ปิดไฟล์
-        fclose($output);
-    } else {
-        echo "ไม่พบผลรางวัลที่ค้นหา";
+        // ดึงข้อมูลและเพิ่มลงใน Excel
+        $stmt_lotto->execute();
+        $rank = 1;
+        while ($lotto = $stmt_lotto->fetch(PDO::FETCH_ASSOC)) {
+            $excelData[] = [
+                str_pad($rank++, 5, ' ', STR_PAD_RIGHT), // จัดชิดซ้าย
+                $lotto['lotto_name'],
+                $lotto['lotto_phone'],
+                $lotto['lotto_province'],
+                $lotto['lotto_number'],
+                $lotto['sale_name']
+            ];
+        }
+
+        // เพิ่มบรรทัดว่างเพื่อแบ่งกลุ่ม
+        $excelData[] = [""];
     }
+
+    // สร้างไฟล์ Excel
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment; filename="' . $fileName . '"');
+    header('Cache-Control: max-age=0');
+
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
+    $xlsx->downloadAs($fileName);
+    exit;
+
+} catch (Exception $e) {
+    die("❌ Error: " . $e->getMessage());
 }
-?>
+

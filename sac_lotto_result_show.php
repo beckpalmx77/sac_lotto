@@ -60,12 +60,19 @@
                                     </div>
 
                                     <div class="d-flex">
-                                        <button type="button" id="LottoResultCheckBtn" class="btn btn-outline-primary flex-fill">
-                                            <span><i class="fa fa-thumbs-up" aria-hidden="true"></i> ตรวจรางวัล Lotto</span>
+                                        <button type="button" id="LottoResultCheckBtn"
+                                                class="btn btn-outline-primary flex-fill">
+                                            <span><i class="fa fa-thumbs-up"
+                                                     aria-hidden="true"></i> ตรวจรางวัล Lotto</span>
                                         </button>
-                                        <!--button type="button" id="exportExcelBtn" class="btn btn-outline-success flex-fill">
+                                        <button type="button" id="exportExcelBtn"
+                                                class="btn btn-outline-success flex-fill">
                                             <span><i class="fa fa-thumbs-up" aria-hidden="true"></i> Export Excel</span>
-                                        </button-->
+                                        </button>
+                                        <button type="button" id="exportPdfBtn"
+                                                class="btn btn-outline-success flex-fill">
+                                            <span><i class="fa fa-thumbs-up" aria-hidden="true"></i> Print</span>
+                                        </button>
                                         <button type="button" id="backBtn" class="btn btn-outline-danger flex-fill">
                                             <span><i class="fa fa-thumbs-up" aria-hidden="true"></i> กลับหน้าแรก</span>
                                         </button>
@@ -159,33 +166,40 @@
 
 <script>
     $("#exportExcelBtn").click(function () {
-        // ดึงค่าที่เลือกจากฟอร์ม
         let period_no = $("#period_no").val();
         let period_month = $("#period_month").val();
         let period_year = $("#period_year").val();
 
-        // ตรวจสอบว่าค่าครบถ้วนไหม
-        if (period_no == "" || period_month == "" || period_year == "") {
+        if (!period_no || !period_month || !period_year) {
             alert("กรุณากรอกข้อมูลให้ครบ");
             return;
         }
 
-        // ส่งข้อมูลไปยังไฟล์ PHP ด้วย AJAX
-        $.ajax({
-            url: "export_process/export_result_lotto.php", // ไฟล์ PHP ที่จะทำการส่งออก
-            method: "POST",
-            data: {
-                period_no: period_no,
-                period_month: period_month,
-                period_year: period_year
-            },
-            success: function (response) {
-                // หลังจากส่งข้อมูลแล้วไม่มีการตอบกลับจาก PHP เพราะเป็นการดาวน์โหลดไฟล์
-            },
-            error: function () {
-                alert("เกิดข้อผิดพลาดในการส่งข้อมูล");
-            }
-        });
+        // เรียกไฟล์ PHP เพื่อดาวน์โหลด
+        const url = `export_process/export_result_lotto.php?period_no=${period_no}&period_month=${period_month}&period_year=${period_year}`;
+        window.location.href = url;
+    });
+</script>
+
+<script>
+
+    $("#exportPdfBtn").click(function () {
+        let period_no = $("#period_no").val();
+        let period_month = $("#period_month").val();
+        let period_year = $("#period_year").val();
+
+        if (!period_no || !period_month || !period_year) {
+            alert("กรุณากรอกข้อมูลให้ครบ");
+            return;
+        }
+
+        // ใช้ Form ชั่วคราวเพื่อส่ง POST
+        const form = $('<form action="export_process/lotto_result_pdf.php" method="POST"></form>');
+        form.append(`<input type="hidden" name="period_no" value="${period_no}">`);
+        form.append(`<input type="hidden" name="period_month" value="${period_month}">`);
+        form.append(`<input type="hidden" name="period_year" value="${period_year}">`);
+        $('body').append(form);
+        form.submit();
     });
 
 </script>
