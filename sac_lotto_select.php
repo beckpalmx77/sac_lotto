@@ -27,7 +27,7 @@ include('includes/Header.php');
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label for="customer_select"><b style="color: blue;">เลือกรายชื่อลูกค้า</b> <b style="color: red;">ถ้าค้นหาไม่พบให้พิมพ์ชื่อร้านค้าในช่อง ชื่อร้านค้า</b></label>
+                                        <label for="customer_select"><b style="color: blue;">เลือกรายชื่อลูกค้า</b> <b style="color: orangered;">ถ้าค้นหาไม่พบให้พิมพ์ชื่อร้านค้าในช่อง</b><b style="color: green;"> ชื่อร้านค้า</b></label>
                                         <select id="customer_select" class="form-control" style="width: 100%;">
                                             <option value="">-- ค้นหารายชื่อลูกค้า --</option>
                                             <?php
@@ -46,7 +46,7 @@ include('includes/Header.php');
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="lotto_name" class="control-label">ชื่อร้านค้า</label>
+                                                <label for="lotto_name" class="control-label"><b style="color: green;"> ชื่อร้านค้า</b></label>
                                                 <input type="text" class="form-control" id="lotto_name"
                                                        name="lotto_name"
                                                        required="true"
