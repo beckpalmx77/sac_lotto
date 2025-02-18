@@ -35,7 +35,6 @@ include('includes/CheckDevice.php');
                             <div class="login-form">
                                 <div class="text-center">
                                     <div><img src="img/logo/logo text-01.png" width="400" height="158"/></div>
-                                    <h1 class="h4 text-gray-900 mb-4">SAC LOTTO</h1>
                                 </div>
 
                                 <div class="form-group">

@@ -18,7 +18,7 @@ include('includes/Header.php');
                                 <div class="product-form">
                                     <div class="text-center">
                                         <div><img src="img/logo/logo text-01.png" width="200" height="79"/></div>
-                                        <h6 style="color: blue"><b>SAC LOTTO SELECT</b></h6>
+                                        <h5 style="color: blue"><b>ลงทะเบียนร้านค้าและเลือกตัวเลข 3 หลัก</b></h5>
                                         <input type="hidden" class="form-control" id="action" name="action"
                                                value="SAVE_DATA">
                                         <input type="hidden" class="form-control" id="table_name" name="table_name"
