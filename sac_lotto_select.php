@@ -27,7 +27,7 @@ include('includes/Header.php');
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label for="customer_select">เลือกรายชื่อลูกค้า ถ้าค้นหาไม่พบให้พิมพ์ชื่อร้านค้าในช่อง ชื่อร้านค้า</label>
+                                        <label for="customer_select"><b style="color: blue;">เลือกรายชื่อลูกค้า</b> <b style="color: red;">ถ้าค้นหาไม่พบให้พิมพ์ชื่อร้านค้าในช่อง ชื่อร้านค้า</b></label>
                                         <select id="customer_select" class="form-control" style="width: 100%;">
                                             <option value="">-- ค้นหารายชื่อลูกค้า --</option>
                                             <?php
