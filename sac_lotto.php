@@ -67,11 +67,11 @@ include('includes/CheckDevice.php');
 <script>
     $(document).ready(function () {
         $("#sac-submit").click(function () {
-            window.location.href = "sac_lotto_login.php";
+            window.location.href = "sac_lotto_login";
         });
 
         $("#customer-submit").click(function () {
-            window.location.href = "sac_lotto_select.php";
+            window.location.href = "sac_lotto_select";
         });
     });
 </script>

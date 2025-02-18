@@ -109,7 +109,7 @@ include('includes/Header.php');
                                     <!-- อัปโหลดรูปภาพ -->
                                     <div class="form-group">
                                         <label for="lotto_file" class="control-label">อัปโหลดรูปภาพ
-                                            (รูปป้ายไวนิล)</label>
+                                            (รูปป้ายไวนิล 2 รูปภาพ)</label>
                                         <input type="file" class="form-control" id="lotto_file" name="lotto_file[]"
                                                accept="image/*" multiple>
                                         <div class="preview mt-2" id="previewContainer">
@@ -120,7 +120,7 @@ include('includes/Header.php');
                                     <!-- อัปโหลดรูปภาพ -->
                                     <div class="form-group">
                                         <label for="lotto_file2" class="control-label">อัปโหลดรูปภาพ
-                                            (รูปเลขหลังป้ายไวนิล)</label>
+                                            (รูปเลขหลังป้ายไวนิล 1 รูปภาพ)</label>
                                         <input type="file" class="form-control" id="lotto_file2" name="lotto_file2[]"
                                                accept="image/*" multiple>
                                         <div class="preview mt-2" id="previewContainer2">
