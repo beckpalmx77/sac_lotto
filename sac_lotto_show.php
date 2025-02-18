@@ -126,8 +126,13 @@ require_once 'config/connect_lotto_db.php';
                         <input type="text" class="form-control" id="lotto_province" name="province" required>
                     </div>
                     <div class="mb-3">
-                        <label>หมายเลข</label>
-                        <input type="text" class="form-control" id="lotto_number" name="number" required>
+                        <label for="lotto_number" class="control-label">หมายเลขที่เลือก
+                            (000-999)</label>
+                        <input type="number" class="form-control" id="lotto_number"
+                               name="lotto_number"
+                               min="0" max="999" required="true"
+                               value=""
+                               placeholder="">
                     </div>
                     <div class="mb-3">
                         <label>ชื่อ Sale</label>
@@ -136,7 +141,7 @@ require_once 'config/connect_lotto_db.php';
                     <div class="mb-3">
                         <label>สถานะอนุมัติ</label>
                         <select class="form-select" id="approve_status" name="status">
-                            <option value="N">ไม่อนุมัติ</option>
+                            <option value="N">ยังไม่อนุมัติ</option>
                             <option value="Y">อนุมัติ</option>
                         </select>
                     </div>
