@@ -89,7 +89,7 @@ include('includes/Header.php');
 
         $("#LottoResultCheckBtn").click(function () {
             //window.location.href = "sac_lotto_result_period";
-            window.location.href = "result_lotto";
+            window.location.href = "sac_lotto_result_show";
         });
 
         $("#LottoExpBtn").click(function () {
