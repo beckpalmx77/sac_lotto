@@ -54,7 +54,7 @@ $result = $stmt->fetchAll();
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <input type="text" name="lotto_name" class="form-control" placeholder="ชื่อร้าน">
-                    </div>
+                    </div>&nbsp;
                     <div class="col-md-3">
                         <input type="text" name="lotto_phone" class="form-control" placeholder="หมายเลขโทรศัพท์">
                     </div>
