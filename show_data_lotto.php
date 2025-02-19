@@ -77,11 +77,11 @@ $images2 = explode(',', $data['lotto_file2']);
 
             <div class="col-md-12">
                 <div class="form-group">
-                    <button type="button" name="backBtn" id="backBtn" tabindex="4"
+                    <button type="button" name="closeBtn" id="closeBtn" tabindex="4"
                             class="form-control btn btn-danger">
                                             <span>
                                                 <i class="fa fa-reply" aria-hidden="true"></i>
-                                                กลับหน้าแรก
+                                                ปิด
                                             </span>
                 </div>
             </div>
@@ -92,9 +92,8 @@ $images2 = explode(',', $data['lotto_file2']);
 
 <script>
     $(document).ready(function () {
-        $("#backBtn").click(function (event) {
-            event.preventDefault(); // ป้องกันพฤติกรรมเริ่มต้น (ถ้าเป็นปุ่ม submit)
-            window.location.assign("sac_lotto"); // ใช้ assign() เพื่อเปลี่ยน URL ในหน้าเดิม
+        $("#closeBtn").click(function (event) {
+            window.close(); // ปิดหน้าต่างปัจจุบัน
         });
     });
 </script>
