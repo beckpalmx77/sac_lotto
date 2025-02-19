@@ -9,6 +9,21 @@ if (!file_exists('../vendor/tcpdf/fonts/thsarabunnew.php')) {
     TCPDF_FONTS::addTTFfont('../vendor/tcpdf/fonts/THSarabunNew-Bold.ttf', 'TrueTypeUnicode', '');
 }
 
+// สร้างคลาสสำหรับ Custom Footer
+class CustomPDF extends TCPDF {
+    public function Footer() {
+        $this->SetY(-15); // กำหนดตำแหน่ง Footer
+        $this->SetFont('thsarabunnew', '', 12);
+
+        // แสดงวันที่พิมพ์
+        $print_date = date('d/m/Y H:i:s');
+        $this->Cell(0, 10, "วันที่พิมพ์: $print_date", 0, 0, 'L');
+
+        // แสดงเลขหน้า
+        $this->Cell(0, 10, 'หน้า ' . $this->getAliasNumPage() . ' / ' . $this->getAliasNbPages(), 0, 0, 'R');
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $period_no = $_POST['period_no'];
     $period_month = $_POST['period_month'];
@@ -23,13 +38,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt = $conn->prepare($sql);
     $stmt->execute(['period_no' => $period_no, 'period_month' => $period_month, 'period_year' => $period_year]);
 
-    // เริ่มสร้าง PDF
-    $pdf = new TCPDF();
+    // เริ่มสร้าง PDF โดยใช้คลาส CustomPDF
+    $pdf = new CustomPDF();
+    $pdf->SetPrintHeader(false); // ปิด Header
     $pdf->SetFont('thsarabunnew', '', 14);
     $pdf->AddPage();
 
     $month_name = isset($month_arr[$period_month]) ? $month_arr[$period_month] : 'ไม่พบเดือน';
-    // แสดงข้อมูลใน Header
+
+    // ใส่รูปภาพโลโก้ที่หัวกระดาษ
+    $pdf->Image('../img/logo/Logo-01.png', 10, 10, 30, 0, 'PNG');
+    $pdf->Ln(15); // เว้นระยะห่างจากโลโก้ก่อนเริ่มเนื้อหา
 
     $pdf->Cell(0, 10, 'ผลการออกรางวัลงวดวันที่ ' . $period_no . ' เดือน ' . $month_name . ' ปี ' . $period_year, 0, 1, 'C');
     $pdf->Ln(5); // เว้นบรรทัดหลังจาก Header
@@ -81,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $pdf->Cell(0, 10, "ไม่พบข้อมูล", 0, 1, 'L');
     }
 
-    $uniqueName = 'lotto_results_' . time() . '.pdf';  // Using timestamp for uniqueness
+    $uniqueName = 'lotto_results_' . time() . '.pdf';  // ใช้ timestamp เพื่อความไม่ซ้ำ
     $pdf->Output($uniqueName, 'D');
 }
 
