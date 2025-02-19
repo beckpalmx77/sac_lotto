@@ -159,7 +159,7 @@ include('includes/Header.php');
                                             </span>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <!--div class="col-md-12">
                                     <div class="form-group">
                                         <button type="button" name="SearchBtn" id="SearchBtn" tabindex="4"
                                                 class="form-control btn btn-info">
@@ -168,7 +168,7 @@ include('includes/Header.php');
                                                 ค้นหาข้อมูลการลงทะเบียน
                                             </span>
                                     </div>
-                                </div>
+                                </div-->
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <button type="button" name="backBtn" id="backBtn" tabindex="4"
