@@ -46,6 +46,14 @@ include('includes/CheckDevice.php');
                                 </div>
 
                                 <div class="form-group">
+                                    <button type="button" id="check-customer-submit" class="form-control btn btn-primary">
+                                        <span class="spinner">
+                                            <i class="icon-spin icon-refresh" id="spinner"></i>
+                                        </span>ตรวจสอบผลการลงทะเบียนร้านค้า
+                                    </button>
+                                </div>
+
+                                <div class="form-group">
                                     <button type="button" id="sac-submit" class="form-control btn btn-primary">
                                         <span class="spinner">
                                             <i class="icon-spin icon-refresh" id="spinner"></i>
@@ -72,6 +80,10 @@ include('includes/CheckDevice.php');
 
         $("#customer-submit").click(function () {
             window.location.href = "sac_lotto_select";
+        });
+
+        $("#check-customer-submit").click(function () {
+            window.location.href = "search_lotto_data";
         });
     });
 </script>

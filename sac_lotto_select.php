@@ -433,7 +433,7 @@ include('includes/Header.php');
                 } else {
                     alertify.success("บันทึกสำเร็จ");
                     $('#lotto_form')[0].reset(); // ล้างฟอร์มหลังจากบันทึก
-                    window.location.href = `show_data_lotto.php?id=${response}`;
+                    window.location.href = `show_data_lotto?id=${response}`;
                 }
             },
             error: function (xhr, status, error) {
@@ -512,28 +512,6 @@ include('includes/Header.php');
         });
     });
 </script>
-
-<!--script>
-    $(document).ready(function () {
-        $('#customer_select').select2({
-            placeholder: "พิมพ์เพื่อค้นหารายชื่อลูกค้า",
-            allowClear: true
-        });
-
-        $('#customer_select').on('change', function () {
-            let selected = $(this).find(':selected');
-            let name = selected.data('name');
-            let phone = selected.data('phone');
-            let province = selected.data('province');
-            let sale = selected.data('sale');
-
-            $('#lotto_name').val(name);
-            $('#lotto_phone').val(phone);
-            $('#lotto_province').val(province).change();
-            $('#sale_name').val(sale).change();
-        });
-    });
-</script-->
 
 <script>
     $(document).ready(function () {

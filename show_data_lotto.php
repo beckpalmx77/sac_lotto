@@ -28,6 +28,7 @@ $images2 = explode(',', $data['lotto_file2']);
     <div class="card shadow-lg">
         <div class="card-body">
             <h3 class="card-title text-center mb-4">🎯 ผลการลงทะเบียน</h3>
+            <img src="<?= ($data['approve_status'] == 'Y') ? 'img/logo/approve.png' : '' ?>" alt="Approval Status">
             <div class="mb-3">
                 <strong>🏪 ชื่อร้านค้า:</strong> <?= htmlspecialchars($data['lotto_name']) ?>
             </div>

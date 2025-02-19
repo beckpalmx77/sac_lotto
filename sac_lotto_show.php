@@ -60,7 +60,7 @@ require_once 'config/connect_lotto_db.php';
                         <td><?= htmlspecialchars($rows['lotto_number']); ?></td>
                         <td><?= htmlspecialchars($rows['sale_name']); ?></td>
                         <td class="text-center text-<?= $rows['approve_status'] == 'Y' ? 'success' : 'secondary'; ?>">
-                            <?= $rows['approve_status'] == 'Y' ? 'อนุมัติ' : 'ไม่อนุมัติ'; ?>
+                            <?= $rows['approve_status'] == 'Y' ? 'อนุมัติ' : 'ยังไม่อนุมัติ'; ?>
                         </td>
                         <td><?= htmlspecialchars($rows['create_date']); ?></td>
                         
@@ -278,6 +278,7 @@ require_once 'config/connect_lotto_db.php';
                 $('#lotto_province').val(data.lotto_province);
                 $('#lotto_number').val(data.lotto_number);
                 $('#sale_name').val(data.sale_name);
+                $('#approve_status').val(data.approve_status);
 
                 $('#text_lotto_file_input').val(data.lotto_file);
                 $('#text_lotto_file2_input').val(data.lotto_file2);
@@ -346,6 +347,7 @@ require_once 'config/connect_lotto_db.php';
         formData.append("lotto_province", $('#lotto_province').val());
         formData.append("lotto_number", $('#lotto_number').val());
         formData.append("sale_name", $('#sale_name').val());
+        formData.append("approve_status", $('#approve_status').val());
 
         Array.from(files).forEach(file => formData.append("lotto_file[]", file));
         Array.from(files2).forEach(file => formData.append("lotto_file2[]", file));

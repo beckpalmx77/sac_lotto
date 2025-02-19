@@ -193,6 +193,14 @@ if ($_POST["action"] === 'UPDATE') {
     $lotto_number = sprintf("%03d", $_POST["lotto_number"]);
     $approve_status = $_POST["approve_status"];
 
+/*
+    $txt = $id . " | " .  $lotto_province . " | " .  $approve_status . " | " . $lotto_name;
+    ;
+    $my_file = fopen("lotto_data.txt", "w") or die("Unable to open file!");
+    fwrite($my_file, " txt = " . $txt);
+    fclose($my_file);
+*/
+
     $upload_dir = "../uploads/";
     $lotto_files_str = null;
     $lotto_files2_str = null;
@@ -397,7 +405,9 @@ if ($_POST["action"] === 'GET_SHOW_LOTTO') {
                 "lotto_name" => $rows['lotto_name'],
                 "lotto_phone" => $rows['lotto_phone'],
                 "lotto_province" => $rows['lotto_province'],
-                "lotto_number" => $rows['lotto_number']
+                "lotto_number" => $rows['lotto_number'],
+                "approve_status" => $rows['approve_status']
+
             );
         }
 

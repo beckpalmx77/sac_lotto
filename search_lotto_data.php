@@ -61,7 +61,7 @@ $result = $stmt->fetchAll();
                     <div class="col-md-3">
                         <button type="submit" class="btn btn-primary">ค้นหา</button>
                         <button type="button" id="resetBtn" class="btn btn-secondary">ล้างค่า</button>
-                        <button type="button" id="closetBtn" class="btn btn-danger">ปิด</button>
+                        <button type="button" id="closeBtn" class="btn btn-danger">ปิด</button>
                     </div>
                 </div>
             </form>
@@ -88,6 +88,7 @@ $result = $stmt->fetchAll();
                         <th width="15%">วันที่บันทึก</th>
                         <th width="15%">รูปภาพป้ายไวนิล</th>
                         <th width="15%">รูปภาพเลขหลังป้ายไวนิล</th>
+                        <th width="15%">ดูข้อมูล</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -135,6 +136,12 @@ $result = $stmt->fetchAll();
                                 }
                                 ?>
                             </td>
+                            <td style="text-align: center;">
+                                <a href="javascript:void(0);" class="btn btn-primary btn-sm"
+                                   onclick="openLottoData('<?= $rows['id']; ?>')">
+                                    ดูข้อมูล
+                                </a>
+                            </td>
                         </tr>
                     <?php } ?>
                     </tbody>
@@ -168,9 +175,15 @@ $result = $stmt->fetchAll();
 </script>
 
 <script>
+    function openLottoData(id) {
+        window.open(`show_data_lotto?id=${id}`, '_blank');
+    }
+</script>
+
+<script>
     $(document).ready(function () {
-        $('#closetBtn').click(function () {
-            window.close(); // ปิดหน้าต่าง
+        $('#closeBtn').click(function () {
+            window.open('sac_lotto');
         });
     });
 </script>
