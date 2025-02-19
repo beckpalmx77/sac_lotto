@@ -62,19 +62,19 @@
                                     <div class="d-flex">
                                         <button type="button" id="LottoResultCheckBtn"
                                                 class="btn btn-outline-primary flex-fill">
-                                            <span><i class="fa fa-thumbs-up"
+                                            <span><i class="fa fa-check-square-o"
                                                      aria-hidden="true"></i> ตรวจรางวัล Lotto</span>
                                         </button>
                                         <button type="button" id="exportExcelBtn"
                                                 class="btn btn-outline-success flex-fill">
-                                            <span><i class="fa fa-thumbs-up" aria-hidden="true"></i> Export Excel</span>
+                                            <span><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export Excel</span>
                                         </button>
                                         <button type="button" id="exportPdfBtn"
                                                 class="btn btn-outline-success flex-fill">
-                                            <span><i class="fa fa-thumbs-up" aria-hidden="true"></i> Print</span>
+                                            <span><i class="fa fa-print" aria-hidden="true"></i> Print</span>
                                         </button>
                                         <button type="button" id="backBtn" class="btn btn-outline-danger flex-fill">
-                                            <span><i class="fa fa-thumbs-up" aria-hidden="true"></i> กลับหน้าแรก</span>
+                                            <span><i class="fa fa-reply" aria-hidden="true"></i> กลับหน้าแรก</span>
                                         </button>
                                     </div>
 
