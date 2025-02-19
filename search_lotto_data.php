@@ -176,14 +176,15 @@ $result = $stmt->fetchAll();
 
 <script>
     function openLottoData(id) {
-        window.open(`show_data_lotto?id=${id}`, '_blank');
+        window.open(`show_data_lotto?id=${id}`);
     }
 </script>
 
 <script>
     $(document).ready(function () {
-        $('#closeBtn').click(function () {
-            window.open('sac_lotto');
+        $('#closeBtn').click(function (event) {
+            event.preventDefault(); // ป้องกันการโหลดหน้าใหม่โดยตรงจาก `<a>`
+            window.location.href = "sac_lotto";
         });
     });
 </script>

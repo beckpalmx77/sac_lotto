@@ -92,8 +92,9 @@ $images2 = explode(',', $data['lotto_file2']);
 
 <script>
     $(document).ready(function () {
-        $("#backBtn").click(function () {
-            window.location.href = "sac_lotto";
+        $("#backBtn").click(function (event) {
+            event.preventDefault(); // ป้องกันพฤติกรรมเริ่มต้น (ถ้าเป็นปุ่ม submit)
+            window.location.assign("sac_lotto"); // ใช้ assign() เพื่อเปลี่ยน URL ในหน้าเดิม
         });
     });
 </script>
