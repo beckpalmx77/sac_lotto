@@ -45,27 +45,32 @@ $images2 = explode(',', $data['lotto_file2']);
                 <strong>🎟️ หมายเลข:</strong> <?= htmlspecialchars($data['lotto_number']) ?>
             </div>
 
-            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก</h5>
+            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย) </h5>
             <div class="row text-center">
                 <?php foreach ($images as $image): ?>
                     <div class="col-md-4 mb-3">
                         <div class="card">
-                            <img src="uploads/<?= htmlspecialchars(trim($image)) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
+                            <a href="uploads/<?= htmlspecialchars(trim($image)) ?>" target="_blank">
+                                <img src="uploads/<?= htmlspecialchars(trim($image)) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
+                            </a>
                         </div>
                     </div>
                 <?php endforeach; ?>
             </div>
 
-            <h5 class="text-center mb-3">🖼️ รูปภาพเลขหลังป้ายไวนิลที่บันทึก</h5>
+            <h5 class="text-center mb-3">🖼️ รูปภาพเลขหลังป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย)</h5>
             <div class="row text-center">
                 <?php foreach ($images2 as $image2): ?>
                     <div class="col-md-4 mb-3">
                         <div class="card">
-                            <img src="uploads/<?= htmlspecialchars(trim($image2)) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
+                            <a href="uploads/<?= htmlspecialchars(trim($image2)) ?>" target="_blank">
+                                <img src="uploads/<?= htmlspecialchars(trim($image2)) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
+                            </a>
                         </div>
                     </div>
                 <?php endforeach; ?>
             </div>
+
 
             <div class="col-md-12">
                 <div class="form-group">
