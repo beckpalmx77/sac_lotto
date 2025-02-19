@@ -57,7 +57,7 @@ $result = $stmt->fetchAll();
                     </div>&nbsp;
                     <div class="col-md-3">
                         <input type="text" name="lotto_phone" class="form-control" placeholder="หมายเลขโทรศัพท์">
-                    </div>
+                    </div>&nbsp;
                     <div class="col-md-3">
                         <button type="submit" class="btn btn-primary">ค้นหา</button>
                         <button type="button" id="resetBtn" class="btn btn-secondary">ล้างค่า</button>
