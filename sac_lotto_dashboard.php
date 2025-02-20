@@ -57,11 +57,11 @@ include('includes/Header.php');
                                     </button>
                                 </div>
 
-                                <div class="form-group">
+                                <!--div class="form-group">
                                     <button type="button" id="ImportCustomerBtn" class="form-control btn btn-primary">
                                         <span><i class="fa fa-tags" aria-hidden="true"></i> นำเข้ารายชื่อร้านค้า</span>
                                     </button>
-                                </div>
+                                </div-->
 
                                 <div class="form-group">
                                     <button type="button" id="backBtn" class="form-control btn btn-danger">
