@@ -11,6 +11,7 @@
                     <div class="col-lg-12">
                         <div class="card mb-12">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <div><img src="img/logo/logo text-01.png" width="200" height="79"/></div>
                                 <h6 class="m-0 font-weight-bold text-primary">จัดการเลขรางวัล Lotto</h6>
                             </div>
                             <div class="card-body">
