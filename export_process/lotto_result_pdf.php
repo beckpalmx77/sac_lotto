@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($stmtLotto->rowCount() > 0) {
                 $pdf->SetFillColor(200, 220, 255);
                 $pdf->Cell(10, 7, 'ลำดับ', 1, 0, 'C', true);
-                $pdf->Cell(40, 7, 'ชื่อ', 1, 0, 'C', true);
+                $pdf->Cell(80, 7, 'ชื่อ', 1, 0, 'C', true);
                 $pdf->Cell(30, 7, 'หมายเลข', 1, 0, 'C', true);
                 $pdf->Cell(30, 7, 'โทรศัพท์', 1, 0, 'C', true);
                 $pdf->Cell(30, 7, 'จังหวัด', 1, 0, 'C', true);
@@ -84,10 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 $rank = 1;
                 while ($lotto = $stmtLotto->fetch(PDO::FETCH_ASSOC)) {
-                    $pdf->Cell(10, 7, $rank++, 1, 0, 'L');
-                    $pdf->Cell(40, 7, $lotto['lotto_name'], 1, 0, 'L');
-                    $pdf->Cell(30, 7, $lotto['lotto_number'], 1, 0, 'L');
-                    $pdf->Cell(30, 7, $lotto['lotto_phone'], 1, 0, 'L');
+                    $pdf->Cell(10, 7, $rank++, 1, 0, 'R');
+                    $pdf->Cell(80, 7, $lotto['lotto_name'], 1, 0, 'L');
+                    $pdf->Cell(30, 7, $lotto['lotto_number'], 1, 0, 'C');
+                    $pdf->Cell(30, 7, $lotto['lotto_phone'], 1, 0, 'R');
                     $pdf->Cell(30, 7, $lotto['lotto_province'], 1, 0, 'L');
                     $pdf->Ln();
                 }
