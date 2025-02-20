@@ -532,6 +532,8 @@ include('includes/Header.php');
             $('#lotto_name').val(name);
             $('#lotto_phone').val(phone);
 
+            //alert(name + " | " + phone + " | " + " | " + province + " | " + sale);
+
             // ค้นหาและกำหนดค่า Province
             $('#lotto_province option').each(function () {
                 let optionText = $(this).text();

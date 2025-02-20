@@ -28,8 +28,8 @@ try {
 
             $customer_id = ($row[0] === "" || $row[0] === null) ? "-" : trim($row[0]);
             $customer_name = ($row[1] === "" || $row[1] === null) ? "-" : trim($row[1]);
-            $sale_name = ($row[2] === "" || $row[2] === null) ? "0" : $row[2];
-            $province = ($row[3] === "" || $row[3] === null) ? "-" : $row[3];
+            $province = ($row[2] === "" || $row[2] === null) ? "-" : $row[2];
+            $sale_name = ($row[3] === "" || $row[3] === null) ? "-" : $row[3];
 
             // ตรวจสอบข้อมูลซ้ำ
             $statement = $conn->prepare("SELECT COUNT(*) FROM ims_customer_master WHERE customer_id = ? AND customer_name = ?");
