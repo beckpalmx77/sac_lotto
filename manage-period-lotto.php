@@ -37,7 +37,6 @@
                                                 <th>ประเภทรางวัล</th>
                                                 <th>เลขรางวัล</th>
                                                 <th>Action</th>
-                                                <th>Action</th>
                                             </tr>
                                             </thead>
                                         </table>
@@ -233,8 +232,7 @@
                     {data: 'period_year'},
                     {data: 'lotto_type'},
                     {data: 'lotto_number_result'},
-                    {data: 'update'},
-                    {data: 'delete'}
+                    {data: 'update'}
                 ]
             });
 
