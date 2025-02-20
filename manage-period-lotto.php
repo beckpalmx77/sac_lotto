@@ -37,6 +37,7 @@
                                                 <th>ประเภทรางวัล</th>
                                                 <th>เลขรางวัล</th>
                                                 <th>Action</th>
+                                                <th>Action</th>
                                             </tr>
                                             </thead>
                                         </table>
@@ -199,6 +200,39 @@
                     }
                 });
             });
+
+            $("#TableRecordList").on('click', '.delete', function () {
+                let id = $(this).attr("id");
+                let formData = {action: "GET_DATA", id: id};
+                $.ajax({
+                    type: "POST",
+                    url: 'model/manage_period_lotto_process.php',
+                    dataType: "json",
+                    data: formData,
+                    success: function (response) {
+                        let len = response.length;
+                        for (let i = 0; i < len; i++) {
+                            let id = response[i].id;
+                            let period_no = response[i].period_no;
+                            let period_month = response[i].period_month;
+                            let period_year = response[i].period_year;
+                            let lotto_type = response[i].lotto_type;
+                            let lotto_number_result = response[i].lotto_number_result;
+
+                            $('#recordModal').modal('show');
+                            $('#id').val(id);
+                            $('#period_no').val(period_no);
+                            $('#period_month').val(period_month);
+                            $('#period_year').val(period_year);
+                            $('#lotto_type').val(lotto_type);
+                            $('#lotto_number_result').val(lotto_number_result);
+                            $('.modal-title').html("<i class='fa fa-edit'></i> ลบข้อมูล");
+                            $('#action').val('DELETE');
+                            $('#save').val('ยืนยีนการลบข้อมูล');
+                        }
+                    }
+                });
+            });
         });
     </script>
 
@@ -232,7 +266,8 @@
                     {data: 'period_year'},
                     {data: 'lotto_type'},
                     {data: 'lotto_number_result'},
-                    {data: 'update'}
+                    {data: 'update'},
+                    {data: 'delete'}
                 ]
             });
 
