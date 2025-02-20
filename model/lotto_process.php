@@ -53,126 +53,100 @@ if ($_POST["action"] === 'CHECK_NUMBER_DATA') {
 }
 
 if ($_POST["action"] === 'SAVE_DATA') {
-
-    $ins = 3;
+    $ins = 0; // กำหนดค่าเริ่มต้นเป็น 0
     $sql = "";
     $lotto_name = $_POST["lotto_name"];
     $lotto_phone = str_replace("-", "", $_POST["lotto_phone"]);
     $lotto_province = $_POST["lotto_province"];
     $sale_name = $_POST["sale_name"];
 
-// ตรวจสอบว่ามีไฟล์ถูกอัปโหลดหรือไม่
-    if (!empty($_FILES['lotto_file']['name'][0])) { // ตรวจสอบว่ามีไฟล์หลายไฟล์
-        $upload_dir = "../uploads/"; // กำหนดโฟลเดอร์อัปโหลด
-        $lotto_files = []; // สร้าง array เพื่อเก็บชื่อไฟล์ที่อัปโหลด
+    // ตรวจสอบว่ามีไฟล์ถูกอัปโหลดหรือไม่
+    if (!empty($_FILES['lotto_file']['name'][0])) {
+        $upload_dir = "../uploads/";
+        $lotto_files = [];
 
-        // ลูปผ่านไฟล์ทั้งหมดที่ถูกเลือก
         for ($i = 0; $i < count($_FILES['lotto_file']['name']); $i++) {
-            // สร้างชื่อไฟล์ใหม่ที่ไม่ซ้ำกันโดยใช้ uniqid() และเพิ่มนามสกุลไฟล์
             $file_extension = pathinfo($_FILES["lotto_file"]["name"][$i], PATHINFO_EXTENSION);
-            $unique_id = uniqid("file_", true); // ใช้ uniqid เพื่อให้ชื่อไฟล์ไม่ซ้ำ
-            $file_name = $unique_id . "." . $file_extension; // รวม uniqid และนามสกุลไฟล์
+            $unique_id = uniqid("file_", true);
+            $file_name = $unique_id . "." . $file_extension;
             $file_path = $upload_dir . $file_name;
 
-            // ย้ายไฟล์ไปยังโฟลเดอร์ที่กำหนด
             if (move_uploaded_file($_FILES["lotto_file"]["tmp_name"][$i], $file_path)) {
-                $lotto_files[] = $file_name; // เก็บชื่อไฟล์ลงใน array
+                $lotto_files[] = $file_name;
             } else {
-                echo "UPLOAD_FAILED"; // ถ้าอัปโหลดไม่สำเร็จ
+                echo 0; // ถ้าอัปโหลดไม่สำเร็จให้ return 0
                 exit();
             }
         }
 
-        // แปลง array ของชื่อไฟล์เป็น string
-        $lotto_files_str = implode(",", $lotto_files); // เก็บชื่อไฟล์เป็นคอมม่า (file1,file2,...)
+        $lotto_files_str = implode(",", $lotto_files);
     } else {
-        $lotto_files_str = NULL; // ถ้าไม่มีไฟล์ ให้เป็น NULL
+        $lotto_files_str = NULL;
     }
 
-
     if (!empty($_FILES['lotto_file2']['name'][0])) {
-        $upload_dir = "../uploads/"; // โฟลเดอร์สำหรับเก็บไฟล์ที่อัปโหลด
-        $lotto_files2 = []; // Array เก็บชื่อไฟล์ที่อัปโหลด
+        $lotto_files2 = [];
 
-        // ลูปผ่านไฟล์ทั้งหมดที่ถูกเลือก
         for ($i = 0; $i < count($_FILES['lotto_file2']['name']); $i++) {
             $file_extension = pathinfo($_FILES["lotto_file2"]["name"][$i], PATHINFO_EXTENSION);
-            $unique_id = uniqid("file_", true); // ใช้ uniqid เพื่อให้ชื่อไฟล์ไม่ซ้ำ
-            $file_name = $unique_id . "." . $file_extension; // ชื่อไฟล์ใหม่ที่ไม่ซ้ำ
+            $unique_id = uniqid("file_", true);
+            $file_name = $unique_id . "." . $file_extension;
             $file_path = $upload_dir . $file_name;
 
-            // ย้ายไฟล์ไปยังโฟลเดอร์ที่กำหนด
             if (move_uploaded_file($_FILES["lotto_file2"]["tmp_name"][$i], $file_path)) {
-                $lotto_files2[] = $file_name; // เก็บชื่อไฟล์ลงใน array
+                $lotto_files2[] = $file_name;
             } else {
-                echo "UPLOAD_FAILED";
+                echo 0;
                 exit();
             }
         }
 
-        // แปลง array ของชื่อไฟล์เป็น string
         $lotto_files2_str = implode(",", $lotto_files2);
     } else {
         $lotto_files2_str = NULL;
     }
 
     // รับ IP ของผู้ใช้
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-        //ip from share internet
-        $client_ip_address = $_SERVER['HTTP_CLIENT_IP'];
-    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        //ip pass from proxy
-        $client_ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } else {
-        $client_ip_address = $_SERVER['REMOTE_ADDR'];
-    }
+    $client_ip_address = $_SERVER['HTTP_CLIENT_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
 
     // รับ lotto_number และปรับรูปแบบ
     $lotto_number = sprintf("%03d", $_POST["lotto_number"]);
 
     // ตรวจสอบข้อมูลซ้ำ
-    $cond = " WHERE lotto_name = '" . $lotto_name . "'" . " OR lotto_phone = '" . $lotto_phone . "' OR lotto_number = '" . $lotto_number . "' ";
+    $cond = " WHERE lotto_name = :lotto_name OR lotto_phone = :lotto_phone OR lotto_number = :lotto_number";
+    $sql_get = "SELECT COUNT(*) as record_counts FROM " . $table_name . $cond;
 
-    $return_arr = array();
-    $sql_get = "SELECT count(*) as record_counts  FROM " . $table_name . $cond;
-
-    $statement = $conn->query($sql_get);
-    $results = $statement->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($results as $result) {
-        $record = $result['record_counts'];
-    }
+    $statement = $conn->prepare($sql_get);
+    $statement->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
+    $statement->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
+    $statement->bindParam(':lotto_number', $lotto_number, PDO::PARAM_STR);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    $record = $result['record_counts'];
 
     if ($record <= 0) {
         // Insert ข้อมูลใหม่
-        $sql = "INSERT INTO ims_lotto(lotto_name,lotto_phone,lotto_province,lotto_number,sale_name,client_ip_address,lotto_file,lotto_file2)
-            VALUES (:lotto_name,:lotto_phone,:lotto_province,:lotto_number,:sale_name,:client_ip_address,:lotto_file,:lotto_file2)";
-        $query = $conn->prepare($sql);
-        $query->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
-        $query->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
-        $query->bindParam(':lotto_province', $lotto_province, PDO::PARAM_STR);
-        $query->bindParam(':lotto_number', $lotto_number, PDO::PARAM_STR);
-        $query->bindParam(':sale_name', $sale_name, PDO::PARAM_STR);
-        $query->bindParam(':client_ip_address', $client_ip_address, PDO::PARAM_STR);
-        $query->bindParam(':lotto_file', $lotto_files_str, PDO::PARAM_STR);
-        $query->bindParam(':lotto_file2', $lotto_files2_str, PDO::PARAM_STR);
-        $query->execute();
-
-        $lastInsertId = $conn->lastInsertId();
-        if ($lastInsertId) {
-            // อัปเดตสถานะการสำรองหมายเลข
-            $reserve_status = 'Y';
-            $sql_update = "UPDATE ims_number_reserve SET reserve_status=:reserve_status            
-            WHERE lotto_number = :lotto_number";
-            $query = $conn->prepare($sql_update);
-            $query->bindParam(':reserve_status', $reserve_status, PDO::PARAM_STR);
+        try {
+            $sql = "INSERT INTO ims_lotto(lotto_name, lotto_phone, lotto_province, lotto_number, sale_name, client_ip_address, lotto_file, lotto_file2)
+                    VALUES (:lotto_name, :lotto_phone, :lotto_province, :lotto_number, :sale_name, :client_ip_address, :lotto_file, :lotto_file2)";
+            $query = $conn->prepare($sql);
+            $query->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
+            $query->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
+            $query->bindParam(':lotto_province', $lotto_province, PDO::PARAM_STR);
             $query->bindParam(':lotto_number', $lotto_number, PDO::PARAM_STR);
-            $query->execute();
-            $ins = 1;
-        } else {
-            $ins = 3;
+            $query->bindParam(':sale_name', $sale_name, PDO::PARAM_STR);
+            $query->bindParam(':client_ip_address', $client_ip_address, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file', $lotto_files_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file2', $lotto_files2_str, PDO::PARAM_STR);
+
+            if ($query->execute()) {
+                $lastInsertId = $conn->lastInsertId();
+                $ins = 1; // INSERT สำเร็จ
+            }
+        } catch (Exception $e) {
+            echo 0;
+            exit();
         }
-    } else {
-        $ins = 0;
     }
 
     if ($record <= 0 && $ins == 1) {
@@ -180,8 +154,8 @@ if ($_POST["action"] === 'SAVE_DATA') {
     } else {
         echo 0; // ล้มเหลว
     }
-
 }
+
 
 if ($_POST["action"] === 'UPDATE') {
 

@@ -354,7 +354,6 @@ include('includes/Header.php');
 <script>
 
     $('#saveBtn').click(function () {
-
         let action = "SAVE_DATA";
         let table_name = "ims_lotto";
         let lotto_name = $('#lotto_name').val();
@@ -362,44 +361,24 @@ include('includes/Header.php');
         let lotto_province = $('#lotto_province').val();
         let lotto_number = $('#lotto_number').val();
         let sale_name = $('#sale_name').val();
-        let files = $('#lotto_file')[0].files; // ดึงไฟล์จาก input ที่รองรับหลายไฟล์
-        let files2 = $('#lotto_file2')[0].files; // ดึงไฟล์จาก input ที่รองรับหลายไฟล์
+        let files = $('#lotto_file')[0].files;
+        let files2 = $('#lotto_file2')[0].files;
 
-        // ตรวจสอบการกรอกข้อมูลทั้งหมด
-        if (lotto_name === "") {
-            alertify.error("กรุณากรอกชื่อผู้ขาย");
-            return;
-        }
-        if (lotto_phone === "") {
-            alertify.error("กรุณากรอกหมายเลขโทรศัพท์");
-            return;
-        }
-        if (lotto_province === "") {
-            alertify.error("กรุณากรอกจังหวัด");
-            return;
-        }
-        if (sale_name === "") {
-            alertify.error("กรุณากรอกชื่อผู้ขาย");
-            return;
-        }
-        if (lotto_number === "") {
-            alertify.error("กรุณากรอกหมายเลขสลาก");
+        if (lotto_name === "" || lotto_phone === "" || lotto_province === "" || sale_name === "" || lotto_number === "") {
+            alertify.error("กรุณากรอกข้อมูลให้ครบทุกช่อง");
             return;
         }
 
-        // ตรวจสอบว่ามีการอัพโหลดอย่างน้อย 2 รูปภาพ
         if (files.length < 2) {
             alertify.error("กรุณาอัพโหลดรูปภาพ ป้ายไวนิล อย่างน้อย 2 รูป");
-            return; // ไม่ทำการส่งข้อมูลไปยัง server หากมีไฟล์น้อยกว่า 2 รูป
+            return;
         }
 
-        // ตรวจสอบว่ามีการอัพโหลดอย่างน้อย 2 รูปภาพ
         if (files2.length < 1) {
             alertify.error("กรุณาอัพโหลดรูปภาพ เลขหลังป้ายไวนิล อย่างน้อย 1 รูป");
-            return; // ไม่ทำการส่งข้อมูลไปยัง server หากมีไฟล์น้อยกว่า 1 รูป
+            return;
         }
 
-        // เตรียมข้อมูลที่ต้องการส่ง
         let formData = new FormData();
         formData.append("action", action);
         formData.append("table_name", table_name);
@@ -409,39 +388,36 @@ include('includes/Header.php');
         formData.append("lotto_number", lotto_number);
         formData.append("sale_name", sale_name);
 
-        // แนบไฟล์ทั้งหมดที่เลือกเข้าไปใน FormData
         for (let i = 0; i < files.length; i++) {
-            formData.append("lotto_file[]", files[i]); // ใช้ lotto_file[] เพื่อรองรับหลายไฟล์
+            formData.append("lotto_file[]", files[i]);
         }
 
-        // แนบไฟล์ทั้งหมดที่เลือกเข้าไปใน FormData
         for (let i = 0; i < files2.length; i++) {
-            formData.append("lotto_file2[]", files2[i]); // ใช้ lotto_file2[] เพื่อรองรับหลายไฟล์
+            formData.append("lotto_file2[]", files2[i]);
         }
 
-        // ส่งข้อมูลไปยัง server
         $.ajax({
             type: "POST",
             url: 'model/lotto_process.php',
             data: formData,
-            contentType: false,  // ไม่ต้องกำหนด Content-Type ให้เป็น multipart/form-data
-            processData: false,  // ไม่ต้องแปลงข้อมูล
+            contentType: false,
+            processData: false,
             success: function (response) {
-                // ตรวจสอบค่าผลลัพธ์จาก PHP
-                if (response === 0) {
+                if (response === "0") {
                     alertify.error("ไม่สามารถบันทึกข้อมูลได้ กรุณาตรวจสอบข้อมูล");
                 } else {
                     alertify.success("บันทึกสำเร็จ");
-                    $('#lotto_form')[0].reset(); // ล้างฟอร์มหลังจากบันทึก
-                    window.location.href = `show_data_lotto?id=${response}`;
+                    $('#lotto_form')[0].reset(); // รีเซ็ตฟอร์ม
+                    $('#previewContainer').empty();  // เคลียร์รูปที่แสดงใน div
+                    $('#previewContainer2').empty(); // เคลียร์รูปที่แสดงใน div
+                    // เปิดหน้าผลลัพธ์
+                    window.open(`show_data_register_result?id=${response}`, '_blank');
                 }
             },
             error: function (xhr, status, error) {
-                // แสดงข้อผิดพลาดที่มีรายละเอียด
                 let errorMessage = "เกิดข้อผิดพลาด : " + error;
                 if (xhr.responseText) {
                     try {
-                        // หาก response เป็น JSON, ให้แสดงข้อมูลจาก response
                         let response = JSON.parse(xhr.responseText);
                         errorMessage += "\n" + JSON.stringify(response, null, 2);
                     } catch (e) {
@@ -452,6 +428,7 @@ include('includes/Header.php');
             }
         });
     });
+
 
 </script>
 
