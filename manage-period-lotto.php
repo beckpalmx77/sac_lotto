@@ -153,6 +153,14 @@
         }
     </style>
 
+    <style>
+        div.dataTables_filter, div.dataTables_length {
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+
+
     <script>
         $(document).ready(function () {
             $("#btnAdd").click(function () {
@@ -271,7 +279,6 @@
                 ]
             });
 
-            <!-- *** FOR SUBMIT FORM *** -->
             $("#recordModal").on('submit', '#recordForm', function (event) {
                 event.preventDefault();
                 $('#save').attr('disabled', 'disabled');
@@ -289,8 +296,8 @@
                     }
                 })
             });
-            <!-- *** FOR SUBMIT FORM *** -->
         });
+
     </script>
 
     <script>
