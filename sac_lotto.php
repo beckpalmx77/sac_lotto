@@ -49,7 +49,7 @@ include('includes/CheckDevice.php');
                                     <button type="button" id="check-customer-submit" class="form-control btn btn-primary">
                                         <span class="spinner">
                                             <i class="icon-spin icon-refresh" id="spinner"></i>
-                                        </span>ตรวจสอบผลการลงทะเบียนร้านค้า
+                                        </span>ตรวจสอบการลงทะเบียน
                                     </button>
                                 </div>
 
