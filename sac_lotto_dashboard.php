@@ -58,6 +58,12 @@ include('includes/Header.php');
                                 </div>
 
                                 <div class="form-group">
+                                    <button type="button" id="ImportCustomerBtn" class="form-control btn btn-primary">
+                                        <span><i class="fa fa-tags" aria-hidden="true"></i> นำเข้ารายชื่อร้านค้า</span>
+                                    </button>
+                                </div>
+
+                                <div class="form-group">
                                     <button type="button" id="backBtn" class="form-control btn btn-danger">
                                         <span><i class="fa fa-reply" aria-hidden="true"></i> กลับหน้าแรก</span>
                                     </button>
@@ -95,6 +101,11 @@ include('includes/Header.php');
         $("#LottoExpBtn").click(function () {
             window.location.href = "export_process/export_lotto_list";
         });
+
+        $("#ImportCustomerBtn").click(function () {
+            window.location.href = "import_customer_master";
+        });
+
 
         $("#backBtn").click(function () {
             window.location.replace("sac_lotto"); // ใช้ replace แทน href เพื่อป้องกันการย้อนกลับ
