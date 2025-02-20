@@ -234,7 +234,7 @@
                             $('#period_year').val(period_year);
                             $('#lotto_type').val(lotto_type);
                             $('#lotto_number_result').val(lotto_number_result);
-                            $('.modal-title').html("<i class='fa fa-edit'></i> ลบข้อมูล");
+                            $('.modal-title').html("<i class='fa fa-trash'></i> ลบข้อมูล");
                             $('#action').val('DELETE');
                             $('#save').val('ยืนยีนการลบข้อมูล');
                         }
