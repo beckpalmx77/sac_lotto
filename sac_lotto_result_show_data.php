@@ -93,11 +93,11 @@ $period_year = $data['period_year'];
                                             <span><i class="fa fa-file-excel-o"
                                                      aria-hidden="true"></i> Export Excel</span>
                                         </button>
-                                        <!--button type="button" id="exportPdfBtn"
+                                        <button type="button" id="exportPdfBtn"
                                                 class="btn btn-outline-info flex-fill"
                                                 style="--bs-btn-hover-color: white; --bs-btn-hover-bg: #17a2b8;">
                                             <span><i class="fa fa-print" aria-hidden="true"></i> Print</span>
-                                        </button-->
+                                        </button>
                                         <button type="button" id="backBtn" class="btn btn-outline-danger flex-fill">
                                             <span><i class="fa fa-reply" aria-hidden="true"></i> กลับ</span>
                                         </button>
