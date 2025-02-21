@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($stmt_lotto->rowCount() > 0) {
                 // ถ้ามีผู้ถูกรางวัล
                 echo "<table id='winnersTable' class='display' style='width: 100%; border-collapse: collapse;'>";
-                echo "<thead><tr><th>ลำดับ</th><th>ผู้ถูกรางวัล</th><th>หมายเลขที่เลือก</th><th>เบอร์โทร</th><th>จังหวัด</th></tr></thead>";
+                echo "<thead><tr><th>ลำดับ</th><th>ผู้ถูกรางวัล</th><th>เบอร์โทร</th><th>จังหวัด</th><th>หมายเลขที่เลือก</th><th>ชื่อ sale</th></tr></thead>";
                 echo "<tbody>";
 
                 $rank = 1; // เริ่มต้นที่ลำดับที่ 1
@@ -60,9 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo "<tr style='border: 1px solid #ddd;'>";
                     echo "<td style='border: 1px solid #ddd; padding: 8px;'>" . $rank++ . "</td>"; // แสดงลำดับและเพิ่มค่าลำดับ
                     echo "<td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($lotto['lotto_name']) . "</td>";
-                    echo "<td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($lotto['lotto_number']) . "</td>";
                     echo "<td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($lotto['lotto_phone']) . "</td>";
                     echo "<td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($lotto['lotto_province']) . "</td>";
+                    echo "<td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($lotto['lotto_number']) . "</td>";
+                    echo "<td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($lotto['sale_name']) . "</td>";
                     echo "</tr>";
                 }
                 echo "</tbody></table>";

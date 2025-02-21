@@ -50,8 +50,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pdf->Image('../img/logo/Logo-01.png', 10, 10, 30, 0, 'PNG');
     $pdf->Ln(15); // เว้นระยะห่างจากโลโก้ก่อนเริ่มเนื้อหา
 
-    $pdf->Cell(0, 10, 'ผลการออกรางวัลงวดวันที่ ' . $period_no . ' เดือน ' . $month_name . ' ปี ' . $period_year, 0, 1, 'C');
+    $pdf->SetFont('thsarabunnew', 'B', 20); // ตั้งค่าฟอนต์เป็นตัวหนาและขนาด 20
+    $pdf->Cell(0, 10, 'ผลการออกรางวัล งวดวันที่ ' . $period_no . ' เดือน ' . $month_name . ' ปี ' . $period_year, 0, 1, 'C');
     $pdf->Ln(5); // เว้นบรรทัดหลังจาก Header
+
+    //$pdf->SetFont('thsarabunnew', '', 14); // ตั้งค่ากลับเป็นปกติ
 
     if ($stmt->rowCount() > 0) {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -69,26 +72,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
             // แสดงหัวข้อรางวัล
+            $pdf->SetFont('thsarabunnew', 'B', 16); // ตั้งค่าฟอนต์เป็นตัวหนาและขนาด 16
             $pdf->Cell(0, 10, "$lotto_type_desc รางวัล: {$row['prize']} บาท เลข: {$row['lotto_number_result']}", 0, 1, 'L');
             $pdf->Ln(5);
+
+            $pdf->SetFont('thsarabunnew', '', 14); // ตั้งค่ากลับเป็นปกติ
 
             // แสดงตารางผู้ถูกรางวัล
             if ($stmtLotto->rowCount() > 0) {
                 $pdf->SetFillColor(200, 220, 255);
                 $pdf->Cell(10, 7, 'ลำดับ', 1, 0, 'C', true);
-                $pdf->Cell(80, 7, 'ชื่อ', 1, 0, 'C', true);
-                $pdf->Cell(30, 7, 'หมายเลข', 1, 0, 'C', true);
+                $pdf->Cell(70, 7, 'ชื่อ', 1, 0, 'C', true);
                 $pdf->Cell(30, 7, 'โทรศัพท์', 1, 0, 'C', true);
                 $pdf->Cell(30, 7, 'จังหวัด', 1, 0, 'C', true);
+                $pdf->Cell(20, 7, 'หมายเลข', 1, 0, 'C', true);
+                $pdf->Cell(30, 7, 'ชื่อ sale', 1, 0, 'C', true);
                 $pdf->Ln();
 
                 $rank = 1;
                 while ($lotto = $stmtLotto->fetch(PDO::FETCH_ASSOC)) {
                     $pdf->Cell(10, 7, $rank++, 1, 0, 'R');
-                    $pdf->Cell(80, 7, $lotto['lotto_name'], 1, 0, 'L');
-                    $pdf->Cell(30, 7, $lotto['lotto_number'], 1, 0, 'C');
+                    $pdf->Cell(70, 7, $lotto['lotto_name'], 1, 0, 'L');
                     $pdf->Cell(30, 7, $lotto['lotto_phone'], 1, 0, 'R');
                     $pdf->Cell(30, 7, $lotto['lotto_province'], 1, 0, 'L');
+                    $pdf->Cell(20, 7, $lotto['lotto_number'], 1, 0, 'C');
+                    $pdf->Cell(30, 7, $lotto['sale_name'], 1, 0, 'L');
                     $pdf->Ln();
                 }
             } else {
