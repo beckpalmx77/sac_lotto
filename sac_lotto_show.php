@@ -63,13 +63,13 @@ require_once 'config/connect_lotto_db.php';
                             <?= $rows['approve_status'] == 'Y' ? 'อนุมัติ' : 'ยังไม่อนุมัติ'; ?>
                         </td>
                         <td><?= htmlspecialchars($rows['create_date']); ?></td>
-                        
+
                         <td>
                             <?php
                             if (!empty($rows['lotto_file'])) {
                                 foreach (explode(",", $rows['lotto_file']) as $index => $file) {
                                     $filePath = 'uploads/' . htmlspecialchars($file);
-                                    echo "<a href='$filePath' target='_blank' class='hover-image' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
+                                    echo "<a href='javascript:void(0);' class='open-popup' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
                                 }
                             } else {
                                 echo "ไม่มีรูป";
@@ -81,13 +81,14 @@ require_once 'config/connect_lotto_db.php';
                             if (!empty($rows['lotto_file2'])) {
                                 foreach (explode(",", $rows['lotto_file2']) as $index => $file) {
                                     $filePath = 'uploads/' . htmlspecialchars($file);
-                                    echo "<a href='$filePath' target='_blank' class='hover-image' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
+                                    echo "<a href='javascript:void(0);' class='open-popup' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
                                 }
                             } else {
                                 echo "ไม่มีรูป";
                             }
                             ?>
                         </td>
+
 
                         <td>
                             <button class="btn btn-outline-info" onclick="openUpdateModal(<?= $rows['id']; ?>)">Update
@@ -99,6 +100,15 @@ require_once 'config/connect_lotto_db.php';
             </table>
         </div>
     </div>
+
+    <!-- Popup แสดงภาพ -->
+    <div id="imagePopup" class="popup">
+        <div class="popup-content">
+            <span class="close-popup">✖ ปิด</span>
+            <img id="popupImage" src="" alt="Preview">
+        </div>
+    </div>
+
 </div>
 
 <!-- Modal -->
@@ -200,6 +210,53 @@ require_once 'config/connect_lotto_db.php';
         max-height: 300px;
         background-color: #fff;
     }
+</style>
+
+<style>
+    .popup {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .popup-content {
+        position: relative;
+        max-width: 90%;
+        max-height: 90%;
+        text-align: center;
+    }
+
+    .popup-content img {
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 10px;
+    }
+
+    .close-popup {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        font-size: 18px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .close-popup:hover {
+        background: rgba(0, 0, 0, 0.9);
+    }
+
+
 </style>
 
 <!-- เพิ่มองค์ประกอบสำหรับแสดงรูปภาพ -->
@@ -390,6 +447,25 @@ require_once 'config/connect_lotto_db.php';
             }
         });
     });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(".open-popup").click(function () {
+            let imgSrc = $(this).attr("data-img");
+            $("#popupImage").attr("src", imgSrc);
+            $("#imagePopup").fadeIn();
+        });
+
+        $(".close-popup, #imagePopup").click(function () {
+            $("#imagePopup").fadeOut();
+        });
+
+        $(".popup-content").click(function (event) {
+            event.stopPropagation();
+        });
+    });
+
 </script>
 
 <script>

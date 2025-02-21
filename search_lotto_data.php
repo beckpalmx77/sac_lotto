@@ -108,34 +108,33 @@ $result = $stmt->fetchAll();
                                 <?= $rows['approve_status'] == 'Y' ? 'อนุมัติ' : ($rows['approve_status'] == 'N' ? 'ยังไม่อนุมัติ' : ''); ?>
                             </td>
                             <td><?= $rows['create_date']; ?></td>
+
+
                             <td>
                                 <?php
                                 if (!empty($rows['lotto_file'])) {
-                                    $files = explode(",", $rows['lotto_file']);
-                                    $index = 1;
-                                    foreach ($files as $file) {
-                                        echo '<a href="uploads/' . $file . '" target="_blank">รูปที่ ' . $index . '</a><br>';
-                                        $index++;
+                                    foreach (explode(",", $rows['lotto_file']) as $index => $file) {
+                                        $filePath = 'uploads/' . htmlspecialchars($file);
+                                        echo "<a href='javascript:void(0);' class='open-popup' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
                                     }
                                 } else {
-                                    echo "ไม่มีรูปภาพ";
+                                    echo "ไม่มีรูป";
                                 }
                                 ?>
                             </td>
                             <td>
                                 <?php
                                 if (!empty($rows['lotto_file2'])) {
-                                    $files2 = explode(",", $rows['lotto_file2']);
-                                    $index2 = 1;
-                                    foreach ($files2 as $file2) {
-                                        echo '<a href="uploads/' . $file2 . '" target="_blank">รูปที่ ' . $index2 . '</a><br>';
-                                        $index2++;
+                                    foreach (explode(",", $rows['lotto_file2']) as $index => $file) {
+                                        $filePath = 'uploads/' . htmlspecialchars($file);
+                                        echo "<a href='javascript:void(0);' class='open-popup' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
                                     }
                                 } else {
-                                    echo "ไม่มีรูปภาพ";
+                                    echo "ไม่มีรูป";
                                 }
                                 ?>
                             </td>
+
                             <td style="text-align: center;">
                                 <a href="javascript:void(0);" class="btn btn-primary btn-sm"
                                    onclick="openLottoData('<?= $rows['id']; ?>')">
@@ -149,7 +148,62 @@ $result = $stmt->fetchAll();
             <?php endif; ?>
         </div>
     </div>
+    <!-- Popup แสดงภาพ -->
+    <div id="imagePopup" class="popup">
+        <div class="popup-content">
+            <span class="close-popup">✖ ปิด</span>
+            <img id="popupImage" src="" alt="Preview">
+        </div>
+    </div>
+
 </div>
+
+<style>
+    .popup {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .popup-content {
+        position: relative;
+        max-width: 90%;
+        max-height: 90%;
+        text-align: center;
+    }
+
+    .popup-content img {
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 10px;
+    }
+
+    .close-popup {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        font-size: 18px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .close-popup:hover {
+        background: rgba(0, 0, 0, 0.9);
+    }
+
+
+</style>
 
 <script>
     $(document).ready(function () {
@@ -187,6 +241,25 @@ $result = $stmt->fetchAll();
             window.location.href = "sac_lotto";
         });
     });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(".open-popup").click(function () {
+            let imgSrc = $(this).attr("data-img");
+            $("#popupImage").attr("src", imgSrc);
+            $("#imagePopup").fadeIn();
+        });
+
+        $(".close-popup, #imagePopup").click(function () {
+            $("#imagePopup").fadeOut();
+        });
+
+        $(".popup-content").click(function (event) {
+            event.stopPropagation();
+        });
+    });
+
 </script>
 
 </body>
