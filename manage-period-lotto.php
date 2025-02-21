@@ -38,6 +38,7 @@
                                                 <th>เลขรางวัล</th>
                                                 <th>Action</th>
                                                 <th>Action</th>
+                                                <th>Action</th>
                                             </tr>
                                             </thead>
                                         </table>
@@ -275,7 +276,8 @@
                     {data: 'lotto_type'},
                     {data: 'lotto_number_result'},
                     {data: 'update'},
-                    {data: 'delete'}
+                    {data: 'delete'},
+                    {data: 'check'}
                 ]
             });
 
@@ -298,6 +300,14 @@
             });
         });
 
+    </script>
+
+    <script>
+        // เปิดหน้าต่าง report.php เมื่อคลิกที่ check
+        $("#TableRecordList").on('click', '.check', function () {
+            let id = $(this).attr("id");
+            window.location.href = "sac_lotto_result_show_data?id=" + id;
+        });
     </script>
 
     <script>
