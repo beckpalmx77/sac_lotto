@@ -71,7 +71,7 @@
                                             <span><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export Excel</span>
                                         </button>
                                         <button type="button" id="exportPdfBtn"
-                                                class="btn btn-outline-success flex-fill">
+                                                class="btn btn-outline-info flex-fill">
                                             <span><i class="fa fa-print" aria-hidden="true"></i> Print</span>
                                         </button>
                                         <button type="button" id="backBtn" class="btn btn-outline-danger flex-fill">
