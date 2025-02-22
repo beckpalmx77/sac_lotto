@@ -410,9 +410,8 @@ include('includes/Header.php');
                     $('#lotto_form')[0].reset(); // รีเซ็ตฟอร์ม
                     $('#previewContainer').empty();  // เคลียร์รูปที่แสดงใน div
                     $('#previewContainer2').empty(); // เคลียร์รูปที่แสดงใน div
-                    $('#customer_select').val('').trigger('change');
                     // เปิดหน้าผลลัพธ์
-                    //window.open(`show_data_register_result?id=${response}`, '_blank');
+                    window.open(`show_data_register_result?id=${response}`, '_blank');
                     // ใช้ setTimeout เพื่อให้ reset ทำงานก่อน แล้วค่อยเปิดหน้าต่างใหม่
                     //setTimeout(function () {
                         //window.open(`show_data_register_result?id=${response}`, '_blank');
