@@ -411,7 +411,7 @@ include('includes/Header.php');
                     $('#previewContainer').empty();  // เคลียร์รูปที่แสดงใน div
                     $('#previewContainer2').empty(); // เคลียร์รูปที่แสดงใน div
                     // เปิดหน้าผลลัพธ์
-                    //window.open(`show_data_register_result?id=${response}`, '_blank');
+                    window.open(`show_data_register_result?id=${response}`, '_blank');
                     // ใช้ setTimeout เพื่อให้ reset ทำงานก่อน แล้วค่อยเปิดหน้าต่างใหม่
                     //setTimeout(function () {
                         //window.open(`show_data_register_result?id=${response}`, '_blank');
