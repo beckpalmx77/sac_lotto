@@ -48,6 +48,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/maxmind-db/reader" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/maxmind/web-service-common" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mobiledetect/mobiledetectlib" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mpdf/mpdf" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mpdf/psr-http-message-shim" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mpdf/psr-log-aware-trait" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/bootstrap" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/colorpicker" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/core" />
@@ -59,11 +62,15 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/jqueryui" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/list" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/timegrid" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/paragonie/random_compat" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpoffice/phpspreadsheet" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-client" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-factory" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-message" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/log" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/simple-cache" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/setasign/fpdi" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/tcpdf/config" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/tcpdf/etc" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/tcpdf/fonts" />
