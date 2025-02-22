@@ -216,7 +216,7 @@ $period_year = $data['period_year'];
         }
 
         // ใช้ Form ชั่วคราวเพื่อส่ง POST
-        const form = $('<form action="export_process/lotto_result_pdf.php" method="POST"></form>');
+        const form = $('<form action="export_process/lotto_result_pdf2.php" method="POST"></form>');
         form.append(`<input type="hidden" name="period_no" value="${period_no}">`);
         form.append(`<input type="hidden" name="period_month" value="${period_month}">`);
         form.append(`<input type="hidden" name="period_year" value="${period_year}">`);
