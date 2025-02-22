@@ -1,26 +1,16 @@
 <?php
 
 include('config/connect_lotto_db.php');
-
-// ป้องกันค่าที่ส่งมาเป็น null หรือไม่ถูกต้อง
-$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-if (!$id) {
-    die("ไม่พบข้อมูลที่ต้องการ");
-}
+$id = $_GET['id'];
 
 $stmt = $conn->prepare("SELECT * FROM ims_lotto WHERE id = :id");
-$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt->bindParam(':id', $id);
 $stmt->execute();
 $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// ถ้าไม่พบข้อมูล
-if (!$data) {
-    die("ไม่พบข้อมูลที่ต้องการ");
-}
-
-// ตรวจสอบค่าก่อน explode เพื่อป้องกัน error
-$images = isset($data['lotto_file']) ? explode(',', $data['lotto_file']) : [];
-$images2 = isset($data['lotto_file2']) ? explode(',', $data['lotto_file2']) : [];
+// แยกรูปภาพ
+$images = explode(',', $data['lotto_file']);
+$images2 = explode(',', $data['lotto_file2']);
 
 ?>
 

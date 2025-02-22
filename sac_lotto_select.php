@@ -407,9 +407,9 @@ include('includes/Header.php');
                     alertify.error("ไม่สามารถบันทึกข้อมูลได้ กรุณาตรวจสอบข้อมูล");
                 } else {
                     alertify.success("บันทึกสำเร็จ");
-                    //$('#lotto_form')[0].reset(); // รีเซ็ตฟอร์ม
-                    //$('#previewContainer').empty();  // เคลียร์รูปที่แสดงใน div
-                    //$('#previewContainer2').empty(); // เคลียร์รูปที่แสดงใน div
+                    $('#lotto_form')[0].reset(); // รีเซ็ตฟอร์ม
+                    $('#previewContainer').empty();  // เคลียร์รูปที่แสดงใน div
+                    $('#previewContainer2').empty(); // เคลียร์รูปที่แสดงใน div
                     // เปิดหน้าผลลัพธ์
                     //alert(response);
                     window.open(`show_data_register_result?id=${response}`, '_blank');
