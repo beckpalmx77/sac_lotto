@@ -488,7 +488,7 @@ include('includes/Header.php');
             contentType: false,
             processData: false,
             success: function (response) {
-                alert("response = " + response);
+                //alert("response = " + response);
                 if (response.trim() === "0") {
                     alertify.error("ไม่สามารถบันทึกข้อมูลได้ กรุณาตรวจสอบข้อมูล");
                 } else {
