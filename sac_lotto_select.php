@@ -351,7 +351,7 @@ include('includes/Header.php');
 
 </script>
 
-<script>
+<!--script>
 
     $('#saveBtn').click(function () {
         let action = "SAVE_DATA";
@@ -411,7 +411,7 @@ include('includes/Header.php');
                     $('#previewContainer').empty();  // เคลียร์รูปที่แสดงใน div
                     $('#previewContainer2').empty(); // เคลียร์รูปที่แสดงใน div
                     // เปิดหน้าผลลัพธ์
-                    //alert(response);
+                    alert(response);
                     window.open(`show_data_register_result?id=${response}`, '_blank');
                     // ใช้ setTimeout เพื่อให้ reset ทำงานก่อน แล้วค่อยเปิดหน้าต่างใหม่
                     //setTimeout(function () {
@@ -434,6 +434,79 @@ include('includes/Header.php');
         });
     });
 
+
+</script-->
+
+<script>
+    $('#saveBtn').click(function () {
+        let action = "SAVE_DATA";
+        let table_name = "ims_lotto";
+        let lotto_name = $('#lotto_name').val().trim();
+        let lotto_phone = $('#lotto_phone').val().trim();
+        let lotto_province = $('#lotto_province').val().trim();
+        let lotto_number = $('#lotto_number').val().trim();
+        let sale_name = $('#sale_name').val().trim();
+        let files = $('#lotto_file')[0].files;
+        let files2 = $('#lotto_file2')[0].files;
+
+        if (!lotto_name || !lotto_phone || !lotto_province || !sale_name || !lotto_number) {
+            alertify.error("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+            return;
+        }
+
+        if (files.length < 2) {
+            alertify.error("กรุณาอัพโหลดรูปภาพ ป้ายไวนิล อย่างน้อย 2 รูป");
+            return;
+        }
+
+        if (files2.length < 1) {
+            alertify.error("กรุณาอัพโหลดรูปภาพ เลขหลังป้ายไวนิล อย่างน้อย 1 รูป");
+            return;
+        }
+
+        let formData = new FormData();
+        formData.append("action", action);
+        formData.append("table_name", table_name);
+        formData.append("lotto_name", lotto_name);
+        formData.append("lotto_phone", lotto_phone);
+        formData.append("lotto_province", lotto_province);
+        formData.append("lotto_number", lotto_number);
+        formData.append("sale_name", sale_name);
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append("lotto_file[]", files[i]);
+        }
+
+        for (let i = 0; i < files2.length; i++) {
+            formData.append("lotto_file2[]", files2[i]);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: 'model/lotto_process.php',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                alert("response = " + response);
+                if (response.trim() === "0") {
+                    alertify.error("ไม่สามารถบันทึกข้อมูลได้ กรุณาตรวจสอบข้อมูล");
+                } else {
+                    alertify.success("บันทึกสำเร็จ");
+                    $('#lotto_form')[0].reset();
+                    $('#previewContainer').empty();
+                    $('#previewContainer2').empty();
+                    setTimeout(() => {
+                        window.open(`show_data_register_result?id=${response}`, '_blank');
+                    }, 500);
+                }
+            },
+            error: function (xhr, status, error) {
+                alertify.error("เกิดข้อผิดพลาด: " + error);
+                console.error("Server Response:", xhr.responseText);
+            }
+        });
+    });
 
 </script>
 
