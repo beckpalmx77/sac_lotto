@@ -52,7 +52,7 @@ if ($_POST["action"] === 'CHECK_NUMBER_DATA') {
 
 }
 
-if ($_POST["action"] === 'SAVE_DATA_BAK') {
+if ($_POST["action"] === 'SAVE_DATA') {
     $ins = 0; // กำหนดค่าเริ่มต้นเป็น 0
     $sql = "";
     $lotto_name = $_POST["lotto_name"];
@@ -155,90 +155,6 @@ if ($_POST["action"] === 'SAVE_DATA_BAK') {
         echo 0; // ล้มเหลว
     }
 }
-
-if ($_POST["action"] === 'SAVE_DATA') {
-    require_once '../config/database.php'; // เชื่อมต่อฐานข้อมูล
-    $table_name = $_POST["table_name"];
-    $lotto_name = trim($_POST["lotto_name"]);
-    $lotto_phone = str_replace("-", "", trim($_POST["lotto_phone"]));
-    $lotto_province = trim($_POST["lotto_province"]);
-    $sale_name = trim($_POST["sale_name"]);
-    $lotto_number = sprintf("%03d", trim($_POST["lotto_number"]));
-
-    $upload_dir = "../uploads/";
-    $lotto_files_str = NULL;
-    $lotto_files2_str = NULL;
-
-    function uploadFiles($fileInputName, $upload_dir) {
-        $uploadedFiles = [];
-        if (!empty($_FILES[$fileInputName]['name'][0])) {
-            for ($i = 0; $i < count($_FILES[$fileInputName]['name']); $i++) {
-                $file_extension = strtolower(pathinfo($_FILES[$fileInputName]["name"][$i], PATHINFO_EXTENSION));
-                $allowed_extensions = ["jpg", "jpeg", "png", "gif", "pdf"];
-                if (!in_array($file_extension, $allowed_extensions)) {
-                    echo 0;
-                    exit();
-                }
-
-                $unique_id = uniqid("file_", true);
-                $file_name = $unique_id . "." . $file_extension;
-                $file_path = $upload_dir . $file_name;
-
-                if (move_uploaded_file($_FILES[$fileInputName]["tmp_name"][$i], $file_path)) {
-                    $uploadedFiles[] = $file_name;
-                } else {
-                    echo 0;
-                    exit();
-                }
-            }
-            return implode(",", $uploadedFiles);
-        }
-        return NULL;
-    }
-
-    $lotto_files_str = uploadFiles("lotto_file", $upload_dir);
-    $lotto_files2_str = uploadFiles("lotto_file2", $upload_dir);
-
-    $client_ip_address = $_SERVER['HTTP_CLIENT_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
-
-    // ตรวจสอบข้อมูลซ้ำ
-    $sql_get = "SELECT COUNT(*) as record_counts FROM " . $table_name . " WHERE lotto_name = :lotto_name OR lotto_phone = :lotto_phone OR lotto_number = :lotto_number";
-    $statement = $conn->prepare($sql_get);
-    $statement->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
-    $statement->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
-    $statement->bindParam(':lotto_number', $lotto_number, PDO::PARAM_STR);
-    $statement->execute();
-    $result = $statement->fetch(PDO::FETCH_ASSOC);
-    $record = $result['record_counts'];
-
-    if ($record <= 0) {
-        try {
-            $sql = "INSERT INTO ims_lotto (lotto_name, lotto_phone, lotto_province, lotto_number, sale_name, client_ip_address, lotto_file, lotto_file2)
-                    VALUES (:lotto_name, :lotto_phone, :lotto_province, :lotto_number, :sale_name, :client_ip_address, :lotto_file, :lotto_file2)";
-            $query = $conn->prepare($sql);
-            $query->bindParam(':lotto_name', $lotto_name);
-            $query->bindParam(':lotto_phone', $lotto_phone);
-            $query->bindParam(':lotto_province', $lotto_province);
-            $query->bindParam(':lotto_number', $lotto_number);
-            $query->bindParam(':sale_name', $sale_name);
-            $query->bindParam(':client_ip_address', $client_ip_address);
-            $query->bindParam(':lotto_file', $lotto_files_str);
-            $query->bindParam(':lotto_file2', $lotto_files2_str);
-
-            if ($query->execute()) {
-                echo $conn->lastInsertId();
-            } else {
-                echo 0;
-            }
-        } catch (Exception $e) {
-            echo 0;
-            exit();
-        }
-    } else {
-        echo 0;
-    }
-}
-
 
 
 if ($_POST["action"] === 'UPDATE') {
