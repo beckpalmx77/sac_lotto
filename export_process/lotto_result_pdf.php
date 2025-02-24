@@ -109,6 +109,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $uniqueName = 'lotto_results_' . time() . '.pdf';  // ใช้ timestamp เพื่อความไม่ซ้ำ
+    //$pdf->Output($uniqueName, 'I');
     $pdf->Output($uniqueName, 'D');
+    //$pdf->Output($uniqueName, 'F');
+
+    //echo "<script>window.open('$uniqueName', '_blank');</script>";
+
+    exit;
 }
 
