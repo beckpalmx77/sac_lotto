@@ -40,5 +40,5 @@ foreach ($files as $file_path) {
     } else {
         echo "❌ อัปโหลดล้มเหลว: " . basename($file_path) . " → " . $response . "\n";
     }
-}
 
+}
