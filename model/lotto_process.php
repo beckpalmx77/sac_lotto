@@ -113,7 +113,7 @@ if ($_POST["action"] === 'SAVE_DATA') {
     $lotto_number = sprintf("%03d", $_POST["lotto_number"]);
 
     // ตรวจสอบข้อมูลซ้ำ
-    $cond = " WHERE lotto_name = :lotto_name OR lotto_phone = :lotto_phone OR lotto_number = :lotto_number";
+    $cond = " WHERE lotto_name = :lotto_name OR lotto_phone = :lotto_phone";
     $sql_get = "SELECT COUNT(*) as record_counts FROM " . $table_name . $cond;
 
     $statement = $conn->prepare($sql_get);
