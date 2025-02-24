@@ -249,7 +249,7 @@
         $(document).ready(function () {
             let formData = {action: "GET_LOTTO_PERIOD_RESULT", sub_action: "GET_MASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
-                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+                'lengthMenu': [[6, 12, 24, 36, 100], [6, 12, 24, 36, 100]],
                 'language': {
                     search: 'ค้นหา ', lengthMenu: 'แสดง _MENU_ รายการ',
                     info: 'หน้าที่ _PAGE_ จาก _PAGES_',
