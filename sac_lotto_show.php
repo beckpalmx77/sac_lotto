@@ -283,7 +283,11 @@ require_once 'config/connect_lotto_db.php';
 
 <script>
     $(document).ready(function () {
-        $('#DataTable').DataTable();
+
+        $('#DataTable').DataTable({
+            "lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "ทั้งหมด"]]
+        });
+
         $('#backBtn').click(function () {
             window.location.href = "sac_lotto";
         });
