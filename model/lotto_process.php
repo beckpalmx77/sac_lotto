@@ -119,7 +119,6 @@ if ($_POST["action"] === 'SAVE_DATA') {
     $statement = $conn->prepare($sql_get);
     $statement->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
     $statement->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
-    $statement->bindParam(':lotto_number', $lotto_number, PDO::PARAM_STR);
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     $record = $result['record_counts'];
