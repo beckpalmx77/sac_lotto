@@ -1,6 +1,6 @@
 <?php
 
-$upload_url = "http://171.100.56.194:8888/sac_lotto/upload.php"; // URL ปลายทาง
+$upload_url = "http://171.100.56.194:8888/file_uploads/sac_lotto/upload.php"; // URL ปลายทาง
 //$upload_url = "http://localhost:8888/sac_lotto/upload.php"; // URL ปลายทาง
 $local_folder = __DIR__ . "\\uploads\\"; // โฟลเดอร์ไฟล์ที่ต้องการอัปโหลด
 
