@@ -128,7 +128,8 @@ include('includes/Header.php');
 
                                     <!-- อัปโหลดรูปภาพ -->
                                     <div class="form-group">
-                                        <label for="lotto_file" class="control-label">อัปโหลดรูปภาพ (ไฟล์ jpg หรือ png เท่านั้น)
+                                        <label for="lotto_file" class="control-label">อัปโหลดรูปภาพ (ไฟล์ jpg หรือ png
+                                            เท่านั้น)
                                             (รูปป้ายไวนิล 2 รูปภาพ)</label>
                                         <input type="file" class="form-control" id="lotto_file" name="lotto_file[]"
                                                accept="image/jpeg, image/png" multiple>
@@ -139,7 +140,8 @@ include('includes/Header.php');
 
                                     <!-- อัปโหลดรูปภาพ -->
                                     <div class="form-group">
-                                        <label for="lotto_file2" class="control-label">อัปโหลดรูปภาพ (ไฟล์ jpg หรือ png เท่านั้น)
+                                        <label for="lotto_file2" class="control-label">อัปโหลดรูปภาพ (ไฟล์ jpg หรือ png
+                                            เท่านั้น)
                                             (รูปเลขหลังป้ายไวนิล 1 รูปภาพ)</label>
                                         <input type="file" class="form-control" id="lotto_file2" name="lotto_file2[]"
                                                accept="image/jpeg, image/png" multiple>
@@ -352,77 +354,96 @@ include('includes/Header.php');
 </script>
 
 <script>
-    $('#saveBtn').click(function () {
-        let action = "SAVE_DATA";
-        let table_name = "ims_lotto";
-        let lotto_name = $('#lotto_name').val().trim();
-        let lotto_phone = $('#lotto_phone').val().trim();
-        let lotto_province = $('#lotto_province').val().trim();
-        let lotto_number = $('#lotto_number').val().trim();
-        let sale_name = $('#sale_name').val().trim();
-        let files = $('#lotto_file')[0].files;
-        let files2 = $('#lotto_file2')[0].files;
+    $(document).ready(function () {
+        $('#saveBtn').click(function () {
+            let action = "SAVE_DATA";
+            let table_name = "ims_lotto";
+            let lotto_name = $('#lotto_name').val().trim();
+            let lotto_phone = $('#lotto_phone').val().trim();
+            let lotto_province = $('#lotto_province').val().trim();
+            let lotto_number = $('#lotto_number').val().trim();
+            let sale_name = $('#sale_name').val().trim();
+            let files = $('#lotto_file')[0].files;
+            let files2 = $('#lotto_file2')[0].files;
 
-        if (!lotto_name || !lotto_phone || !lotto_province || !sale_name || !lotto_number) {
-            alertify.error("กรุณากรอกข้อมูลให้ครบทุกช่อง");
-            return;
-        }
-
-        if (files.length < 2) {
-            alertify.error("กรุณาอัพโหลดรูปภาพ ป้ายไวนิล อย่างน้อย 2 รูป");
-            return;
-        }
-
-        if (files2.length < 1) {
-            alertify.error("กรุณาอัพโหลดรูปภาพ เลขหลังป้ายไวนิล อย่างน้อย 1 รูป");
-            return;
-        }
-
-        let formData = new FormData();
-        formData.append("action", action);
-        formData.append("table_name", table_name);
-        formData.append("lotto_name", lotto_name);
-        formData.append("lotto_phone", lotto_phone);
-        formData.append("lotto_province", lotto_province);
-        formData.append("lotto_number", lotto_number);
-        formData.append("sale_name", sale_name);
-
-        for (let i = 0; i < files.length; i++) {
-            formData.append("lotto_file[]", files[i]);
-        }
-
-        for (let i = 0; i < files2.length; i++) {
-            formData.append("lotto_file2[]", files2[i]);
-        }
-
-        $.ajax({
-            type: "POST",
-            url: 'model/lotto_process.php',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                if (response.trim() === "0") {
-                    alertify.error("ไม่สามารถบันทึกข้อมูลได้ กรุณาตรวจสอบข้อมูล");
-                } else {
-                    alertify.success("บันทึกสำเร็จ");
-                    $('#lotto_form')[0].reset();
-                    $('#previewContainer').empty();
-                    $('#previewContainer2').empty();
-
-                    // ✅ เปิดหน้าผลลัพธ์
-                    window.open(`show_data_register_result?id=${response}`, '_blank');
-                }
-            },
-            error: function (xhr, status, error) {
-                alertify.error("เกิดข้อผิดพลาด: " + error);
-                console.error("Server Response:", xhr.responseText);
+            // ✅ ตรวจสอบว่ากรอกข้อมูลครบหรือไม่
+            if (!lotto_name || !lotto_phone || !lotto_province || !sale_name || !lotto_number) {
+                alertify.error("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+                return;
             }
+
+            // ✅ ตรวจสอบหมายเลขโทรศัพท์ (ต้องเป็นตัวเลข 10 หลัก)
+            if (!/^\d{10}$/.test(lotto_phone)) {
+                alertify.error("กรุณากรอกหมายเลขโทรศัพท์ให้ถูกต้อง (10 หลัก)");
+                return;
+            }
+
+            // ✅ ตรวจสอบการอัปโหลดไฟล์
+            if (files.length < 2) {
+                alertify.error("กรุณาอัพโหลดรูปภาพ ป้ายไวนิล อย่างน้อย 2 รูป");
+                return;
+            }
+
+            if (files2.length < 1) {
+                alertify.error("กรุณาอัพโหลดรูปภาพ เลขหลังป้ายไวนิล อย่างน้อย 1 รูป");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("action", action);
+            formData.append("table_name", table_name);
+            formData.append("lotto_name", lotto_name);
+            formData.append("lotto_phone", lotto_phone);
+            formData.append("lotto_province", lotto_province);
+            formData.append("lotto_number", lotto_number);
+            formData.append("sale_name", sale_name);
+
+            for (let i = 0; i < files.length; i++) {
+                formData.append("lotto_file[]", files[i]);
+            }
+
+            for (let i = 0; i < files2.length; i++) {
+                formData.append("lotto_file2[]", files2[i]);
+            }
+
+            // ป้องกันการกดปุ่มซ้ำ
+            $('#saveBtn').prop('disabled', true).text('กำลังบันทึก...');
+
+            $.ajax({
+                type: "POST",
+                url: 'model/lotto_process.php',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    response = response.trim();  // ✅ ตัดช่องว่างที่ไม่จำเป็น
+
+                    if (response === "0") {
+                        alertify.error("ไม่สามารถบันทึกข้อมูลได้ กรุณาตรวจสอบข้อมูล");
+                    } else if (response.match(/^\d+$/)) { // ✅ ตรวจสอบว่าค่าที่ส่งกลับเป็นตัวเลข (เช่น ID)
+                        alertify.success("บันทึกสำเร็จ");
+                        $('#lotto_form')[0].reset();
+                        $('#previewContainer').empty();
+                        $('#previewContainer2').empty();
+
+                        // ✅ เปิดหน้าผลลัพธ์
+                        window.open(`show_data_register_result?id=${response}`, '_blank');
+                    } else {
+                        alertify.error("เกิดข้อผิดพลาด: " + response);
+                        console.error("Unexpected Response:", response);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alertify.error("เกิดข้อผิดพลาด: " + error);
+                    console.error("Server Response:", xhr.responseText);
+                },
+                complete: function () {
+                    $('#saveBtn').prop('disabled', false).text('บันทึก');
+                }
+            });
         });
     });
 </script>
-
-
 
 <script>
     $(document).ready(function () {
