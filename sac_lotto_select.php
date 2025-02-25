@@ -261,7 +261,6 @@ include('includes/Header.php');
     }
 </script>
 
-
 <script>
     $(document).ready(function () {
 
