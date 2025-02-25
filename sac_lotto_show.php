@@ -41,6 +41,7 @@ require_once 'config/connect_lotto_db.php';
                     <th>รูปป้ายไวนิล</th>
                     <th>รูปเลขหลังป้าย</th>
                     <th>Action</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -88,8 +89,10 @@ require_once 'config/connect_lotto_db.php';
                             }
                             ?>
                         </td>
-
-
+                        <td>
+                            <button class="btn btn-outline-info" onclick="openLottoCheck(<?= $rows['id']; ?>)">Check
+                            </button>
+                        </td>
                         <td>
                             <button class="btn btn-outline-info" onclick="openUpdateModal(<?= $rows['id']; ?>)">Update
                             </button>
@@ -478,6 +481,12 @@ require_once 'config/connect_lotto_db.php';
             $('#updateModal').modal('hide');
         });
     });
+</script>
+
+<script>
+    function openLottoCheck(id) {
+        window.open(`show_data_lotto?id=${id}`);
+    }
 </script>
 
 
