@@ -410,8 +410,22 @@ include('includes/Header.php');
                     $('#previewContainer').empty();
                     $('#previewContainer2').empty();
 
-                    // ✅ เปิดหน้าผลลัพธ์
-                    window.open(`show_data_register_result?id=${response}`, '_blank');
+                    // ✅ อัปโหลดไฟล์อัตโนมัติหลังจากบันทึกสำเร็จ
+                    setTimeout(() => {
+                        $.ajax({
+                            url: "upload_file_process.php",
+                            type: "GET",
+                            success: function (data) {
+                                console.log("Upload Completed:", data);
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Upload Failed:", error);
+                            }
+                        });
+
+                        // ✅ เปิดหน้าผลลัพธ์
+                        window.open(`show_data_register_result?id=${response}`, '_blank');
+                    }, 500);
                 }
             },
             error: function (xhr, status, error) {
@@ -421,7 +435,6 @@ include('includes/Header.php');
         });
     });
 </script>
-
 
 
 <script>
