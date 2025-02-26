@@ -28,20 +28,22 @@
 
                                     <!-- ตารางแสดงข้อมูล -->
                                     <div class="col-md-12 col-md-offset-2">
-                                        <table id="TableRecordList" class="table table-bordered table-striped">
-                                            <thead>
-                                            <tr>
-                                                <th>งวดวันที่</th>
-                                                <th>เดือน</th>
-                                                <th>ปีงวด</th>
-                                                <th>ประเภทรางวัล</th>
-                                                <th>เลขรางวัล</th>
-                                                <th>Action</th>
-                                                <th>Action</th>
-                                                <th>Action</th>
-                                            </tr>
-                                            </thead>
-                                        </table>
+                                        <div class="table-responsive">
+                                            <table id="TableRecordList" class="table table-bordered table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>งวดวันที่</th>
+                                                    <th>เดือน</th>
+                                                    <th>ปีงวด</th>
+                                                    <th>ประเภทรางวัล</th>
+                                                    <th>เลขรางวัล</th>
+                                                    <th>Action</th>
+                                                    <th>Action</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
                                     </div>
                                 </section>
                             </div>
@@ -161,6 +163,12 @@
         }
     </style>
 
+    <style>
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
 
     <script>
         $(document).ready(function () {
