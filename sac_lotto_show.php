@@ -287,7 +287,6 @@ require_once 'config/connect_lotto_db.php';
     });
 </script>
 
-
 <script>
     $(document).ready(function () {
 
@@ -308,7 +307,6 @@ require_once 'config/connect_lotto_db.php';
                 }
             }
         });
-
 
         $('#backBtn').click(function () {
             window.location.href = "sac_lotto";
