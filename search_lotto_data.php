@@ -43,119 +43,121 @@ $result = $stmt->fetchAll();
     <title>SAC LOTTO LIST</title>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12"><br>
-            <div><img src="img/logo/logo text-01.png" width="200" height="79"/></div>
-            <h6 style="color: blue"><b>ค้นหาข้อมูลการลงทะเบียน SAC LOTTO</b></h6>
+<div id="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12"><br>
+                <div><img src="img/logo/logo text-01.png" width="200" height="79"/></div>
+                <h6 style="color: blue"><b>ค้นหาข้อมูลการลงทะเบียน SAC LOTTO</b></h6>
 
-            <!-- ฟอร์มสำหรับกรองข้อมูล -->
-            <form method="POST" action="">
-                <div class="row mb-3">
-                    <div class="col-md-3">
-                        <input type="text" name="lotto_name" class="form-control" placeholder="ชื่อร้าน">
-                    </div>&nbsp;
-                    <div class="col-md-3">
-                        <input type="text" name="lotto_phone" class="form-control" placeholder="หมายเลขโทรศัพท์">
-                    </div>&nbsp;
-                    <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary">ค้นหา</button>
-                        <button type="button" id="resetBtn" class="btn btn-secondary">ล้างค่า</button>
-                        <button type="button" id="closeBtn" class="btn btn-danger">ปิด</button>
+                <!-- ฟอร์มสำหรับกรองข้อมูล -->
+                <form method="POST" action="">
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <input type="text" name="lotto_name" class="form-control" placeholder="ชื่อร้าน">
+                        </div>&nbsp;
+                        <div class="col-md-3">
+                            <input type="text" name="lotto_phone" class="form-control" placeholder="หมายเลขโทรศัพท์">
+                        </div>&nbsp;
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary">ค้นหา</button>
+                            <button type="button" id="resetBtn" class="btn btn-secondary">ล้างค่า</button>
+                            <button type="button" id="closeBtn" class="btn btn-danger">ปิด</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
 
-            <!-- แสดงข้อความแจ้งเตือนหากไม่มีการกรอกข้อมูล -->
-            <?php if ($message): ?>
-                <div class="alert alert-danger" role="alert" style="color: white; background-color: red;">
-                    <?= $message ?>
-                </div>
-            <?php endif; ?>
+                <!-- แสดงข้อความแจ้งเตือนหากไม่มีการกรอกข้อมูล -->
+                <?php if ($message): ?>
+                    <div class="alert alert-danger" role="alert" style="color: white; background-color: red;">
+                        <?= $message ?>
+                    </div>
+                <?php endif; ?>
 
-            <?php if (!empty($_POST) && $message === ''): ?> <!-- แสดงข้อมูลเมื่อมีการกดปุ่มค้นหาและเงื่อนไขไม่ว่าง -->
-                <table id="DataTable"
-                       class="display table table-striped table-hover table-responsive table-bordered">
-                    <thead>
-                    <tr>
-                        <th width="5%">ลำดับ</th>
-                        <th width="25%">ชื่อร้าน</th>
-                        <th width="10%">หมายเลขโทรศัพท์</th>
-                        <th width="15%">จังหวัด</th>
-                        <th width="15%">หมายเลขที่เลือก</th>
-                        <th width="15%">ชื่อ Sale</th>
-                        <th width="15%">การอนุมัติ</th>
-                        <th width="15%">วันที่บันทึก</th>
-                        <th width="15%">รูปภาพป้ายไวนิล</th>
-                        <th width="15%">รูปภาพเลขหลังป้ายไวนิล</th>
-                        <th width="15%">ดูข้อมูล</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    $line_no = 0;
-                    foreach ($result as $rows) {
-                        $line_no++;
-                        ?>
+                <?php if (!empty($_POST) && $message === ''): ?> <!-- แสดงข้อมูลเมื่อมีการกดปุ่มค้นหาและเงื่อนไขไม่ว่าง -->
+                    <table id="DataTable"
+                           class="display table table-striped table-hover table-responsive table-bordered">
+                        <thead>
                         <tr>
-                            <td><?= $line_no; ?></td>
-                            <td><?= $rows['lotto_name']; ?></td>
-                            <td><?= $rows['lotto_phone']; ?></td>
-                            <td><?= $rows['lotto_province']; ?></td>
-                            <td><?= $rows['lotto_number']; ?></td>
-                            <td><?= $rows['sale_name']; ?></td>
-                            <td style="color: <?= $rows['approve_status'] == 'Y' ? 'green' : ($rows['approve_status'] == 'N' ? 'gray' : 'black'); ?>; text-align: center;">
-                                <?= $rows['approve_status'] == 'Y' ? 'อนุมัติ' : ($rows['approve_status'] == 'N' ? 'ยังไม่อนุมัติ' : ''); ?>
-                            </td>
-                            <td><?= $rows['create_date']; ?></td>
-
-
-                            <td>
-                                <?php
-                                if (!empty($rows['lotto_file'])) {
-                                    foreach (explode(",", $rows['lotto_file']) as $index => $file) {
-                                        $filePath = 'uploads/' . htmlspecialchars($file);
-                                        echo "<a href='javascript:void(0);' class='open-popup' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
-                                    }
-                                } else {
-                                    echo "ไม่มีรูป";
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                if (!empty($rows['lotto_file2'])) {
-                                    foreach (explode(",", $rows['lotto_file2']) as $index => $file) {
-                                        $filePath = 'uploads/' . htmlspecialchars($file);
-                                        echo "<a href='javascript:void(0);' class='open-popup' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
-                                    }
-                                } else {
-                                    echo "ไม่มีรูป";
-                                }
-                                ?>
-                            </td>
-
-                            <td style="text-align: center;">
-                                <a href="javascript:void(0);" class="btn btn-primary btn-sm"
-                                   onclick="openLottoData('<?= $rows['id']; ?>')">
-                                    ดูข้อมูล
-                                </a>
-                            </td>
+                            <th width="5%">ลำดับ</th>
+                            <th width="25%">ชื่อร้าน</th>
+                            <th width="10%">หมายเลขโทรศัพท์</th>
+                            <th width="15%">จังหวัด</th>
+                            <th width="15%">หมายเลขที่เลือก</th>
+                            <th width="15%">ชื่อ Sale</th>
+                            <th width="15%">การอนุมัติ</th>
+                            <th width="15%">วันที่บันทึก</th>
+                            <th width="15%">รูปภาพป้ายไวนิล</th>
+                            <th width="15%">รูปภาพเลขหลังป้ายไวนิล</th>
+                            <th width="15%">ดูข้อมูล</th>
                         </tr>
-                    <?php } ?>
-                    </tbody>
-                </table>
-            <?php endif; ?>
-        </div>
-    </div>
-    <!-- Popup แสดงภาพ -->
-    <div id="imagePopup" class="popup">
-        <div class="popup-content">
-            <span class="close-popup">✖ ปิด</span>
-            <img id="popupImage" src="" alt="Preview">
-        </div>
-    </div>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $line_no = 0;
+                        foreach ($result as $rows) {
+                            $line_no++;
+                            ?>
+                            <tr>
+                                <td><?= $line_no; ?></td>
+                                <td><?= $rows['lotto_name']; ?></td>
+                                <td><?= $rows['lotto_phone']; ?></td>
+                                <td><?= $rows['lotto_province']; ?></td>
+                                <td><?= $rows['lotto_number']; ?></td>
+                                <td><?= $rows['sale_name']; ?></td>
+                                <td style="color: <?= $rows['approve_status'] == 'Y' ? 'green' : ($rows['approve_status'] == 'N' ? 'gray' : 'black'); ?>; text-align: center;">
+                                    <?= $rows['approve_status'] == 'Y' ? 'อนุมัติ' : ($rows['approve_status'] == 'N' ? 'ยังไม่อนุมัติ' : ''); ?>
+                                </td>
+                                <td><?= $rows['create_date']; ?></td>
 
+
+                                <td>
+                                    <?php
+                                    if (!empty($rows['lotto_file'])) {
+                                        foreach (explode(",", $rows['lotto_file']) as $index => $file) {
+                                            $filePath = 'uploads/' . htmlspecialchars($file);
+                                            echo "<a href='javascript:void(0);' class='open-popup' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
+                                        }
+                                    } else {
+                                        echo "ไม่มีรูป";
+                                    }
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    if (!empty($rows['lotto_file2'])) {
+                                        foreach (explode(",", $rows['lotto_file2']) as $index => $file) {
+                                            $filePath = 'uploads/' . htmlspecialchars($file);
+                                            echo "<a href='javascript:void(0);' class='open-popup' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
+                                        }
+                                    } else {
+                                        echo "ไม่มีรูป";
+                                    }
+                                    ?>
+                                </td>
+
+                                <td style="text-align: center;">
+                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm"
+                                       onclick="openLottoData('<?= $rows['id']; ?>')">
+                                        ดูข้อมูล
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+            </div>
+        </div>
+        <!-- Popup แสดงภาพ -->
+        <div id="imagePopup" class="popup">
+            <div class="popup-content">
+                <span class="close-popup">✖ ปิด</span>
+                <img id="popupImage" src="" alt="Preview">
+            </div>
+        </div>
+
+    </div>
 </div>
 
 <style>
