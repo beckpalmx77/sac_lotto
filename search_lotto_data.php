@@ -60,9 +60,9 @@ $result = $stmt->fetchAll();
                             <input type="text" name="lotto_phone" class="form-control" placeholder="หมายเลขโทรศัพท์">
                         </div>&nbsp;
                         <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary">ค้นหา</button>
-                            <button type="button" id="resetBtn" class="btn btn-secondary">ล้างค่า</button>
-                            <button type="button" id="closeBtn" class="btn btn-danger">ปิด</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i> ค้นหา</button>
+                            <button type="button" id="resetBtn" class="btn btn-secondary"><i class="fa fa-refresh" aria-hidden="true"></i> ล้างค่า</button>
+                            <button type="button" id="closeBtn" class="btn btn-danger"><i class="fa fa-window-close" aria-hidden="true"></i> ปิด</button>
                         </div>
                     </div>
                 </form>
