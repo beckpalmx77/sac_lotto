@@ -25,7 +25,7 @@ require_once 'config/connect_lotto_db.php';
         <div class="col-md-12"><br>
             <div><img src="img/logo/logo text-01.png" width="200" height="79"/></div>
             <h6 class="text-primary"><b>SAC LOTTO LIST</b></h6>
-            <button type="button" id="backBtn" class="btn btn-danger mb-3">กลับหน้าแรก</button>
+            <button type="button" id="backBtn" class="btn btn-danger mb-3"><i class="fa fa-reply"></i> กลับหน้าแรก</button>
 
             <table id="DataTable" class="table table-striped table-hover table-bordered">
                 <thead>
