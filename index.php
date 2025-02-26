@@ -21,10 +21,10 @@
         }
 
         // เรียกใช้งานฟังก์ชันเมื่อโหลดหน้า
-        window.onload = function() {
+        window.onload = function () {
             checkAndRedirect();
             // หลังจากที่ตรวจสอบแล้วให้รีไดเร็คไปที่ sac_lotto
-            setTimeout(function() {
+            setTimeout(function () {
                 window.location.href = "sac_lotto";
             }, 2000); // รอ 2 วินาที (เพื่อให้ผู้ใช้มีเวลาในการตัดสินใจ)
         };
