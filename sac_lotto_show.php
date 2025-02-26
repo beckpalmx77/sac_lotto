@@ -90,12 +90,10 @@ require_once 'config/connect_lotto_db.php';
                             ?>
                         </td>
                         <td>
-                            <button class="btn btn-outline-info" onclick="openLottoCheck(<?= $rows['id']; ?>)">Check
-                            </button>
+                            <button type="button" class="btn btn-success text-white" onclick="openLottoCheck(<?= $rows['id']; ?>)">Check</button>
                         </td>
                         <td>
-                            <button class="btn btn-outline-info" onclick="openUpdateModal(<?= $rows['id']; ?>)">Update
-                            </button>
+                            <button type="button" class="btn btn-info text-white" onclick="openUpdateModal(<?= $rows['id']; ?>)">Update</button>
                         </td>
                     </tr>
                 <?php } ?>
@@ -260,6 +258,12 @@ require_once 'config/connect_lotto_db.php';
     }
 
 
+</style>
+
+<style>
+    .btn-success, .btn-info {
+        color: white !important;
+    }
 </style>
 
 <!-- เพิ่มองค์ประกอบสำหรับแสดงรูปภาพ -->
