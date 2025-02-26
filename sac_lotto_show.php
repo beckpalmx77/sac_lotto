@@ -288,8 +288,23 @@ require_once 'config/connect_lotto_db.php';
     $(document).ready(function () {
 
         $('#DataTable').DataTable({
-            "lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "ทั้งหมด"]]
+            "lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "ทั้งหมด"]],
+            "language": {
+                "search": "ค้นหา: ",
+                "lengthMenu": "แสดง _MENU_ รายการ",
+                "info": "หน้าที่ _PAGE_ จาก _PAGES_",
+                "infoEmpty": "ไม่มีข้อมูล",
+                "zeroRecords": "ไม่มีข้อมูลตามเงื่อนไข",
+                "infoFiltered": "(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)",
+                "paginate": {
+                    "first": "หน้าแรก",
+                    "previous": "ก่อนหน้า",
+                    "next": "ถัดไป",
+                    "last": "สุดท้าย"
+                }
+            }
         });
+
 
         $('#backBtn').click(function () {
             window.location.href = "sac_lotto";
