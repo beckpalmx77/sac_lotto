@@ -1,5 +1,0 @@
-deployment:
-  tasks:
-    - export DEPLOYPATH=/home/zlpnppsz/public_html/syycp.com/sac_lotto
-    - /bin/cp -R * $DEPLOYPATH
-
