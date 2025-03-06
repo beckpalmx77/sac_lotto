@@ -10,7 +10,11 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // แยกรูปภาพ
 $images = explode(',', $data['lotto_file']);
+$images1 = explode(',', $data['lotto_file1']);
 $images2 = explode(',', $data['lotto_file2']);
+$images3 = explode(',', $data['lotto_file3']);
+$images4 = explode(',', $data['lotto_file4']);
+$images5 = explode(',', $data['lotto_file5']);
 
 ?>
 
@@ -50,6 +54,66 @@ $images2 = explode(',', $data['lotto_file2']);
                     <div class="col-md-4 mb-3">
                         <div class="card">
                             <img src="uploads/<?= htmlspecialchars(trim($image)) ?>" class="card-img-top img-fluid"
+                                 alt="รูปภาพ">
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก</h5>
+            <div class="row text-center">
+                <?php foreach ($images as $image): ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <img src="uploads/<?= htmlspecialchars(trim($image)) ?>" class="card-img-top img-fluid"
+                                 alt="รูปภาพ">
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก</h5>
+            <div class="row text-center">
+                <?php foreach ($images1 as $image1): ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <img src="uploads/<?= htmlspecialchars(trim($image1)) ?>" class="card-img-top img-fluid"
+                                 alt="รูปภาพ">
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก</h5>
+            <div class="row text-center">
+                <?php foreach ($images3 as $image3): ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <img src="uploads/<?= htmlspecialchars(trim($image3)) ?>" class="card-img-top img-fluid"
+                                 alt="รูปภาพ">
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก</h5>
+            <div class="row text-center">
+                <?php foreach ($images4 as $image4): ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <img src="uploads/<?= htmlspecialchars(trim($image4)) ?>" class="card-img-top img-fluid"
+                                 alt="รูปภาพ">
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก</h5>
+            <div class="row text-center">
+                <?php foreach ($images5 as $image5): ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <img src="uploads/<?= htmlspecialchars(trim($image5)) ?>" class="card-img-top img-fluid"
                                  alt="รูปภาพ">
                         </div>
                     </div>
