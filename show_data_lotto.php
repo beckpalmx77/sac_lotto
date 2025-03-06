@@ -12,6 +12,9 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
 $images = explode(',', $data['lotto_file']);
 $images1 = explode(',', $data['lotto_file1']);
 $images2 = explode(',', $data['lotto_file2']);
+$images3 = explode(',', $data['lotto_file3']);
+$images4 = explode(',', $data['lotto_file4']);
+$images5 = explode(',', $data['lotto_file5']);
 
 ?>
 
@@ -69,6 +72,45 @@ $images2 = explode(',', $data['lotto_file2']);
                         <div class="card">
                             <a href="uploads/<?= htmlspecialchars(trim($image1)) ?>" target="_blank">
                                 <img src="uploads/<?= htmlspecialchars(trim($image1)) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย)</h5>
+            <div class="row text-center">
+                <?php foreach ($images3 as $image3): ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <a href="uploads/<?= htmlspecialchars(trim($image3)) ?>" target="_blank">
+                                <img src="uploads/<?= htmlspecialchars(trim($image3)) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย)</h5>
+            <div class="row text-center">
+                <?php foreach ($images4 as $image4): ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <a href="uploads/<?= htmlspecialchars(trim($image4)) ?>" target="_blank">
+                                <img src="uploads/<?= htmlspecialchars(trim($image4)) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย)</h5>
+            <div class="row text-center">
+                <?php foreach ($images5 as $image5): ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <a href="uploads/<?= htmlspecialchars(trim($image5)) ?>" target="_blank">
+                                <img src="uploads/<?= htmlspecialchars(trim($image5)) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
                             </a>
                         </div>
                     </div>

@@ -22,6 +22,9 @@ if (!$data) {
 $images = isset($data['lotto_file']) ? explode(',', $data['lotto_file']) : [];
 $images1 = isset($data['lotto_file1']) ? explode(',', $data['lotto_file1']) : [];
 $images2 = isset($data['lotto_file2']) ? explode(',', $data['lotto_file2']) : [];
+$images3 = isset($data['lotto_file3']) ? explode(',', $data['lotto_file3']) : [];
+$images4 = isset($data['lotto_file4']) ? explode(',', $data['lotto_file4']) : [];
+$images5 = isset($data['lotto_file5']) ? explode(',', $data['lotto_file5']) : [];
 
 ?>
 
@@ -49,41 +52,49 @@ $images2 = isset($data['lotto_file2']) ? explode(',', $data['lotto_file2']) : []
             <div class="mb-3"><strong>🧑‍💼 ชื่อ Sale:</strong> <?= htmlspecialchars($data['sale_name']) ?></div>
             <div class="mb-4"><strong>🎟️ หมายเลข:</strong> <?= htmlspecialchars($data['lotto_number']) ?></div>
 
-            <?php if (!empty($images)): ?>
-                <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย)</h5>
-                <div class="row text-center">
-                    <?php foreach ($images as $image): ?>
-                        <?php $image = trim($image); ?>
-                        <?php if (!empty($image)): ?>
-                            <div class="col-md-4 mb-3">
-                                <div class="card">
-                                    <a href="uploads/<?= htmlspecialchars($image) ?>" target="_blank">
-                                        <img src="uploads/<?= htmlspecialchars($image) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
-                                    </a>
+            <?php
+            $all_images = ['images' => $images, 'images1' => $images1];
+            foreach ($all_images as $key => $img_array):
+                if (!empty($img_array)): ?>
+                    <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย)</h5>
+                    <div class="row text-center">
+                        <?php foreach ($img_array as $image):
+                            $image = trim($image);
+                            if (!empty($image)): ?>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <a href="uploads/<?= htmlspecialchars($image) ?>" target="_blank">
+                                            <img src="uploads/<?= htmlspecialchars($image) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
+                            <?php endif;
+                        endforeach; ?>
+                    </div>
+                <?php endif;
+            endforeach; ?>
 
-            <?php if (!empty($images1)): ?>
-                <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย)</h5>
-                <div class="row text-center">
-                    <?php foreach ($images1 as $image1): ?>
-                        <?php $image1 = trim($image1); ?>
-                        <?php if (!empty($image1)): ?>
-                            <div class="col-md-4 mb-3">
-                                <div class="card">
-                                    <a href="uploads/<?= htmlspecialchars($image1) ?>" target="_blank">
-                                        <img src="uploads/<?= htmlspecialchars($image1) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
-                                    </a>
+            <?php
+            $all_images = ['images3' => $images3, 'images4' => $images4, 'images5' => $images5];
+            foreach ($all_images as $key => $img_array):
+                if (!empty($img_array)): ?>
+                    <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย)</h5>
+                    <div class="row text-center">
+                        <?php foreach ($img_array as $image):
+                            $image = trim($image);
+                            if (!empty($image)): ?>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <a href="uploads/<?= htmlspecialchars($image) ?>" target="_blank">
+                                            <img src="uploads/<?= htmlspecialchars($image) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
+                            <?php endif;
+                        endforeach; ?>
+                    </div>
+                <?php endif;
+            endforeach; ?>
 
             <?php if (!empty($images2)): ?>
                 <h5 class="text-center mb-3">🖼️ รูปภาพเลขหลังป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย)</h5>

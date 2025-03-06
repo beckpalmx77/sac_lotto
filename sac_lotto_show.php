@@ -172,6 +172,9 @@ require_once 'config/connect_lotto_db.php';
                     <input type="hidden" id="text_lotto_file_input" value="">
                     <input type="hidden" id="text_lotto_file1_input" value="">
                     <input type="hidden" id="text_lotto_file2_input" value="">
+                    <input type="hidden" id="text_lotto_file3_input" value="">
+                    <input type="hidden" id="text_lotto_file4_input" value="">
+                    <input type="hidden" id="text_lotto_file5_input" value="">
 
                     <div class="mb-3">
                         <label>อัพโหลดรูปป้ายไวนิล 1</label>
@@ -184,6 +187,24 @@ require_once 'config/connect_lotto_db.php';
                         <input type="file" name="lotto_file1[]" id="lotto_file1_input" multiple>
                     </div>
                     <div id="lotto_file1_images"></div> <!-- แสดงรูปจาก lotto_file2 -->
+
+                    <div class="mb-3">
+                        <label>อัพโหลดรูปป้ายไวนิล 3</label>
+                        <input type="file" name="lotto_file3[]" id="lotto_file3_input" multiple>
+                    </div>
+                    <div id="lotto_file3_images"></div> <!-- แสดงรูปจาก lotto_file2 -->
+
+                    <div class="mb-3">
+                        <label>อัพโหลดรูปป้ายไวนิล 4</label>
+                        <input type="file" name="lotto_file4[]" id="lotto_file4_input" multiple>
+                    </div>
+                    <div id="lotto_file4_images"></div> <!-- แสดงรูปจาก lotto_file2 -->
+
+                    <div class="mb-3">
+                        <label>อัพโหลดรูปป้ายไวนิล 5</label>
+                        <input type="file" name="lotto_file5[]" id="lotto_file5_input" multiple>
+                    </div>
+                    <div id="lotto_file5_images"></div> <!-- แสดงรูปจาก lotto_file2 -->
 
                     <div class="mb-3">
                         <label>อัพโหลดรูปเลขหลังป้าย</label>
@@ -363,6 +384,9 @@ require_once 'config/connect_lotto_db.php';
         previewImages('#lotto_file_input', '#lotto_file_images');
         previewImages('#lotto_file1_input', '#lotto_file1_images');
         previewImages('#lotto_file2_input', '#lotto_file2_images');
+        previewImages('#lotto_file3_input', '#lotto_file3_images');
+        previewImages('#lotto_file4_input', '#lotto_file4_images');
+        previewImages('#lotto_file5_input', '#lotto_file5_images');
     });
 
     function openUpdateModal(id) {
@@ -388,10 +412,16 @@ require_once 'config/connect_lotto_db.php';
                 $('#text_lotto_file_input').val(data.lotto_file);
                 $('#text_lotto_file1_input').val(data.lotto_file1);
                 $('#text_lotto_file2_input').val(data.lotto_file2);
+                $('#text_lotto_file3_input').val(data.lotto_file3);
+                $('#text_lotto_file4_input').val(data.lotto_file4);
+                $('#text_lotto_file5_input').val(data.lotto_file5);
 
                 displayImages('#lotto_file_images', data.lotto_file);
                 displayImages('#lotto_file1_images', data.lotto_file1);
                 displayImages('#lotto_file2_images', data.lotto_file2);
+                displayImages('#lotto_file3_images', data.lotto_file3);
+                displayImages('#lotto_file4_images', data.lotto_file4);
+                displayImages('#lotto_file5_images', data.lotto_file5);
 
                 $('#updateModal').modal('show');
             },
@@ -428,6 +458,9 @@ require_once 'config/connect_lotto_db.php';
         let files = $('#lotto_file_input')[0].files;
         let files1 = $('#lotto_file1_input')[0].files;
         let files2 = $('#lotto_file2_input')[0].files;
+        let files3 = $('#lotto_file3_input')[0].files;
+        let files4 = $('#lotto_file4_input')[0].files;
+        let files5 = $('#lotto_file5_input')[0].files;
 
         if (![...files, ...files2].every(file => file.type.startsWith('image/'))) {
             alertify.error("ไฟล์ที่อัพโหลดต้องเป็นไฟล์ภาพ");
@@ -448,6 +481,9 @@ require_once 'config/connect_lotto_db.php';
         Array.from(files).forEach(file => formData.append("lotto_file[]", file));
         Array.from(files1).forEach(file => formData.append("lotto_file1[]", file));
         Array.from(files2).forEach(file => formData.append("lotto_file2[]", file));
+        Array.from(files3).forEach(file => formData.append("lotto_file3[]", file));
+        Array.from(files4).forEach(file => formData.append("lotto_file4[]", file));
+        Array.from(files5).forEach(file => formData.append("lotto_file5[]", file));
 
         $.ajax({
             type: "POST",
@@ -525,3 +561,5 @@ require_once 'config/connect_lotto_db.php';
 
 </body>
 </html>
+
+

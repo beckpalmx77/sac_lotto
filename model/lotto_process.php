@@ -23,6 +23,9 @@ if ($_POST["action"] === 'GET_DATA') {
             "lotto_file" => $result['lotto_file'],
             "lotto_file1" => $result['lotto_file1'],
             "lotto_file2" => $result['lotto_file2'],
+            "lotto_file3" => $result['lotto_file3'],
+            "lotto_file4" => $result['lotto_file4'],
+            "lotto_file5" => $result['lotto_file5'],
             "approve_status" => $result['approve_status']
         );
         echo json_encode($return_arr);
@@ -129,6 +132,72 @@ if ($_POST["action"] === 'SAVE_DATA') {
         $lotto_files2_str = NULL;
     }
 
+    if (!empty($_FILES['lotto_file3']['name'][0])) {
+        $lotto_files3 = [];
+
+        for ($i = 0; $i < count($_FILES['lotto_file3']['name']); $i++) {
+            $file_extension = pathinfo($_FILES["lotto_file3"]["name"][$i], PATHINFO_EXTENSION);
+            $unique_id = uniqid("file_", true);
+            $file_name = $unique_id . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+
+            if (move_uploaded_file($_FILES["lotto_file3"]["tmp_name"][$i], $file_path)) {
+                $lotto_files3[] = $file_name;
+            } else {
+                echo 0;
+                exit();
+            }
+        }
+
+        $lotto_files3_str = implode(",", $lotto_files3);
+    } else {
+        $lotto_files3_str = NULL;
+    }
+
+    if (!empty($_FILES['lotto_file4']['name'][0])) {
+        $lotto_files4 = [];
+
+        for ($i = 0; $i < count($_FILES['lotto_file4']['name']); $i++) {
+            $file_extension = pathinfo($_FILES["lotto_file4"]["name"][$i], PATHINFO_EXTENSION);
+            $unique_id = uniqid("file_", true);
+            $file_name = $unique_id . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+
+            if (move_uploaded_file($_FILES["lotto_file4"]["tmp_name"][$i], $file_path)) {
+                $lotto_files4[] = $file_name;
+            } else {
+                echo 0;
+                exit();
+            }
+        }
+
+        $lotto_files4_str = implode(",", $lotto_files4);
+    } else {
+        $lotto_files4_str = NULL;
+    }
+
+    if (!empty($_FILES['lotto_file5']['name'][0])) {
+        $lotto_files5 = [];
+
+        for ($i = 0; $i < count($_FILES['lotto_file5']['name']); $i++) {
+            $file_extension = pathinfo($_FILES["lotto_file5"]["name"][$i], PATHINFO_EXTENSION);
+            $unique_id = uniqid("file_", true);
+            $file_name = $unique_id . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+
+            if (move_uploaded_file($_FILES["lotto_file5"]["tmp_name"][$i], $file_path)) {
+                $lotto_files5[] = $file_name;
+            } else {
+                echo 0;
+                exit();
+            }
+        }
+
+        $lotto_files5_str = implode(",", $lotto_files5);
+    } else {
+        $lotto_files5_str = NULL;
+    }
+
     // รับ IP ของผู้ใช้
     //$client_ip_address = $_SERVER['HTTP_CLIENT_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
 
@@ -151,8 +220,10 @@ if ($_POST["action"] === 'SAVE_DATA') {
     if ($record <= 0) {
         // Insert ข้อมูลใหม่
         try {
-            $sql = "INSERT INTO ims_lotto(lotto_name, lotto_phone, lotto_province, lotto_number, sale_name, client_ip_address, lotto_file, lotto_file1, lotto_file2)
-                    VALUES (:lotto_name, :lotto_phone, :lotto_province, :lotto_number, :sale_name, :client_ip_address, :lotto_file, :lotto_file1, :lotto_file2)";
+            $sql = "INSERT INTO ims_lotto(lotto_name, lotto_phone, lotto_province, lotto_number, sale_name, client_ip_address, lotto_file, lotto_file1, lotto_file2
+                    , lotto_file3, lotto_file4, lotto_file5)
+                    VALUES (:lotto_name, :lotto_phone, :lotto_province, :lotto_number, :sale_name, :client_ip_address, :lotto_file, :lotto_file1, :lotto_file2
+                    , :lotto_file3, :lotto_file4, :lotto_file5)";
             $query = $conn->prepare($sql);
             $query->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
             $query->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
@@ -163,6 +234,9 @@ if ($_POST["action"] === 'SAVE_DATA') {
             $query->bindParam(':lotto_file', $lotto_files_str, PDO::PARAM_STR);
             $query->bindParam(':lotto_file1', $lotto_files1_str, PDO::PARAM_STR);
             $query->bindParam(':lotto_file2', $lotto_files2_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file3', $lotto_files3_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file4', $lotto_files4_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file5', $lotto_files5_str, PDO::PARAM_STR);
 
             if ($query->execute()) {
                 $lastInsertId = $conn->lastInsertId();
@@ -255,6 +329,54 @@ if ($_POST["action"] === 'UPDATE') {
         $lotto_files2_str = implode(",", $lotto_files2);
     }
 
+    if (!empty($_FILES['lotto_file3']['name'][0])) {
+        $lotto_files3 = [];
+        foreach ($_FILES['lotto_file3']['name'] as $index => $name) {
+            $file_extension = pathinfo($name, PATHINFO_EXTENSION);
+            $file_name = uniqid("file_") . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+            if (move_uploaded_file($_FILES['lotto_file3']['tmp_name'][$index], $file_path)) {
+                $lotto_files3[] = $file_name;
+            } else {
+                echo "UPLOAD_FAILED";
+                exit();
+            }
+        }
+        $lotto_files3_str = implode(",", $lotto_files3);
+    }
+
+    if (!empty($_FILES['lotto_file4']['name'][0])) {
+        $lotto_files4 = [];
+        foreach ($_FILES['lotto_file4']['name'] as $index => $name) {
+            $file_extension = pathinfo($name, PATHINFO_EXTENSION);
+            $file_name = uniqid("file_") . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+            if (move_uploaded_file($_FILES['lotto_file4']['tmp_name'][$index], $file_path)) {
+                $lotto_files4[] = $file_name;
+            } else {
+                echo "UPLOAD_FAILED";
+                exit();
+            }
+        }
+        $lotto_files4_str = implode(",", $lotto_files4);
+    }
+
+    if (!empty($_FILES['lotto_file5']['name'][0])) {
+        $lotto_files5 = [];
+        foreach ($_FILES['lotto_file5']['name'] as $index => $name) {
+            $file_extension = pathinfo($name, PATHINFO_EXTENSION);
+            $file_name = uniqid("file_") . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+            if (move_uploaded_file($_FILES['lotto_file5']['tmp_name'][$index], $file_path)) {
+                $lotto_files5[] = $file_name;
+            } else {
+                echo "UPLOAD_FAILED";
+                exit();
+            }
+        }
+        $lotto_files5_str = implode(",", $lotto_files5);
+    }
+
     // สร้างคำสั่ง SQL แบบไดนามิก
     $sql = "UPDATE ims_lotto SET 
             lotto_name = :lotto_name, 
@@ -273,6 +395,15 @@ if ($_POST["action"] === 'UPDATE') {
     }
     if ($lotto_files2_str !== null) {
         $sql .= ", lotto_file2 = :lotto_file2";
+    }
+    if ($lotto_files3_str !== null) {
+        $sql .= ", lotto_file3 = :lotto_file3";
+    }
+    if ($lotto_files4_str !== null) {
+        $sql .= ", lotto_file4 = :lotto_file4";
+    }
+    if ($lotto_files5_str !== null) {
+        $sql .= ", lotto_file5 = :lotto_file5";
     }
 
     $sql .= " WHERE id = :id";
@@ -293,6 +424,15 @@ if ($_POST["action"] === 'UPDATE') {
     }
     if ($lotto_files2_str !== null) {
         $query->bindParam(':lotto_file2', $lotto_files2_str, PDO::PARAM_STR);
+    }
+    if ($lotto_files3_str !== null) {
+        $query->bindParam(':lotto_file3', $lotto_files3_str, PDO::PARAM_STR);
+    }
+    if ($lotto_files4_str !== null) {
+        $query->bindParam(':lotto_file4', $lotto_files4_str, PDO::PARAM_STR);
+    }
+    if ($lotto_files5_str !== null) {
+        $query->bindParam(':lotto_file5', $lotto_files5_str, PDO::PARAM_STR);
     }
     $query->bindParam(':id', $id, PDO::PARAM_INT);
 
