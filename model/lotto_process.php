@@ -107,7 +107,9 @@ if ($_POST["action"] === 'SAVE_DATA') {
     }
 
     // รับ IP ของผู้ใช้
-    $client_ip_address = $_SERVER['HTTP_CLIENT_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
+    //$client_ip_address = $_SERVER['HTTP_CLIENT_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
+
+    $client_ip_address = "-";
 
     // รับ lotto_number และปรับรูปแบบ
     $lotto_number = sprintf("%03d", $_POST["lotto_number"]);
