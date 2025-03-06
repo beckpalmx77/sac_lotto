@@ -26,6 +26,7 @@ class ComposerStaticInit81749a0b49ac44f05f3399940816f0e6
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
+            'Psr\\Cache\\' => 10,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
         ),
         'M' => 
@@ -44,6 +45,7 @@ class ComposerStaticInit81749a0b49ac44f05f3399940816f0e6
         ),
         'D' => 
         array (
+            'Detection\\' => 10,
             'DeepCopy\\' => 9,
         ),
         'C' => 
@@ -79,6 +81,10 @@ class ComposerStaticInit81749a0b49ac44f05f3399940816f0e6
         'Psr\\Http\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
+        ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
         'PhpOffice\\PhpSpreadsheet\\' => 
         array (
@@ -116,6 +122,10 @@ class ComposerStaticInit81749a0b49ac44f05f3399940816f0e6
         array (
             0 => __DIR__ . '/..' . '/geoip2/geoip2/src',
         ),
+        'Detection\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/src',
+        ),
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
@@ -134,20 +144,9 @@ class ComposerStaticInit81749a0b49ac44f05f3399940816f0e6
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        'D' => 
-        array (
-            'Detection' => 
-            array (
-                0 => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/namespaced',
-            ),
-        ),
-    );
-
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Datamatrix' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/datamatrix.php',
-        'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
         'PDF417' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/pdf417.php',
         'QRcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/qrcode.php',
         'TCPDF' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf.php',
@@ -168,7 +167,6 @@ class ComposerStaticInit81749a0b49ac44f05f3399940816f0e6
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit81749a0b49ac44f05f3399940816f0e6::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit81749a0b49ac44f05f3399940816f0e6::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit81749a0b49ac44f05f3399940816f0e6::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit81749a0b49ac44f05f3399940816f0e6::$classMap;
 
         }, null, ClassLoader::class);

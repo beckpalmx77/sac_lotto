@@ -6,6 +6,8 @@
         function checkAndRedirect() {
             let userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
+            alert(userAgent);
+
             // ตรวจสอบว่าใช้ iOS หรือ Android
             if (/iPhone|iPad|iPod/.test(userAgent)) {
                 // ถ้าใช้ iOS, เช็คว่าเปิดใน Safari หรือไม่ และให้รีไดเร็คไปที่ Chrome

@@ -38,7 +38,8 @@ require_once 'config/connect_lotto_db.php';
                     <th>Sale</th>
                     <th>อนุมัติ</th>
                     <th>วันที่บันทึก</th>
-                    <th>รูปป้ายไวนิล</th>
+                    <th>รูปป้ายไวนิล 1</th>
+                    <th>รูปป้ายไวนิล 2</th>
                     <th>รูปเลขหลังป้าย</th>
                     <th>Action</th>
                     <th>Action</th>
@@ -69,6 +70,18 @@ require_once 'config/connect_lotto_db.php';
                             <?php
                             if (!empty($rows['lotto_file'])) {
                                 foreach (explode(",", $rows['lotto_file']) as $index => $file) {
+                                    $filePath = 'uploads/' . htmlspecialchars($file);
+                                    echo "<a href='javascript:void(0);' class='open-popup' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
+                                }
+                            } else {
+                                echo "ไม่มีรูป";
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            if (!empty($rows['lotto_file1'])) {
+                                foreach (explode(",", $rows['lotto_file1']) as $index => $file) {
                                     $filePath = 'uploads/' . htmlspecialchars($file);
                                     echo "<a href='javascript:void(0);' class='open-popup' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
                                 }
@@ -157,17 +170,27 @@ require_once 'config/connect_lotto_db.php';
                         </select>
                     </div>
                     <input type="hidden" id="text_lotto_file_input" value="">
+                    <input type="hidden" id="text_lotto_file1_input" value="">
                     <input type="hidden" id="text_lotto_file2_input" value="">
+
                     <div class="mb-3">
-                        <label>อัพโหลดรูปป้ายไวนิล</label>
+                        <label>อัพโหลดรูปป้ายไวนิล 1</label>
                         <input type="file" name="lotto_file[]" id="lotto_file_input" multiple>
                     </div>
                     <div id="lotto_file_images"></div> <!-- แสดงรูปจาก lotto_file -->
+
+                    <div class="mb-3">
+                        <label>อัพโหลดรูปป้ายไวนิล 2</label>
+                        <input type="file" name="lotto_file1[]" id="lotto_file1_input" multiple>
+                    </div>
+                    <div id="lotto_file1_images"></div> <!-- แสดงรูปจาก lotto_file2 -->
+
                     <div class="mb-3">
                         <label>อัพโหลดรูปเลขหลังป้าย</label>
                         <input type="file" name="lotto_file2[]" id="lotto_file2_input" multiple>
                     </div>
                     <div id="lotto_file2_images"></div> <!-- แสดงรูปจาก lotto_file2 -->
+
                     <input type="hidden" id="action" name="action" value="">
                     <div class="md-3">
                         <div class="form-group">
@@ -338,6 +361,7 @@ require_once 'config/connect_lotto_db.php';
         }
 
         previewImages('#lotto_file_input', '#lotto_file_images');
+        previewImages('#lotto_file1_input', '#lotto_file1_images');
         previewImages('#lotto_file2_input', '#lotto_file2_images');
     });
 
@@ -362,9 +386,11 @@ require_once 'config/connect_lotto_db.php';
                 $('#approve_status').val(data.approve_status);
 
                 $('#text_lotto_file_input').val(data.lotto_file);
+                $('#text_lotto_file1_input').val(data.lotto_file1);
                 $('#text_lotto_file2_input').val(data.lotto_file2);
 
                 displayImages('#lotto_file_images', data.lotto_file);
+                displayImages('#lotto_file1_images', data.lotto_file1);
                 displayImages('#lotto_file2_images', data.lotto_file2);
 
                 $('#updateModal').modal('show');
@@ -400,19 +426,8 @@ require_once 'config/connect_lotto_db.php';
         }
 
         let files = $('#lotto_file_input')[0].files;
+        let files1 = $('#lotto_file1_input')[0].files;
         let files2 = $('#lotto_file2_input')[0].files;
-
-/*
-        if (files.length < 2) {
-            alertify.error("กรุณาอัพโหลดรูปภาพ ป้ายไวนิล อย่างน้อย 2 รูป");
-            return;
-        }
-
-        if (files2.length < 1) {
-            alertify.error("กรุณาอัพโหลดรูปภาพ เลขหลังป้ายไวนิล อย่างน้อย 1 รูป");
-            return;
-        }
- */
 
         if (![...files, ...files2].every(file => file.type.startsWith('image/'))) {
             alertify.error("ไฟล์ที่อัพโหลดต้องเป็นไฟล์ภาพ");
@@ -431,6 +446,7 @@ require_once 'config/connect_lotto_db.php';
         formData.append("approve_status", $('#approve_status').val());
 
         Array.from(files).forEach(file => formData.append("lotto_file[]", file));
+        Array.from(files1).forEach(file => formData.append("lotto_file1[]", file));
         Array.from(files2).forEach(file => formData.append("lotto_file2[]", file));
 
         $.ajax({

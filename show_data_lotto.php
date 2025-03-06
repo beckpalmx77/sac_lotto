@@ -10,6 +10,7 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // แยกรูปภาพ
 $images = explode(',', $data['lotto_file']);
+$images1 = explode(',', $data['lotto_file1']);
 $images2 = explode(',', $data['lotto_file2']);
 
 ?>
@@ -55,6 +56,19 @@ $images2 = explode(',', $data['lotto_file2']);
                         <div class="card">
                             <a href="uploads/<?= htmlspecialchars(trim($image)) ?>" target="_blank">
                                 <img src="uploads/<?= htmlspecialchars(trim($image)) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย)</h5>
+            <div class="row text-center">
+                <?php foreach ($images1 as $image1): ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <a href="uploads/<?= htmlspecialchars(trim($image1)) ?>" target="_blank">
+                                <img src="uploads/<?= htmlspecialchars(trim($image1)) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
                             </a>
                         </div>
                     </div>

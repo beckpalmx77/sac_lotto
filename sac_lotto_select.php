@@ -1,6 +1,8 @@
 <?php
 include('config/connect_lotto_db.php');
 include('includes/Header.php');
+include('includes/CheckDevice.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -130,10 +132,21 @@ include('includes/Header.php');
                                     <div class="form-group">
                                         <label for="lotto_file" class="control-label">อัปโหลดรูปภาพ (ไฟล์ jpg หรือ png
                                             เท่านั้น)
-                                            (รูปป้ายไวนิล 2 รูปภาพ)</label>
+                                            (รูปป้ายไวนิล รูปที่ 1)</label>
                                         <input type="file" class="form-control" id="lotto_file" name="lotto_file[]"
                                                accept="image/jpeg, image/png" multiple>
                                         <div class="preview mt-2" id="previewContainer">
+                                            <!-- Preview รูปภาพจะแสดงที่นี่ -->
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="lotto_file1" class="control-label">อัปโหลดรูปภาพ (ไฟล์ jpg หรือ png
+                                            เท่านั้น)
+                                            (รูปป้ายไวนิล รูปที่ 2)</label>
+                                        <input type="file" class="form-control" id="lotto_file1" name="lotto_file1[]"
+                                               accept="image/jpeg, image/png" multiple>
+                                        <div class="preview mt-2" id="previewContainer1">
                                             <!-- Preview รูปภาพจะแสดงที่นี่ -->
                                         </div>
                                     </div>
@@ -161,16 +174,6 @@ include('includes/Header.php');
                                             </span>
                                     </div>
                                 </div>
-                                <!--div class="col-md-12">
-                                    <div class="form-group">
-                                        <button type="button" name="SearchBtn" id="SearchBtn" tabindex="4"
-                                                class="form-control btn btn-info">
-                                            <span>
-                                                <i class="fa fa-search" aria-hidden="true"></i>
-                                                ค้นหาข้อมูลการลงทะเบียน
-                                            </span>
-                                    </div>
-                                </div-->
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <button type="button" name="backBtn" id="backBtn" tabindex="4"
@@ -363,6 +366,7 @@ include('includes/Header.php');
             let lotto_number = $('#lotto_number').val().trim();
             let sale_name = $('#sale_name').val().trim();
             let files = $('#lotto_file')[0].files;
+            let files1 = $('#lotto_file1')[0].files;
             let files2 = $('#lotto_file2')[0].files;
 
             // ✅ ตรวจสอบว่ากรอกข้อมูลครบหรือไม่
@@ -378,8 +382,14 @@ include('includes/Header.php');
             }
 
             // ✅ ตรวจสอบการอัปโหลดไฟล์
-            if (files.length < 2) {
-                alertify.error("กรุณาอัพโหลดรูปภาพ ป้ายไวนิล อย่างน้อย 2 รูป");
+            if (files.length < 1) {
+                alertify.error("กรุณาอัพโหลดรูปภาพ ป้ายไวนิล รูปที่ 1");
+                return;
+            }
+
+            // ✅ ตรวจสอบการอัปโหลดไฟล์
+            if (files1.length < 1) {
+                alertify.error("กรุณาอัพโหลดรูปภาพ ป้ายไวนิล รูปที่ 2");
                 return;
             }
 
@@ -399,6 +409,10 @@ include('includes/Header.php');
 
             for (let i = 0; i < files.length; i++) {
                 formData.append("lotto_file[]", files[i]);
+            }
+
+            for (let i = 0; i < files1.length; i++) {
+                formData.append("lotto_file1[]", files1[i]);
             }
 
             for (let i = 0; i < files2.length; i++) {
@@ -423,10 +437,18 @@ include('includes/Header.php');
                         alertify.success("บันทึกสำเร็จ");
                         $('#lotto_form')[0].reset();
                         $('#previewContainer').empty();
+                        $('#previewContainer1').empty();
                         $('#previewContainer2').empty();
 
                         // ✅ เปิดหน้าผลลัพธ์
+                        <?php if ($_SESSION['deviceType'] === 'computer') { ?>
+                        // ✅ ถ้าอุปกรณ์เป็น computer ให้เปิดหน้าผลลัพธ์
                         window.open(`show_data_register_result?id=${response}`, '_blank');
+                        <?php } else { ?>
+                        // ✅ ถ้าไม่ใช่อุปกรณ์ computer ให้แสดง alert
+                        alertify.success("ลงทะเบียนสำเร็จ");
+                        <?php } ?>
+
                     } else {
                         alertify.error("เกิดข้อผิดพลาด: " + response);
                         console.error("Unexpected Response:", response);
@@ -464,6 +486,31 @@ include('includes/Header.php');
                     $('#previewContainer').append(imgElement);
                 }
                 reader.readAsDataURL(files[i]);
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#lotto_file1').change(function (event) {
+            // Clear existing previews
+            $('#previewContainer1').empty();
+
+            // Loop through selected files and create previews
+            let files1 = event.target.files;
+            for (let i = 0; i < files1.length; i++) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    let imgElement = $('<img>')
+                        .attr('src', e.target.result)
+                        .css('max-width', '30%')
+                        .css('margin-right', '10px')
+                        .css('margin-bottom', '10px')
+                        .show();
+                    $('#previewContainer1').append(imgElement);
+                }
+                reader.readAsDataURL(files1[i]);
             }
         });
     });

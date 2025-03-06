@@ -20,6 +20,7 @@ if (!$data) {
 
 // ตรวจสอบค่าก่อน explode เพื่อป้องกัน error
 $images = isset($data['lotto_file']) ? explode(',', $data['lotto_file']) : [];
+$images1 = isset($data['lotto_file1']) ? explode(',', $data['lotto_file1']) : [];
 $images2 = isset($data['lotto_file2']) ? explode(',', $data['lotto_file2']) : [];
 
 ?>
@@ -58,6 +59,24 @@ $images2 = isset($data['lotto_file2']) ? explode(',', $data['lotto_file2']) : []
                                 <div class="card">
                                     <a href="uploads/<?= htmlspecialchars($image) ?>" target="_blank">
                                         <img src="uploads/<?= htmlspecialchars($image) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($images1)): ?>
+                <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย)</h5>
+                <div class="row text-center">
+                    <?php foreach ($images1 as $image1): ?>
+                        <?php $image1 = trim($image1); ?>
+                        <?php if (!empty($image1)): ?>
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <a href="uploads/<?= htmlspecialchars($image1) ?>" target="_blank">
+                                        <img src="uploads/<?= htmlspecialchars($image1) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
                                     </a>
                                 </div>
                             </div>
