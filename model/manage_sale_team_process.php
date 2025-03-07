@@ -137,7 +137,7 @@ if ($_POST["action"] === 'GET_sale_name') {
 
 ## Fetch records
     $stmt = $conn->prepare("SELECT * FROM ims_sale_team WHERE 1 " . $searchQuery
-        . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
+        . " ORDER BY id DESC LIMIT :limit,:offset");
 
 // Bind values
     foreach ($searchArray as $key => $search) {
