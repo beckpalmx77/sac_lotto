@@ -57,11 +57,11 @@ include('includes/Header.php');
                                     </button>
                                 </div>
 
-                                <!--div class="form-group">
-                                    <button type="button" id="ImportCustomerBtn" class="form-control btn btn-primary">
-                                        <span><i class="fa fa-tags" aria-hidden="true"></i> นำเข้ารายชื่อร้านค้า</span>
+                                <div class="form-group">
+                                    <button type="button" id="SaleManageBtn" class="form-control btn btn-primary">
+                                        <span><i class="fa fa-tags" aria-hidden="true"></i> รายชื่อ Sale</span>
                                     </button>
-                                </div-->
+                                </div>
 
                                 <div class="form-group">
                                     <button type="button" id="backBtn" class="form-control btn btn-danger">
@@ -104,6 +104,10 @@ include('includes/Header.php');
 
         $("#ImportCustomerBtn").click(function () {
             window.location.href = "import_customer_master";
+        });
+
+        $("#SaleManageBtn").click(function () {
+            window.location.href = "manage_sale_team";
         });
 
 
