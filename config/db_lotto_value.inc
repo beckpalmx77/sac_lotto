@@ -19,4 +19,3 @@ define('DB_USER','zlpnppsz_admin');
 define('DB_PASS','Sac168168');
 define('DB_NAME','zlpnppsz_lotto');
 */
-
