@@ -76,7 +76,7 @@ include('includes/Header.php');
                                                                        class="control-label">ชื่อ Sale</label>
                                                                 <input type="sale_name" class="form-control"
                                                                        id="sale_name" name="sale_name"
-                                                                       placeholder="สร้างอัตโนมัติ">
+                                                                       placeholder="">
                                                             </div>
 
                                                             <div class="form-group">
@@ -86,7 +86,7 @@ include('includes/Header.php');
                                                                        id="remark"
                                                                        name="remark"
                                                                        required="required"
-                                                                       placeholder="หมายเหตุ">
+                                                                       placeholder="">
                                                             </div>
 
                                                             <div class="form-group">
