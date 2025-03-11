@@ -86,9 +86,9 @@ $result = $stmt->fetchAll();
                         <th width="15%">ชื่อ Sale</th>
                         <th width="15%">การอนุมัติ</th>
                         <th width="15%">วันที่บันทึก</th>
-                        <th width="15%">รูปภาพป้ายไวนิล 1</th>
+                        <!--th width="15%">รูปภาพป้ายไวนิล 1</th>
                         <th width="15%">รูปภาพป้ายไวนิล 2</th>
-                        <th width="15%">รูปภาพเลขหลังป้ายไวนิล</th>
+                        <th width="15%">รูปภาพเลขหลังป้ายไวนิล</th-->
                         <th width="15%">ดูข้อมูล</th>
                     </tr>
                     </thead>
@@ -111,7 +111,7 @@ $result = $stmt->fetchAll();
                             <td><?= $rows['create_date']; ?></td>
 
 
-                            <td>
+                            <!--td>
                                 <?php
                                 if (!empty($rows['lotto_file'])) {
                                     foreach (explode(",", $rows['lotto_file']) as $index => $file) {
@@ -146,7 +146,7 @@ $result = $stmt->fetchAll();
                                     echo "ไม่มีรูป";
                                 }
                                 ?>
-                            </td>
+                            </td-->
 
                             <td style="text-align: center;">
                                 <a href="javascript:void(0);" class="btn btn-primary btn-sm"
