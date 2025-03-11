@@ -8,13 +8,13 @@ $stmt->bindParam(':id', $id);
 $stmt->execute();
 $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// แยกรูปภาพ
-$images = explode(',', $data['lotto_file']);
-$images1 = explode(',', $data['lotto_file1']);
-$images2 = explode(',', $data['lotto_file2']);
-$images3 = explode(',', $data['lotto_file3']);
-$images4 = explode(',', $data['lotto_file4']);
-$images5 = explode(',', $data['lotto_file5']);
+$images = explode(',', $data['lotto_file'] ?? '');
+$images1 = explode(',', $data['lotto_file1'] ?? '');
+$images2 = explode(',', $data['lotto_file2'] ?? '');
+$images3 = explode(',', $data['lotto_file3'] ?? '');
+$images4 = explode(',', $data['lotto_file4'] ?? '');
+$images5 = explode(',', $data['lotto_file5'] ?? '');
+
 
 ?>
 

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/SAC LOTTO.iml" filepath="$PROJECT_DIR$/.idea/SAC LOTTO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/sac_lotto.iml" filepath="$PROJECT_DIR$/.idea/sac_lotto.iml" />
     </modules>
   </component>
 </project>
