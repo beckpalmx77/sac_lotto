@@ -525,7 +525,7 @@ require_once 'config/connect_lotto_db.php';
     });
 </script>
 
-<script>
+<!--script>
     $(document).ready(function () {
         $(".open-popup").click(function () {
             let imgSrc = $(this).attr("data-img");
@@ -542,6 +542,32 @@ require_once 'config/connect_lotto_db.php';
         });
     });
 
+</script-->
+
+<script>
+    $(document).ready(function () {
+        // ใช้ event delegation เพื่อให้ทำงานแม้ element ถูกโหลดทีหลัง
+        $(document).on("click", ".open-popup", function () {
+            let imgSrc = $(this).attr("data-img");
+
+            if (imgSrc) {
+                $("#popupImage").attr("src", imgSrc);
+                $("#imagePopup").fadeIn();
+            } else {
+                console.error("ไม่มีค่า data-img");
+            }
+        });
+
+        // ปิด popup เมื่อกดที่ปุ่มปิด หรือที่พื้นที่นอก popup
+        $(document).on("click", ".close-popup, #imagePopup", function () {
+            $("#imagePopup").fadeOut();
+        });
+
+        // ป้องกัน popup-content จากการ trigger event ปิด popup
+        $(document).on("click", ".popup-content", function (event) {
+            event.stopPropagation();
+        });
+    });
 </script>
 
 <script>
