@@ -2,31 +2,41 @@
 include('includes/Header.php');
 require_once 'config/connect_lotto_db.php';
 
-// ตรวจสอบว่ามีการส่งข้อมูลเงื่อนไขมาหรือไม่
 $condition = '';
 $params = [];
 $message = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (empty($_POST['lotto_name']) && empty($_POST['lotto_phone'])) {
+    // รับค่า input และตัดช่องว่างส่วนเกิน
+    $lotto_name = trim($_POST['lotto_name'] ?? '');
+    $lotto_phone = trim($_POST['lotto_phone'] ?? '');
+
+    // ตรวจสอบว่ามีค่าป้อนเข้ามาหรือไม่
+    if (empty($lotto_name) && empty($lotto_phone)) {
         $message = 'กรุณาป้อนเงื่อนไข (ชื่อร้าน หรือ หมายเลขโทรศัพท์) ก่อน';
     } else {
-        if (!empty($_POST['lotto_name'])) {
+        if (!empty($lotto_name)) {
             $condition .= " AND lotto_name LIKE :lotto_name";
-            $params[':lotto_name'] = "%" . $_POST['lotto_name'] . "%";
+            $params[':lotto_name'] = "%{$lotto_name}%";
         }
-        if (!empty($_POST['lotto_phone'])) {
+        if (!empty($lotto_phone)) {
             $condition .= " AND lotto_phone LIKE :lotto_phone";
-            $params[':lotto_phone'] = "%" . $_POST['lotto_phone'] . "%";
+            $params[':lotto_phone'] = "%{$lotto_phone}%";
         }
+
+        // สร้างคำสั่ง SQL และป้องกัน Injection ด้วย bindParam
+        $sql = "SELECT * FROM ims_lotto WHERE 1=1 $condition ORDER BY id DESC";
+        $stmt = $conn->prepare($sql);
+
+        // Bind Parameters
+        foreach ($params as $key => &$value) {
+            $stmt->bindParam($key, $value, PDO::PARAM_STR);
+        }
+
+        $stmt->execute();
+        $result = $stmt->fetchAll();
     }
 }
-
-// สร้างคำสั่ง SQL โดยเพิ่มเงื่อนไขกรองข้อมูล
-$sql = "SELECT * FROM ims_lotto WHERE 1=1 $condition ORDER BY id DESC";
-$stmt = $conn->prepare($sql);
-$stmt->execute($params);
-$result = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
