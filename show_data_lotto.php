@@ -10,13 +10,14 @@ $stmt->execute();
 $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // ฟังก์ชันจัดการรูปภาพ
-function getImages($data, $key) {
+function getImages($data, $key)
+{
     return !empty($data[$key]) ? array_filter(explode(',', $data[$key])) : [];
 }
 
 // โหลดรูปภาพ
 $images = [
-    'lotto_file'  => getImages($data, 'lotto_file'),
+    'lotto_file' => getImages($data, 'lotto_file'),
     'lotto_file1' => getImages($data, 'lotto_file1'),
     'lotto_file3' => getImages($data, 'lotto_file3'),
     'lotto_file4' => getImages($data, 'lotto_file4'),
@@ -41,7 +42,8 @@ $images = [
     <div class="card shadow-lg">
         <div class="card-body">
             <h3 class="card-title text-center mb-4">🎯 ผลการลงทะเบียน</h3>
-            <img src="img/logo/<?= ($data['approve_status'] == 'Y') ? 'approve.png' : 'none-approve.png' ?>" alt="Approval Status">
+            <img src="img/logo/<?= ($data['approve_status'] == 'Y') ? 'approve.png' : 'none-approve.png' ?>"
+                 alt="Approval Status">
 
             <div class="mb-3"><strong>🏪 ชื่อร้านค้า:</strong> <?= htmlspecialchars($data['lotto_name']) ?></div>
             <div class="mb-3"><strong>📞 โทรศัพท์:</strong> <?= htmlspecialchars($data['lotto_phone']) ?></div>
@@ -51,7 +53,8 @@ $images = [
 
             <?php
             // ฟังก์ชันแสดงรูปภาพ
-            function renderImages($title, $images) {
+            function renderImages($title, $images)
+            {
                 if (!empty($images)) {
                     echo "<h5 class='text-center mb-3'>$title</h5><div class='row text-center'>";
                     foreach ($images as $image) {
