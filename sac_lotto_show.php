@@ -38,9 +38,9 @@ require_once 'config/connect_lotto_db.php';
                     <th>Sale</th>
                     <th>อนุมัติ</th>
                     <th>วันที่บันทึก</th>
-                    <th>รูปป้ายไวนิล 1</th>
+                    <!--th>รูปป้ายไวนิล 1</th>
                     <th>รูปป้ายไวนิล 2</th>
-                    <th>รูปเลขหลังป้าย</th>
+                    <th>รูปเลขหลังป้าย</th-->
                     <th>Action</th>
                     <th>Action</th>
                 </tr>
@@ -66,7 +66,7 @@ require_once 'config/connect_lotto_db.php';
                         </td>
                         <td><?= htmlspecialchars($rows['create_date']); ?></td>
 
-                        <td>
+                        <!--td>
                             <?php
                             if (!empty($rows['lotto_file'])) {
                                 foreach (explode(",", $rows['lotto_file']) as $index => $file) {
@@ -101,7 +101,7 @@ require_once 'config/connect_lotto_db.php';
                                 echo "ไม่มีรูป";
                             }
                             ?>
-                        </td>
+                        </td-->
                         <td>
                             <button type="button" class="btn btn-success text-white" onclick="openLottoCheck(<?= $rows['id']; ?>)">Check</button>
                         </td>
