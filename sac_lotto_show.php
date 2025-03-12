@@ -159,8 +159,24 @@ require_once 'config/connect_lotto_db.php';
                                placeholder="">
                     </div>
                     <div class="mb-3">
-                        <label>ชื่อ Sale</label>
-                        <input type="text" class="form-control" id="sale_name" name="sale" required>
+                            <div class="form-group">
+                                <label class="control-label" for="sale_name">ชื่อ Sale</label>
+                                <select id="sale_name" name="sale_name" required="true"
+                                        class="form-control" data-live-search="true"
+                                        title="Please select">
+                                    <option value="" selected></option>
+                                    <?php
+                                    $sql2 = "SELECT * FROM ims_sale_team WHERE 1 =1 ORDER BY id ";
+                                    $query2 = $conn->prepare($sql2);
+                                    $query2->execute();
+                                    $results2 = $query2->fetchAll(PDO::FETCH_OBJ);
+                                    if ($query2->rowCount() > 0) {
+                                        foreach ($results2 as $result2) { ?>
+                                            <option value="<?php echo htmlentities($result2->sale_name); ?>"><?php echo htmlentities($result2->sale_name); ?></option>
+                                        <?php }
+                                    } ?>
+                                </select>
+                            </div>
                     </div>
                     <div class="mb-3">
                         <label>สถานะอนุมัติ</label>

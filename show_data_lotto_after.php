@@ -8,13 +8,18 @@ $stmt->bindParam(':id', $id);
 $stmt->execute();
 $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// แยกรูปภาพ
-$images = explode(',', $data['lotto_file']);
-$images1 = explode(',', $data['lotto_file1']);
-$images2 = explode(',', $data['lotto_file2']);
-$images3 = explode(',', $data['lotto_file3']);
-$images4 = explode(',', $data['lotto_file4']);
-$images5 = explode(',', $data['lotto_file5']);
+// ฟังก์ชันแยกรูปภาพและกรองค่า null หรือค่าว่าง
+function getImages($imageString) {
+    return array_filter(array_map('trim', explode(',', $imageString ?? '')));
+}
+
+// แยกรูปภาพเฉพาะที่มีข้อมูล
+$images = getImages($data['lotto_file']);
+$images1 = getImages($data['lotto_file1']);
+$images2 = getImages($data['lotto_file2']);
+$images3 = getImages($data['lotto_file3']);
+$images4 = getImages($data['lotto_file4']);
+$images5 = getImages($data['lotto_file5']);
 
 ?>
 
@@ -48,98 +53,37 @@ $images5 = explode(',', $data['lotto_file5']);
                 <strong>🎟️ หมายเลข:</strong> <?= htmlspecialchars($data['lotto_number']) ?>
             </div>
 
-            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก</h5>
-            <div class="row text-center">
-                <?php foreach ($images as $image): ?>
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <img src="uploads/<?= htmlspecialchars(trim($image)) ?>" class="card-img-top img-fluid"
-                                 alt="รูปภาพ">
-                        </div>
+            <?php
+            // ฟังก์ชันแสดงรูปภาพ
+            function displayImages($images, $title) {
+                if (!empty($images)) { ?>
+                    <h5 class="text-center mb-3"><?= $title ?></h5>
+                    <div class="row text-center">
+                        <?php foreach ($images as $image): ?>
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <img src="uploads/<?= htmlspecialchars($image) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
-                <?php endforeach; ?>
-            </div>
+                <?php }
+            }
 
-            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก</h5>
-            <div class="row text-center">
-                <?php foreach ($images as $image): ?>
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <img src="uploads/<?= htmlspecialchars(trim($image)) ?>" class="card-img-top img-fluid"
-                                 alt="รูปภาพ">
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-
-            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก</h5>
-            <div class="row text-center">
-                <?php foreach ($images1 as $image1): ?>
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <img src="uploads/<?= htmlspecialchars(trim($image1)) ?>" class="card-img-top img-fluid"
-                                 alt="รูปภาพ">
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-
-            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก</h5>
-            <div class="row text-center">
-                <?php foreach ($images3 as $image3): ?>
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <img src="uploads/<?= htmlspecialchars(trim($image3)) ?>" class="card-img-top img-fluid"
-                                 alt="รูปภาพ">
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-
-            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก</h5>
-            <div class="row text-center">
-                <?php foreach ($images4 as $image4): ?>
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <img src="uploads/<?= htmlspecialchars(trim($image4)) ?>" class="card-img-top img-fluid"
-                                 alt="รูปภาพ">
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-
-            <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก</h5>
-            <div class="row text-center">
-                <?php foreach ($images5 as $image5): ?>
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <img src="uploads/<?= htmlspecialchars(trim($image5)) ?>" class="card-img-top img-fluid"
-                                 alt="รูปภาพ">
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-
-            <h5 class="text-center mb-3">🖼️ รูปภาพเลขหลังป้ายไวนิลที่บันทึก</h5>
-            <div class="row text-center">
-                <?php foreach ($images2 as $image2): ?>
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <img src="uploads/<?= htmlspecialchars(trim($image2)) ?>" class="card-img-top img-fluid"
-                                 alt="รูปภาพ">
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+            // แสดงผลเฉพาะรายการที่มีรูปภาพ
+            displayImages($images, "🖼️ รูปภาพป้ายไวนิลที่บันทึก");
+            displayImages($images1, "🖼️ รูปภาพเพิ่มเติม");
+            displayImages($images2, "🖼️ รูปภาพเลขหลังป้ายไวนิล");
+            displayImages($images3, "🖼️ รูปภาพเพิ่มเติม");
+            displayImages($images4, "🖼️ รูปภาพเพิ่มเติม");
+            displayImages($images5, "🖼️ รูปภาพเพิ่มเติม");
+            ?>
 
             <div class="col-md-12">
                 <div class="form-group">
-                    <button type="button" name="closetBtn" id="closetBtn" tabindex="4"
-                            class="form-control btn btn-danger">
-                                            <span>
-                                                <i class="fa fa-close" aria-hidden="true"></i>
-                                                ปิด
-                                            </span>
+                    <button type="button" name="closetBtn" id="closetBtn" class="form-control btn btn-danger">
+                        <i class="fa fa-close" aria-hidden="true"></i> ปิด
+                    </button>
                 </div>
             </div>
 
