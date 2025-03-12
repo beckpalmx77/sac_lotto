@@ -146,8 +146,22 @@ require_once 'config/connect_lotto_db.php';
                         <input type="text" class="form-control" id="lotto_phone" name="phone" required>
                     </div>
                     <div class="mb-3">
-                        <label>จังหวัด</label>
-                        <input type="text" class="form-control" id="lotto_province" name="province" required>
+                            <label class="control-label" for="lotto_province">จังหวัด</label>
+                            <select id="lotto_province" name="lotto_province" required="true"
+                                    class="form-control" data-live-search="true"
+                                    title="Please select">
+                                <option value="" selected></option>
+                                <?php
+                                $sql1 = "SELECT * FROM ims_provinces WHERE 1 =1";
+                                $query1 = $conn->prepare($sql1);
+                                $query1->execute();
+                                $results1 = $query1->fetchAll(PDO::FETCH_OBJ);
+                                if ($query1->rowCount() > 0) {
+                                    foreach ($results1 as $result1) { ?>
+                                        <option value="<?php echo htmlentities($result1->province_name); ?>"><?php echo htmlentities($result1->province_name); ?></option>
+                                    <?php }
+                                } ?>
+                            </select>
                     </div>
                     <div class="mb-3">
                         <label for="lotto_number" class="control-label">หมายเลขที่เลือก
