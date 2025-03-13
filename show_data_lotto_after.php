@@ -57,8 +57,8 @@ $images5 = getImages($data['lotto_file5']);
             // ฟังก์ชันแสดงรูปภาพ
             function displayImages($images, $title) {
                 if (!empty($images)) { ?>
-                    <h5 class="text-center mb-3"><?= $title ?></h5>
-                    <div class="row text-center">
+                    <h5 class="text-left mb-3"><?= $title ?></h5>
+                    <div class="row text-left">
                         <?php foreach ($images as $image): ?>
                             <div class="col-md-4 mb-3">
                                 <div class="card">

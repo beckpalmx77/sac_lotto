@@ -56,7 +56,7 @@ $images = [
             function renderImages($title, $images)
             {
                 if (!empty($images)) {
-                    echo "<h5 class='text-center mb-3'>$title</h5><div class='row text-center'>";
+                    echo "<h5 class='text-left mb-3'>$title</h5><div class='row text-left'>";
                     foreach ($images as $image) {
                         echo "<div class='col-md-4 mb-3'>
                                 <div class='card'>
