@@ -41,7 +41,7 @@ $stmt->execute();
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
-    <title>SAC LOTTO LIST</title>
+    <title>SAC LOTTO</title>
 </head>
 <body>
 <div class="container">
@@ -58,7 +58,7 @@ $stmt->execute();
             <?php
 
             if ($stmt->rowCount() > 0) {
-                echo "<table id='winnersTable' class='display' style='width: 100%; border-collapse: collapse; margin-top: 10px;'>";
+                echo "<table id='winnersTable' class='table table-striped table-hover table-responsive table-bordered' style='width: 100%; margin-top: 10px;'>";
                 echo "<thead><tr>
                 <th style='border: 1px solid #ddd; padding: 8px;'>ลำดับ</th>
                 <th style='border: 1px solid #ddd; padding: 8px;'>ผู้ถูกรางวัล</th>
