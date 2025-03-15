@@ -68,7 +68,7 @@ $stmt->execute();
                 <th style='border: 1px solid #ddd; padding: 8px;'>ชื่อ Sale</th>
                 <th style='border: 1px solid #ddd; padding: 8px;'>รางวัลที่ถูกรางวัล</th>
                 <th style='border: 1px solid #ddd; padding: 8px;'>หมายเลขที่ออก</th>
-                <th style='border: 1px solid #ddd; padding: 8px;'>รางวัลเงินสด</th>
+                <th style='border: 1px solid #ddd; padding: 8px;'>รางวัล</th>
                 <th style='border: 1px solid #ddd; padding: 8px;'>งวดที่</th>
               </tr></thead>";
                 echo "<tbody>";
