@@ -48,13 +48,11 @@ $stmt->execute();
     <div class="row">
         <div class="col-xl-12"><br>
             <div><img src="img/logo/logo text-01.png" width="200" height="79"/></div>
-            <h6 style="color: blue"><b>ข้อมูลรางวัล SAC LOTTO</b></h6>
-            <div class="col-md-12">
-                <button type="button" id="closeBtn" class="btn btn-danger"><i class="fa fa-times-circle"
-                                                                              aria-hidden="true"></i> ปิด
-                </button>
-            </div>
-
+            <h6 style="color: blue; display: inline-block; margin-right: 10px;"><b>ข้อมูลรางวัล SAC LOTTO</b></h6>
+            <button type="button" id="closeBtn" class="btn btn-danger d-inline-block"><i class="fa fa-times-circle"
+                                                                                         aria-hidden="true"></i> ปิด
+            </button>
+            <br>
             <?php
 
             if ($stmt->rowCount() > 0) {
@@ -78,11 +76,11 @@ $stmt->execute();
 
                     // ค้นหาผู้ถูกรางวัล
                     $sql_lotto = "SELECT * FROM ims_lotto WHERE lotto_number = :search_number AND id = :id ";
-/*
-                    $my_file = fopen("sql_getdata.txt", "w") or die("Unable to open file!");
-                    fwrite($my_file, " sql_lotto = " . $sql_lotto . " lotto_number = " . $lotto_number . " id = " . $id);
-                    fclose($my_file);
-*/
+                    /*
+                                        $my_file = fopen("sql_getdata.txt", "w") or die("Unable to open file!");
+                                        fwrite($my_file, " sql_lotto = " . $sql_lotto . " lotto_number = " . $lotto_number . " id = " . $id);
+                                        fclose($my_file);
+                    */
                     $stmt_lotto = $conn->prepare($sql_lotto);
                     $stmt_lotto->bindParam(':search_number', $lotto_number, PDO::PARAM_STR);
                     $stmt_lotto->bindParam(':id', $id, PDO::PARAM_STR);
@@ -120,12 +118,41 @@ $stmt->execute();
 
 <script>
     $(document).ready(function () {
+        // Initialize DataTable
+        $('#winnersTable').DataTable({
+            "language": {
+                "lengthMenu": "แสดง _MENU_ รายการ",
+                "zeroRecords": "ไม่พบข้อมูล",
+                "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+                "infoEmpty": "แสดง 0 ถึง 0 จาก 0 รายการ",
+                "infoFiltered": "(จากทั้งหมด _MAX_ รายการ)",
+                "search": "ค้นหา:",
+                "paginate": {
+                    "first": "แรก",
+                    "last": "สุดท้าย",
+                    "next": "ถัดไป",
+                    "previous": "ก่อนหน้า"
+                }
+            }
+        });
+
+        // Close button functionality
+        $('#closeBtn').click(function (event) {
+            event.preventDefault();
+            close();
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
         $('#closeBtn').click(function (event) {
             event.preventDefault(); // ป้องกันการโหลดหน้าใหม่โดยตรงจาก `<a>`
             close();
         });
     });
 </script>
+
 
 </body>
 </html>

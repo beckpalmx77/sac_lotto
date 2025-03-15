@@ -244,8 +244,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <script>
     $(document).ready(function () {
-        $('#DataTable').DataTable();
-
         $("#resetBtn").click(function () {
             window.location.href = window.location.pathname;
         });
@@ -304,6 +302,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
     });
 
+</script>
+
+<script>
+    $(document).ready(function () {
+        // Initialize DataTable
+        $('#DataTable').DataTable({
+            "language": {
+                "lengthMenu": "แสดง _MENU_ รายการ",
+                "zeroRecords": "ไม่พบข้อมูล",
+                "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+                "infoEmpty": "แสดง 0 ถึง 0 จาก 0 รายการ",
+                "infoFiltered": "(จากทั้งหมด _MAX_ รายการ)",
+                "search": "ค้นหา:",
+                "paginate": {
+                    "first": "แรก",
+                    "last": "สุดท้าย",
+                    "next": "ถัดไป",
+                    "previous": "ก่อนหน้า"
+                }
+            }
+        });
+
+    });
 </script>
 
 </body>
