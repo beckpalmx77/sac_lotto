@@ -167,13 +167,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <td style="text-align: center;">
                                 <a href="javascript:void(0);" class="btn btn-primary btn-sm"
                                    onclick="openLottoData('<?= $rows['id']; ?>')">
-                                    ดูข้อมูล
+                                    Click
                                 </a>
                             </td>
                             <td style="text-align: center;">
                                 <a href="javascript:void(0);" class="btn btn-success btn-sm"
                                    onclick="openLottoResult('<?= $rows['id']; ?>', '<?= $rows['lotto_name']; ?>', '<?= $rows['lotto_phone']; ?>', '<?= $rows['lotto_number']; ?>')">
-                                    ตรวจรางวัล
+                                    Click
                                 </a>
                             </td>
                         </tr>
