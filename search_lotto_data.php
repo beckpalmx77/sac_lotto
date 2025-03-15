@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="row">
         <div class="col-md-12"><br>
             <div><img src="img/logo/logo text-01.png" width="200" height="79"/></div>
-            <h6 style="color: blue"><b>ค้นหาข้อมูลการลงทะเบียน SAC LOTTO</b></h6>
+            <h6 style="color: blue"><b>ค้นหาข้อมูลการลงทะเบียน และ ตรวจสอบการได้รางวัล SAC LOTTO</b></h6>
 
             <!-- ฟอร์มสำหรับกรองข้อมูล -->
             <form method="POST" action="">
@@ -100,6 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <th width="15%">รูปภาพป้ายไวนิล 2</th>
                         <th width="15%">รูปภาพเลขหลังป้ายไวนิล</th-->
                         <th width="15%">ดูข้อมูล</th>
+                        <th width="15%">ตรวจรางวัล</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -113,7 +114,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <td><?= $rows['lotto_name']; ?></td>
                             <td><?= $rows['lotto_phone']; ?></td>
                             <td><?= $rows['lotto_province']; ?></td>
-                            <td><?= $rows['lotto_number']; ?></td>
+                            <td style="text-align: center;">
+                                <a href="javascript:void(0);" class="btn btn-info btn-sm"
+                                   onclick="openLottoResult('<?= $rows['id']; ?>', '<?= $rows['lotto_name']; ?>', '<?= $rows['lotto_phone']; ?>', '<?= $rows['lotto_number']; ?>')">
+                                    <?= $rows['lotto_number']; ?>
+                                </a>
+                            </td>
                             <td><?= $rows['sale_name']; ?></td>
                             <td style="color: <?= $rows['approve_status'] == 'Y' ? 'green' : ($rows['approve_status'] == 'N' ? 'gray' : 'black'); ?>; text-align: center;">
                                 <?= $rows['approve_status'] == 'Y' ? 'อนุมัติ' : ($rows['approve_status'] == 'N' ? 'ยังไม่อนุมัติ' : ''); ?>
@@ -162,6 +168,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <a href="javascript:void(0);" class="btn btn-primary btn-sm"
                                    onclick="openLottoData('<?= $rows['id']; ?>')">
                                     ดูข้อมูล
+                                </a>
+                            </td>
+                            <td style="text-align: center;">
+                                <a href="javascript:void(0);" class="btn btn-success btn-sm"
+                                   onclick="openLottoResult('<?= $rows['id']; ?>', '<?= $rows['lotto_name']; ?>', '<?= $rows['lotto_phone']; ?>', '<?= $rows['lotto_number']; ?>')">
+                                    ตรวจรางวัล
                                 </a>
                             </td>
                         </tr>
@@ -256,6 +268,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script>
     function openLottoData(id) {
         window.open(`show_data_lotto?id=${id}`);
+    }
+</script>
+
+<script>
+    function openLottoResult(id, lotto_name, phone, lotto_number ) {
+        // ส่งค่าหลายค่าไปยัง URL
+        window.open(`show_data_lotto_prize_result?id=${id}&lotto_name=${lotto_name}&phone=${phone}&lotto_number=${lotto_number}`);
     }
 </script>
 
