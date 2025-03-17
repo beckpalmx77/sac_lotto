@@ -25,8 +25,8 @@ require_once 'config/connect_lotto_db.php';
         <div class="col-md-12"><br>
             <div><img src="img/logo/logo text-01.png" width="200" height="79"/></div>
             <h6 class="text-primary"><b>SAC LOTTO LIST</b></h6>
-            <button type="button" id="backBtn" class="btn btn-danger mb-3"><i class="fa fa-reply"></i> กลับหน้าแรก</button>
-
+            <button type="button" id="backBtn" class="btn btn-danger mb-3"><i class="fa fa-reply"></i> กลับหน้าแรก
+            </button>
             <table id="DataTable" class="table table-striped table-hover table-bordered">
                 <thead>
                 <tr>
@@ -38,9 +38,6 @@ require_once 'config/connect_lotto_db.php';
                     <th>Sale</th>
                     <th>อนุมัติ</th>
                     <th>วันที่บันทึก</th>
-                    <!--th>รูปป้ายไวนิล 1</th>
-                    <th>รูปป้ายไวนิล 2</th>
-                    <th>รูปเลขหลังป้าย</th-->
                     <th>Action</th>
                     <th>Action</th>
                 </tr>
@@ -65,48 +62,15 @@ require_once 'config/connect_lotto_db.php';
                             <?= $rows['approve_status'] == 'Y' ? 'อนุมัติ' : 'ยังไม่อนุมัติ'; ?>
                         </td>
                         <td><?= htmlspecialchars($rows['create_date']); ?></td>
-
-                        <!--td>
-                            <?php
-                            if (!empty($rows['lotto_file'])) {
-                                foreach (explode(",", $rows['lotto_file']) as $index => $file) {
-                                    $filePath = 'uploads/' . htmlspecialchars($file);
-                                    echo "<a href='javascript:void(0);' class='open-popup' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
-                                }
-                            } else {
-                                echo "ไม่มีรูป";
-                            }
-                            ?>
+                        <td>
+                            <button type="button" class="btn btn-success text-white"
+                                    onclick="openLottoCheck(<?= $rows['id']; ?>)">Check
+                            </button>
                         </td>
                         <td>
-                            <?php
-                            if (!empty($rows['lotto_file1'])) {
-                                foreach (explode(",", $rows['lotto_file1']) as $index => $file) {
-                                    $filePath = 'uploads/' . htmlspecialchars($file);
-                                    echo "<a href='javascript:void(0);' class='open-popup' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
-                                }
-                            } else {
-                                echo "ไม่มีรูป";
-                            }
-                            ?>
-                        </td>
-                        <td>
-                            <?php
-                            if (!empty($rows['lotto_file2'])) {
-                                foreach (explode(",", $rows['lotto_file2']) as $index => $file) {
-                                    $filePath = 'uploads/' . htmlspecialchars($file);
-                                    echo "<a href='javascript:void(0);' class='open-popup' data-img='$filePath'>รูปที่ " . ($index + 1) . "</a><br>";
-                                }
-                            } else {
-                                echo "ไม่มีรูป";
-                            }
-                            ?>
-                        </td-->
-                        <td>
-                            <button type="button" class="btn btn-success text-white" onclick="openLottoCheck(<?= $rows['id']; ?>)">Check</button>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-info text-white" onclick="openUpdateModal(<?= $rows['id']; ?>)">Update</button>
+                            <button type="button" class="btn btn-info text-white"
+                                    onclick="openUpdateModal(<?= $rows['id']; ?>)">Update
+                            </button>
                         </td>
                     </tr>
                 <?php } ?>
@@ -146,22 +110,22 @@ require_once 'config/connect_lotto_db.php';
                         <input type="text" class="form-control" id="lotto_phone" name="phone" required>
                     </div>
                     <div class="mb-3">
-                            <label class="control-label" for="lotto_province">จังหวัด</label>
-                            <select id="lotto_province" name="lotto_province" required="true"
-                                    class="form-control" data-live-search="true"
-                                    title="Please select">
-                                <option value="" selected></option>
-                                <?php
-                                $sql1 = "SELECT * FROM ims_provinces WHERE 1 =1";
-                                $query1 = $conn->prepare($sql1);
-                                $query1->execute();
-                                $results1 = $query1->fetchAll(PDO::FETCH_OBJ);
-                                if ($query1->rowCount() > 0) {
-                                    foreach ($results1 as $result1) { ?>
-                                        <option value="<?php echo htmlentities($result1->province_name); ?>"><?php echo htmlentities($result1->province_name); ?></option>
-                                    <?php }
-                                } ?>
-                            </select>
+                        <label class="control-label" for="lotto_province">จังหวัด</label>
+                        <select id="lotto_province" name="lotto_province" required="true"
+                                class="form-control" data-live-search="true"
+                                title="Please select">
+                            <option value="" selected></option>
+                            <?php
+                            $sql1 = "SELECT * FROM ims_provinces WHERE 1 =1";
+                            $query1 = $conn->prepare($sql1);
+                            $query1->execute();
+                            $results1 = $query1->fetchAll(PDO::FETCH_OBJ);
+                            if ($query1->rowCount() > 0) {
+                                foreach ($results1 as $result1) { ?>
+                                    <option value="<?php echo htmlentities($result1->province_name); ?>"><?php echo htmlentities($result1->province_name); ?></option>
+                                <?php }
+                            } ?>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="lotto_number" class="control-label">หมายเลขที่เลือก
@@ -173,24 +137,24 @@ require_once 'config/connect_lotto_db.php';
                                placeholder="">
                     </div>
                     <div class="mb-3">
-                            <div class="form-group">
-                                <label class="control-label" for="sale_name">ชื่อ Sale</label>
-                                <select id="sale_name" name="sale_name" required="true"
-                                        class="form-control" data-live-search="true"
-                                        title="Please select">
-                                    <option value="" selected></option>
-                                    <?php
-                                    $sql2 = "SELECT * FROM ims_sale_team WHERE 1 =1 ORDER BY id ";
-                                    $query2 = $conn->prepare($sql2);
-                                    $query2->execute();
-                                    $results2 = $query2->fetchAll(PDO::FETCH_OBJ);
-                                    if ($query2->rowCount() > 0) {
-                                        foreach ($results2 as $result2) { ?>
-                                            <option value="<?php echo htmlentities($result2->sale_name); ?>"><?php echo htmlentities($result2->sale_name); ?></option>
-                                        <?php }
-                                    } ?>
-                                </select>
-                            </div>
+                        <div class="form-group">
+                            <label class="control-label" for="sale_name">ชื่อ Sale</label>
+                            <select id="sale_name" name="sale_name" required="true"
+                                    class="form-control" data-live-search="true"
+                                    title="Please select">
+                                <option value="" selected></option>
+                                <?php
+                                $sql2 = "SELECT * FROM ims_sale_team WHERE 1 =1 ORDER BY id ";
+                                $query2 = $conn->prepare($sql2);
+                                $query2->execute();
+                                $results2 = $query2->fetchAll(PDO::FETCH_OBJ);
+                                if ($query2->rowCount() > 0) {
+                                    foreach ($results2 as $result2) { ?>
+                                        <option value="<?php echo htmlentities($result2->sale_name); ?>"><?php echo htmlentities($result2->sale_name); ?></option>
+                                    <?php }
+                                } ?>
+                            </select>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label>สถานะอนุมัติ</label>
@@ -381,10 +345,6 @@ require_once 'config/connect_lotto_db.php';
                 }
             }
         });
-
-        $('#backBtn').click(function () {
-            window.location.href = "sac_lotto";
-        });
     });
 </script>
 
@@ -555,25 +515,6 @@ require_once 'config/connect_lotto_db.php';
     });
 </script>
 
-<!--script>
-    $(document).ready(function () {
-        $(".open-popup").click(function () {
-            let imgSrc = $(this).attr("data-img");
-            $("#popupImage").attr("src", imgSrc);
-            $("#imagePopup").fadeIn();
-        });
-
-        $(".close-popup, #imagePopup").click(function () {
-            $("#imagePopup").fadeOut();
-        });
-
-        $(".popup-content").click(function (event) {
-            event.stopPropagation();
-        });
-    });
-
-</script-->
-
 <script>
     $(document).ready(function () {
         // ใช้ event delegation เพื่อให้ทำงานแม้ element ถูกโหลดทีหลัง
@@ -601,8 +542,8 @@ require_once 'config/connect_lotto_db.php';
 </script>
 
 <script>
-    $(document).ready(function(){
-        $('#closetBtn').click(function(){
+    $(document).ready(function () {
+        $('#closetBtn').click(function () {
             $('#updateModal').modal('hide');
         });
     });
@@ -614,8 +555,12 @@ require_once 'config/connect_lotto_db.php';
     }
 </script>
 
+<script>
+    $('#backBtn').click(function () {
+        window.location.href = "sac_lotto";
+    });
+</script>
+
 
 </body>
 </html>
-
-
