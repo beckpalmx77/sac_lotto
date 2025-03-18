@@ -20,6 +20,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap/scss" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/calendar/locales" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/convertapi/convertapi-php" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/datatables/v11" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/date-picker-1.9/css" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/date-picker-1.9/js" />

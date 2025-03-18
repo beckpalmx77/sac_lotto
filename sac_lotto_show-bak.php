@@ -404,7 +404,6 @@ require_once 'config/connect_lotto_db.php';
                 $('#lotto_number').val(data.lotto_number);
                 $('#sale_name').val(data.sale_name);
                 $('#approve_status').val(data.approve_status);
-                $('#remark').val(data.remark);
 
                 $('#text_lotto_file_input').val(data.lotto_file);
                 $('#text_lotto_file1_input').val(data.lotto_file1);

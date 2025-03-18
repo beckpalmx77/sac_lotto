@@ -5,6 +5,7 @@
         "phpoffice/phpspreadsheet": "^4.1",
         "tecnickcom/tcpdf": "^6.8",
         "mpdf/mpdf": "^8.2",
-        "phpoffice/phpexcel": "^1.8"
+        "phpoffice/phpexcel": "^1.8",
+        "convertapi/convertapi-php": "^3.0"
     }
 }

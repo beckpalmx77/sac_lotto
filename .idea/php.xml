@@ -79,6 +79,7 @@
       <path value="$PROJECT_DIR$/vendor/geoip2/geoip2" />
       <path value="$PROJECT_DIR$/vendor/jquery/53" />
       <path value="$PROJECT_DIR$/vendor/phpoffice/phpexcel" />
+      <path value="$PROJECT_DIR$/vendor/convertapi/convertapi-php" />
     </include_path>
   </component>
   <component name="PhpProjectServersManager">
