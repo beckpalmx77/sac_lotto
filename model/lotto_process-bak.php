@@ -4,6 +4,41 @@ include('../config/connect_lotto_db.php');
 
 $table_name = $_POST["table_name"];
 
+if ($_POST["action"] === 'GET_DATA') {
+    $id = $_POST["id"];
+    $sql_get = "SELECT * FROM ims_lotto WHERE id = :id";
+    $statement = $conn->prepare($sql_get);
+    $statement->bindParam(':id', $id, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        $return_arr = array(
+            "id" => $result['id'],
+            "lotto_name" => $result['lotto_name'],
+            "lotto_phone" => $result['lotto_phone'],
+            "lotto_province" => $result['lotto_province'],
+            "lotto_number" => $result['lotto_number'],
+            "sale_name" => $result['sale_name'],
+            "lotto_file" => $result['lotto_file'],
+            "lotto_file1" => $result['lotto_file1'],
+            "lotto_file2" => $result['lotto_file2'],
+            "lotto_file3" => $result['lotto_file3'],
+            "lotto_file4" => $result['lotto_file4'],
+            "lotto_file5" => $result['lotto_file5'],
+            "lotto_file6" => $result['lotto_file6'],
+            "lotto_file7" => $result['lotto_file7'],
+            "lotto_file8" => $result['lotto_file8'],
+            "remark" => $result['remark'],
+            "approve_status" => $result['approve_status']
+        );
+        echo json_encode($return_arr);
+    } else {
+        echo json_encode(["error" => "ไม่พบข้อมูล"]);
+    }
+}
+
+
 if ($_POST["action"] === 'CHECK_NUMBER_DATA') {
     $cond = $_POST["cond"];
     $return_arr = array();
@@ -15,144 +50,557 @@ if ($_POST["action"] === 'CHECK_NUMBER_DATA') {
         $record = $result['record_counts'];
     }
 
-    /*
-        $my_file = fopen("sql_getdata.txt", "w") or die("Unable to open file!");
-        fwrite($my_file, " sql_get = " . $sql_get . " Count = " . $record);
-        fclose($my_file);
-    */
-
     echo $record;
-
 }
 
+/*
 if ($_POST["action"] === 'SAVE_DATA') {
-
-    $ins = 3;
+    $ins = 0; // กำหนดค่าเริ่มต้นเป็น 0
     $sql = "";
     $lotto_name = $_POST["lotto_name"];
-    //$lotto_phone = $_POST["lotto_phone"];
     $lotto_phone = str_replace("-", "", $_POST["lotto_phone"]);
     $lotto_province = $_POST["lotto_province"];
     $sale_name = $_POST["sale_name"];
+    $remark = $_POST["remark"]===null||$_POST["remark"]===""?"-":$_POST["remark"];
 
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-        //ip from share internet
-        $client_ip_address = $_SERVER['HTTP_CLIENT_IP'];
-    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        //ip pass from proxy
-        $client_ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    // ตรวจสอบว่ามีไฟล์ถูกอัปโหลดหรือไม่
+    if (!empty($_FILES['lotto_file']['name'][0])) {
+        $upload_dir = "../uploads/";
+        $lotto_files = [];
+
+        for ($i = 0; $i < count($_FILES['lotto_file']['name']); $i++) {
+            $file_extension = pathinfo($_FILES["lotto_file"]["name"][$i], PATHINFO_EXTENSION);
+            $unique_id = uniqid("file_", true);
+            $file_name = $unique_id . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+
+            if (move_uploaded_file($_FILES["lotto_file"]["tmp_name"][$i], $file_path)) {
+                $lotto_files[] = $file_name;
+            } else {
+                echo 0; // ถ้าอัปโหลดไม่สำเร็จให้ return 0
+                exit();
+            }
+        }
+
+        $lotto_files_str = implode(",", $lotto_files);
     } else {
-        $client_ip_address = $_SERVER['REMOTE_ADDR'];
+        $lotto_files_str = NULL;
     }
 
-    //$lotto_number = $_POST["lotto_number"];
+    if (!empty($_FILES['lotto_file1']['name'][0])) {
+        $lotto_files1 = [];
 
+        for ($i = 0; $i < count($_FILES['lotto_file1']['name']); $i++) {
+            $file_extension = pathinfo($_FILES["lotto_file1"]["name"][$i], PATHINFO_EXTENSION);
+            $unique_id = uniqid("file_", true);
+            $file_name = $unique_id . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+
+            if (move_uploaded_file($_FILES["lotto_file1"]["tmp_name"][$i], $file_path)) {
+                $lotto_files1[] = $file_name;
+            } else {
+                echo 0;
+                exit();
+            }
+        }
+
+        $lotto_files1_str = implode(",", $lotto_files1);
+    } else {
+        $lotto_files1_str = NULL;
+    }
+
+    if (!empty($_FILES['lotto_file2']['name'][0])) {
+        $lotto_files2 = [];
+
+        for ($i = 0; $i < count($_FILES['lotto_file2']['name']); $i++) {
+            $file_extension = pathinfo($_FILES["lotto_file2"]["name"][$i], PATHINFO_EXTENSION);
+            $unique_id = uniqid("file_", true);
+            $file_name = $unique_id . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+
+            if (move_uploaded_file($_FILES["lotto_file2"]["tmp_name"][$i], $file_path)) {
+                $lotto_files2[] = $file_name;
+            } else {
+                echo 0;
+                exit();
+            }
+        }
+
+        $lotto_files2_str = implode(",", $lotto_files2);
+    } else {
+        $lotto_files2_str = NULL;
+    }
+
+    if (!empty($_FILES['lotto_file3']['name'][0])) {
+        $lotto_files3 = [];
+
+        for ($i = 0; $i < count($_FILES['lotto_file3']['name']); $i++) {
+            $file_extension = pathinfo($_FILES["lotto_file3"]["name"][$i], PATHINFO_EXTENSION);
+            $unique_id = uniqid("file_", true);
+            $file_name = $unique_id . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+
+            if (move_uploaded_file($_FILES["lotto_file3"]["tmp_name"][$i], $file_path)) {
+                $lotto_files3[] = $file_name;
+            } else {
+                echo 0;
+                exit();
+            }
+        }
+
+        $lotto_files3_str = implode(",", $lotto_files3);
+    } else {
+        $lotto_files3_str = NULL;
+    }
+
+    if (!empty($_FILES['lotto_file4']['name'][0])) {
+        $lotto_files4 = [];
+
+        for ($i = 0; $i < count($_FILES['lotto_file4']['name']); $i++) {
+            $file_extension = pathinfo($_FILES["lotto_file4"]["name"][$i], PATHINFO_EXTENSION);
+            $unique_id = uniqid("file_", true);
+            $file_name = $unique_id . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+
+            if (move_uploaded_file($_FILES["lotto_file4"]["tmp_name"][$i], $file_path)) {
+                $lotto_files4[] = $file_name;
+            } else {
+                echo 0;
+                exit();
+            }
+        }
+
+        $lotto_files4_str = implode(",", $lotto_files4);
+    } else {
+        $lotto_files4_str = NULL;
+    }
+
+    if (!empty($_FILES['lotto_file5']['name'][0])) {
+        $lotto_files5 = [];
+
+        for ($i = 0; $i < count($_FILES['lotto_file5']['name']); $i++) {
+            $file_extension = pathinfo($_FILES["lotto_file5"]["name"][$i], PATHINFO_EXTENSION);
+            $unique_id = uniqid("file_", true);
+            $file_name = $unique_id . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+
+            if (move_uploaded_file($_FILES["lotto_file5"]["tmp_name"][$i], $file_path)) {
+                $lotto_files5[] = $file_name;
+            } else {
+                echo 0;
+                exit();
+            }
+        }
+
+        $lotto_files5_str = implode(",", $lotto_files5);
+    } else {
+        $lotto_files5_str = NULL;
+    }
+
+    // รับ IP ของผู้ใช้
+    //$client_ip_address = $_SERVER['HTTP_CLIENT_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
+
+    $client_ip_address = "-";
+
+    // รับ lotto_number และปรับรูปแบบ
     $lotto_number = sprintf("%03d", $_POST["lotto_number"]);
 
-    $cond = " WHERE lotto_name = '" . $lotto_name . "'" . " OR lotto_phone = '" . $lotto_phone . "' OR lotto_number = '" . $lotto_number . "' ";
+    // ตรวจสอบข้อมูลซ้ำ
+    $cond = " WHERE lotto_name = :lotto_name OR lotto_phone = :lotto_phone";
+    $sql_get = "SELECT COUNT(*) as record_counts FROM " . $table_name . $cond;
 
-    $data = $lotto_name . " | " . $lotto_phone . " | " . $lotto_province . " | " . $lotto_number . " | " . $client_ip_address;
-
-    $return_arr = array();
-    $sql_get = "SELECT count(*) as record_counts  FROM " . $table_name . $cond;
-
-    $statement = $conn->query($sql_get);
-    $results = $statement->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($results as $result) {
-        $record = $result['record_counts'];
-    }
+    $statement = $conn->prepare($sql_get);
+    $statement->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
+    $statement->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    $record = $result['record_counts'];
 
     if ($record <= 0) {
-
-        $sql = "INSERT INTO ims_lotto(lotto_name,lotto_phone,lotto_province,lotto_number,sale_name,client_ip_address)
-            VALUES (:lotto_name,:lotto_phone,:lotto_province,:lotto_number,:sale_name,:client_ip_address)";
-        $query = $conn->prepare($sql);
-        $query->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
-        $query->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
-        $query->bindParam(':lotto_province', $lotto_province, PDO::PARAM_STR);
-        $query->bindParam(':lotto_number', $lotto_number, PDO::PARAM_STR);
-        $query->bindParam(':sale_name', $sale_name, PDO::PARAM_STR);
-        $query->bindParam(':client_ip_address', $client_ip_address, PDO::PARAM_STR);
-        $query->execute();
-
-        $lastInsertId = $conn->lastInsertId();
-        if ($lastInsertId) {
-            $reserve_status = 'Y';
-            $sql_update = "UPDATE ims_number_reserve SET reserve_status=:reserve_status            
-            WHERE lotto_number = :lotto_number";
-            $query = $conn->prepare($sql_update);
-            $query->bindParam(':reserve_status', $reserve_status, PDO::PARAM_STR);
+        // Insert ข้อมูลใหม่
+        try {
+            $sql = "INSERT INTO ims_lotto(lotto_name, lotto_phone, lotto_province, lotto_number, sale_name, client_ip_address, lotto_file, lotto_file1, lotto_file2
+                    , lotto_file3, lotto_file4, lotto_file5,remark)
+                    VALUES (:lotto_name, :lotto_phone, :lotto_province, :lotto_number, :sale_name, :client_ip_address, :lotto_file, :lotto_file1, :lotto_file2
+                    , :lotto_file3, :lotto_file4, :lotto_file5, :remark)";
+            $query = $conn->prepare($sql);
+            $query->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
+            $query->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
+            $query->bindParam(':lotto_province', $lotto_province, PDO::PARAM_STR);
             $query->bindParam(':lotto_number', $lotto_number, PDO::PARAM_STR);
-            $query->execute();
-            $ins = 1;
-        } else {
-            $ins = 3;
-        }
-    } else {
-        $ins = 2;
-    }
+            $query->bindParam(':sale_name', $sale_name, PDO::PARAM_STR);
+            $query->bindParam(':client_ip_address', $client_ip_address, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file', $lotto_files_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file1', $lotto_files1_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file2', $lotto_files2_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file3', $lotto_files3_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file4', $lotto_files4_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file5', $lotto_files5_str, PDO::PARAM_STR);
+            $query->bindParam(':remark', $remark, PDO::PARAM_STR);
 
-    //$my_file = fopen("sql_getdata1.txt", "w") or die("Unable to open file!");
-    //fwrite($my_file, " record = " . $record . " : " . $sql . " : ins = " . $ins);
-    //fclose($my_file);
+            if ($query->execute()) {
+                $lastInsertId = $conn->lastInsertId();
+                $ins = 1; // INSERT สำเร็จ
+            }
+        } catch (Exception $e) {
+            echo 0;
+            exit();
+        }
+    }
 
     if ($record <= 0 && $ins == 1) {
-        echo 1;
+        echo $lastInsertId; // สำเร็จ
     } else {
-        echo 3;
+        echo 0; // ล้มเหลว
     }
-
 }
 
-if ($_POST["action"] === 'DELETE1') {
-    $lotto_number = $_POST["id"];
-    $sql_find = "SELECT * FROM ims_lotto WHERE lotto_number = " . $lotto_number;
-
-    $my_file = fopen("sql_find.txt", "w") or die("Unable to open file!");
-    fwrite($my_file, " sql_find = " . $sql_find);
-    fclose($my_file);
-
-    $nRows = $conn->query($sql_find)->fetchColumn();
-    if ($nRows > 0) {
-        try {
-            $sql_del = "DELETE FROM ims_lotto WHERE lotto_number = " . $lotto_number;
-            $query = $conn->prepare($sql);
-            //$query->execute();
-
-            $sql_up = "UPDATE ims_lotto SET reserve_status = 'N' WHERE lotto_number = " . $lotto_number;
-            $query = $conn->prepare($sql);
-            //$query->execute();
-
-/*
-            $my_file = fopen("sql_del.txt", "w") or die("Unable to open file!");
-            fwrite($my_file, " sql_del = " . $sql_del . " | " . $sql_up);
-            fclose($my_file);
 */
 
+/*
+if ($_POST["action"] === 'UPDATE') {
 
-            $del = 1;
+    $id = $_POST['id'];
+    $lotto_name = $_POST["lotto_name"];
+    $lotto_phone = str_replace("-", "", $_POST["lotto_phone"]);
+    $lotto_province = $_POST["lotto_province"];
+    $sale_name = $_POST["sale_name"];
+    $lotto_number = sprintf("%03d", $_POST["lotto_number"]);
+    $approve_status = $_POST["approve_status"];
+    $remark = $_POST["remark"]===null||$_POST["remark"]===""?"-":$_POST["remark"];
 
-        } catch (Exception $e) {
-            $del = 3;
+    $upload_dir = "../uploads/";
+    $lotto_files_str = null;
+    $lotto_files2_str = null;
+
+    if (!empty($_FILES['lotto_file']['name'][0])) {
+        $lotto_files = [];
+        foreach ($_FILES['lotto_file']['name'] as $index => $name) {
+            $file_extension = pathinfo($name, PATHINFO_EXTENSION);
+            $file_name = uniqid("file_") . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+            if (move_uploaded_file($_FILES['lotto_file']['tmp_name'][$index], $file_path)) {
+                $lotto_files[] = $file_name;
+            } else {
+                echo "UPLOAD_FAILED";
+                exit();
+            }
         }
-    } else {
-        $del = 2;
+        $lotto_files_str = implode(",", $lotto_files);
     }
 
-/*
-    $my_file = fopen("sql_del_res.txt", "w") or die("Unable to open file!");
-    fwrite($my_file, " sql_del_res = " . $del);
-    fclose($my_file);
-*/
-
-    if ($del === 1) {
-        echo 1;
-    } else {
-        echo 3;
+    if (!empty($_FILES['lotto_file1']['name'][0])) {
+        $lotto_files1 = [];
+        foreach ($_FILES['lotto_file1']['name'] as $index => $name) {
+            $file_extension = pathinfo($name, PATHINFO_EXTENSION);
+            $file_name = uniqid("file_") . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+            if (move_uploaded_file($_FILES['lotto_file1']['tmp_name'][$index], $file_path)) {
+                $lotto_files1[] = $file_name;
+            } else {
+                echo "UPLOAD_FAILED";
+                exit();
+            }
+        }
+        $lotto_files1_str = implode(",", $lotto_files1);
     }
 
+    if (!empty($_FILES['lotto_file2']['name'][0])) {
+        $lotto_files2 = [];
+        foreach ($_FILES['lotto_file2']['name'] as $index => $name) {
+            $file_extension = pathinfo($name, PATHINFO_EXTENSION);
+            $file_name = uniqid("file_") . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+            if (move_uploaded_file($_FILES['lotto_file2']['tmp_name'][$index], $file_path)) {
+                $lotto_files2[] = $file_name;
+            } else {
+                echo "UPLOAD_FAILED";
+                exit();
+            }
+        }
+        $lotto_files2_str = implode(",", $lotto_files2);
+    }
+
+    if (!empty($_FILES['lotto_file3']['name'][0])) {
+        $lotto_files3 = [];
+        foreach ($_FILES['lotto_file3']['name'] as $index => $name) {
+            $file_extension = pathinfo($name, PATHINFO_EXTENSION);
+            $file_name = uniqid("file_") . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+            if (move_uploaded_file($_FILES['lotto_file3']['tmp_name'][$index], $file_path)) {
+                $lotto_files3[] = $file_name;
+            } else {
+                echo "UPLOAD_FAILED";
+                exit();
+            }
+        }
+        $lotto_files3_str = implode(",", $lotto_files3);
+    }
+
+    if (!empty($_FILES['lotto_file4']['name'][0])) {
+        $lotto_files4 = [];
+        foreach ($_FILES['lotto_file4']['name'] as $index => $name) {
+            $file_extension = pathinfo($name, PATHINFO_EXTENSION);
+            $file_name = uniqid("file_") . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+            if (move_uploaded_file($_FILES['lotto_file4']['tmp_name'][$index], $file_path)) {
+                $lotto_files4[] = $file_name;
+            } else {
+                echo "UPLOAD_FAILED";
+                exit();
+            }
+        }
+        $lotto_files4_str = implode(",", $lotto_files4);
+    }
+
+    if (!empty($_FILES['lotto_file5']['name'][0])) {
+        $lotto_files5 = [];
+        foreach ($_FILES['lotto_file5']['name'] as $index => $name) {
+            $file_extension = pathinfo($name, PATHINFO_EXTENSION);
+            $file_name = uniqid("file_") . "." . $file_extension;
+            $file_path = $upload_dir . $file_name;
+            if (move_uploaded_file($_FILES['lotto_file5']['tmp_name'][$index], $file_path)) {
+                $lotto_files5[] = $file_name;
+            } else {
+                echo "UPLOAD_FAILED";
+                exit();
+            }
+        }
+        $lotto_files5_str = implode(",", $lotto_files5);
+    }
+
+    $sql = "UPDATE ims_lotto SET 
+            lotto_name = :lotto_name, 
+            lotto_phone = :lotto_phone, 
+            lotto_province = :lotto_province,
+            lotto_number = :lotto_number,
+            sale_name = :sale_name,  
+            approve_status = :approve_status,
+            remark = :remark ";
+
+    if ($lotto_files_str !== null) {
+        $sql .= ", lotto_file = :lotto_file";
+    }
+    if ($lotto_files1_str !== null) {
+        $sql .= ", lotto_file1 = :lotto_file1";
+    }
+    if ($lotto_files2_str !== null) {
+        $sql .= ", lotto_file2 = :lotto_file2";
+    }
+    if ($lotto_files3_str !== null) {
+        $sql .= ", lotto_file3 = :lotto_file3";
+    }
+    if ($lotto_files4_str !== null) {
+        $sql .= ", lotto_file4 = :lotto_file4";
+    }
+    if ($lotto_files5_str !== null) {
+        $sql .= ", lotto_file5 = :lotto_file5";
+    }
+
+    $sql .= " WHERE id = :id";
+
+    $query = $conn->prepare($sql);
+    $query->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
+    $query->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
+    $query->bindParam(':lotto_province', $lotto_province, PDO::PARAM_STR);
+    $query->bindParam(':lotto_number', $lotto_number, PDO::PARAM_STR);
+    $query->bindParam(':sale_name', $sale_name, PDO::PARAM_STR);
+    $query->bindParam(':approve_status', $approve_status, PDO::PARAM_STR);
+    $query->bindParam(':remark', $remark, PDO::PARAM_STR);
+
+    if ($lotto_files_str !== null) {
+        $query->bindParam(':lotto_file', $lotto_files_str, PDO::PARAM_STR);
+    }
+    if ($lotto_files1_str !== null) {
+        $query->bindParam(':lotto_file1', $lotto_files1_str, PDO::PARAM_STR);
+    }
+    if ($lotto_files2_str !== null) {
+        $query->bindParam(':lotto_file2', $lotto_files2_str, PDO::PARAM_STR);
+    }
+    if ($lotto_files3_str !== null) {
+        $query->bindParam(':lotto_file3', $lotto_files3_str, PDO::PARAM_STR);
+    }
+    if ($lotto_files4_str !== null) {
+        $query->bindParam(':lotto_file4', $lotto_files4_str, PDO::PARAM_STR);
+    }
+    if ($lotto_files5_str !== null) {
+        $query->bindParam(':lotto_file5', $lotto_files5_str, PDO::PARAM_STR);
+    }
+    $query->bindParam(':id', $id, PDO::PARAM_INT);
+
+    if ($query->execute()) {
+        echo $id;
+    } else {
+        echo 0;
+    }
 }
 
+*/
+
+if ($_POST["action"] === 'SAVE_DATA') {
+    $ins = 0;
+    $upload_dir = "../uploads/";
+    $lotto_name = $_POST["lotto_name"];
+    $lotto_phone = str_replace("-", "", $_POST["lotto_phone"]);
+    $lotto_province = $_POST["lotto_province"];
+    $sale_name = $_POST["sale_name"];
+    $remark = empty($_POST["remark"]) ? "-" : $_POST["remark"];
+    $client_ip_address = "-";
+    $lotto_number = sprintf("%03d", $_POST["lotto_number"]);
+
+    function uploadFiles($input_name, $upload_dir) {
+        if (!empty($_FILES[$input_name]['name'][0])) {
+            $uploaded_files = [];
+            foreach ($_FILES[$input_name]['name'] as $key => $name) {
+                $file_extension = pathinfo($name, PATHINFO_EXTENSION);
+                $file_name = uniqid("file_", true) . "." . $file_extension;
+                $file_path = $upload_dir . $file_name;
+
+                if (move_uploaded_file($_FILES[$input_name]["tmp_name"][$key], $file_path)) {
+                    $uploaded_files[] = $file_name;
+                } else {
+                    return null;
+                }
+            }
+            return implode(",", $uploaded_files);
+        }
+        return null;
+    }
+
+    $lotto_files_str = uploadFiles('lotto_file', $upload_dir);
+    $lotto_files1_str = uploadFiles('lotto_file1', $upload_dir);
+    $lotto_files2_str = uploadFiles('lotto_file2', $upload_dir);
+    $lotto_files3_str = uploadFiles('lotto_file3', $upload_dir);
+    $lotto_files4_str = uploadFiles('lotto_file4', $upload_dir);
+    $lotto_files5_str = uploadFiles('lotto_file5', $upload_dir);
+    $lotto_files6_str = uploadFiles('lotto_file6', $upload_dir);
+    $lotto_files7_str = uploadFiles('lotto_file7', $upload_dir);
+    $lotto_files8_str = uploadFiles('lotto_file8', $upload_dir);
+
+    if (is_null($lotto_files_str) || is_null($lotto_files1_str) || is_null($lotto_files2_str)) {
+        echo 0;
+        exit();
+    }
+
+    // ตรวจสอบข้อมูลซ้ำ
+    $sql_get = "SELECT COUNT(*) as record_counts FROM " . $table_name . " WHERE lotto_name = :lotto_name OR lotto_phone = :lotto_phone";
+    $statement = $conn->prepare($sql_get);
+    $statement->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
+    $statement->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
+    $statement->execute();
+    $record = $statement->fetch(PDO::FETCH_ASSOC)['record_counts'];
+
+    if ($record <= 0) {
+        try {
+            $sql = "INSERT INTO ims_lotto (lotto_name, lotto_phone, lotto_province, lotto_number, sale_name, client_ip_address, 
+                    lotto_file, lotto_file1, lotto_file2, lotto_file3, lotto_file4, lotto_file5, lotto_file6, lotto_file7, lotto_file8, remark)
+                    VALUES (:lotto_name, :lotto_phone, :lotto_province, :lotto_number, :sale_name, :client_ip_address, 
+                    :lotto_file, :lotto_file1, :lotto_file2, :lotto_file3, :lotto_file4, :lotto_file5, :lotto_file6, :lotto_file7, :lotto_file8, :remark)";
+
+            $query = $conn->prepare($sql);
+            $query->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
+            $query->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
+            $query->bindParam(':lotto_province', $lotto_province, PDO::PARAM_STR);
+            $query->bindParam(':lotto_number', $lotto_number, PDO::PARAM_STR);
+            $query->bindParam(':sale_name', $sale_name, PDO::PARAM_STR);
+            $query->bindParam(':client_ip_address', $client_ip_address, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file', $lotto_files_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file1', $lotto_files1_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file2', $lotto_files2_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file3', $lotto_files3_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file4', $lotto_files4_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file5', $lotto_files5_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file6', $lotto_files6_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file7', $lotto_files7_str, PDO::PARAM_STR);
+            $query->bindParam(':lotto_file8', $lotto_files8_str, PDO::PARAM_STR);
+            $query->bindParam(':remark', $remark, PDO::PARAM_STR);
+
+            if ($query->execute()) {
+                echo $conn->lastInsertId();
+                exit();
+            }
+        } catch (Exception $e) {
+            echo 0;
+            exit();
+        }
+    }
+
+    echo 0;
+}
+
+
+if ($_POST["action"] === 'UPDATE') {
+    $id = $_POST['id'];
+    $lotto_name = $_POST["lotto_name"];
+    $lotto_phone = str_replace("-", "", $_POST["lotto_phone"]);
+    $lotto_province = $_POST["lotto_province"];
+    $sale_name = $_POST["sale_name"];
+    $lotto_number = sprintf("%03d", $_POST["lotto_number"]);
+    $approve_status = $_POST["approve_status"];
+    $remark = empty($_POST["remark"]) ? "-" : $_POST["remark"];
+
+    $upload_dir = "../uploads/";
+    $file_fields = ["lotto_file", "lotto_file1", "lotto_file2", "lotto_file3", "lotto_file4", "lotto_file5", "lotto_file6", "lotto_file7", "lotto_file8"];
+    $uploaded_files = [];
+
+    function uploadFiles($field_name, $upload_dir) {
+        if (!empty($_FILES[$field_name]['name'][0])) {
+            $files = [];
+            foreach ($_FILES[$field_name]['name'] as $index => $name) {
+                $file_extension = pathinfo($name, PATHINFO_EXTENSION);
+                $file_name = uniqid("file_") . "." . $file_extension;
+                $file_path = $upload_dir . $file_name;
+                if (move_uploaded_file($_FILES[$field_name]['tmp_name'][$index], $file_path)) {
+                    $files[] = $file_name;
+                } else {
+                    echo "UPLOAD_FAILED";
+                    exit();
+                }
+            }
+            return implode(",", $files);
+        }
+        return null;
+    }
+
+    foreach ($file_fields as $field) {
+        $uploaded_files[$field] = uploadFiles($field, $upload_dir);
+    }
+
+    $sql = "UPDATE ims_lotto SET 
+            lotto_name = :lotto_name, 
+            lotto_phone = :lotto_phone, 
+            lotto_province = :lotto_province,
+            lotto_number = :lotto_number,
+            sale_name = :sale_name,  
+            approve_status = :approve_status,
+            remark = :remark";
+
+    foreach ($uploaded_files as $key => $value) {
+        if ($value !== null) {
+            $sql .= ", $key = :$key";
+        }
+    }
+
+    $sql .= " WHERE id = :id";
+    $query = $conn->prepare($sql);
+    $query->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
+    $query->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
+    $query->bindParam(':lotto_province', $lotto_province, PDO::PARAM_STR);
+    $query->bindParam(':lotto_number', $lotto_number, PDO::PARAM_STR);
+    $query->bindParam(':sale_name', $sale_name, PDO::PARAM_STR);
+    $query->bindParam(':approve_status', $approve_status, PDO::PARAM_STR);
+    $query->bindParam(':remark', $remark, PDO::PARAM_STR);
+
+    foreach ($uploaded_files as $key => $value) {
+        if ($value !== null) {
+            $query->bindParam(":" . $key, $uploaded_files[$key], PDO::PARAM_STR);
+        }
+    }
+
+    $query->bindParam(':id', $id, PDO::PARAM_INT);
+
+    echo $query->execute() ? $id : 0;
+}
 
 if ($_POST["action"] === 'DELETE') {
 
@@ -160,11 +608,11 @@ if ($_POST["action"] === 'DELETE') {
         $lotto_number = $_POST["lotto_number"];
         $sql_find = "SELECT * FROM ims_lotto WHERE lotto_number = '" . $lotto_number . "'";
 
-/*
-        $my_file = fopen("sql_find.txt", "w") or die("Unable to open file!");
-        fwrite($my_file, " sql_find = " . $sql_find);
-        fclose($my_file);
-*/
+        /*
+                $my_file = fopen("sql_find.txt", "w") or die("Unable to open file!");
+                fwrite($my_file, " sql_find = " . $sql_find);
+                fclose($my_file);
+        */
 
         $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
@@ -176,11 +624,11 @@ if ($_POST["action"] === 'DELETE') {
             $sql_up = "UPDATE ims_number_reserve SET reserve_status = 'N' WHERE lotto_number = " . $lotto_number;
             $query = $conn->prepare($sql_up);
             $query->execute();
-/*
-            $my_file = fopen("sql_del.txt", "w") or die("Unable to open file!");
-            fwrite($my_file, " sql_del = " . $sql_del . " | " . $sql_up);
-            fclose($my_file);
-*/
+            /*
+                        $my_file = fopen("sql_del.txt", "w") or die("Unable to open file!");
+                        fwrite($my_file, " sql_del = " . $sql_del . " | " . $sql_up);
+                        fclose($my_file);
+            */
 
             $del = 1;
         } else {
@@ -189,11 +637,11 @@ if ($_POST["action"] === 'DELETE') {
 
     }
 
-/*
-    $my_file = fopen("sql_search.txt", "w") or die("Unable to open file!");
-    fwrite($my_file, " sql_search = " . $del);
-    fclose($my_file);
-*/
+    /*
+        $my_file = fopen("sql_search.txt", "w") or die("Unable to open file!");
+        fwrite($my_file, " sql_search = " . $del);
+        fclose($my_file);
+    */
 
 }
 
@@ -276,7 +724,10 @@ if ($_POST["action"] === 'GET_SHOW_LOTTO') {
                 "lotto_name" => $rows['lotto_name'],
                 "lotto_phone" => $rows['lotto_phone'],
                 "lotto_province" => $rows['lotto_province'],
-                "lotto_number" => $rows['lotto_number']
+                "lotto_number" => $rows['lotto_number'],
+                "remark" => $rows['remark'],
+                "approve_status" => $rows['approve_status']
+
             );
         }
 
