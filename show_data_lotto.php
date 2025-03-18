@@ -50,7 +50,7 @@ $images = [
             <div class="mb-3"><strong>🗺️ จังหวัด:</strong> <?= htmlspecialchars($data['lotto_province']) ?></div>
             <div class="mb-3"><strong>🧑‍💼 ชื่อ Sale:</strong> <?= htmlspecialchars($data['sale_name']) ?></div>
             <div class="mb-4"><strong>🎟️ หมายเลข:</strong> <?= htmlspecialchars($data['lotto_number']) ?></div>
-            <div class="mb-4"><strong>🗺️ หมายเหตุ:</strong> <?= htmlspecialchars($data['remark']) ?></div>
+            <div class="mb-4"><strong>📝 หมายเหตุ:</strong> <?= htmlspecialchars($data['remark']) ?></div>
 
             <?php
             // ฟังก์ชันแสดงรูปภาพ

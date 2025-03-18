@@ -51,7 +51,7 @@ $images5 = isset($data['lotto_file5']) ? explode(',', $data['lotto_file5']) : []
             <div class="mb-3"><strong>🗺️ จังหวัด:</strong> <?= htmlspecialchars($data['lotto_province']) ?></div>
             <div class="mb-3"><strong>🧑‍💼 ชื่อ Sale:</strong> <?= htmlspecialchars($data['sale_name']) ?></div>
             <div class="mb-4"><strong>🎟️ หมายเลข:</strong> <?= htmlspecialchars($data['lotto_number']) ?></div>
-            <div class="mb-4"><strong>🗺️ หมายเหตุ:</strong> <?= htmlspecialchars($data['remark']) ?></div>
+            <div class="mb-4"><strong>📝 หมายเหตุ:</strong> <?= htmlspecialchars($data['remark']) ?></div>
 
             <?php
             $all_images = ['images' => $images, 'images1' => $images1];
