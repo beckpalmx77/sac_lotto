@@ -30,8 +30,25 @@ if ($query->rowCount() >= 1) {
     $line_no = 0;
     foreach ($results as $result) {
         $line_no++;
-        $approve_status_detail  = $result->approve_status==="Y"?"อนุมัติ":"ยังไม่อนุมัติ";
-        $lineData = array($line_no , $result->lotto_name, strval($result->lotto_phone), $result->lotto_province, strval($result->lotto_number), $result->sale_name, $result->create_date,$approve_status_detail, $result->remark);
+        $create_date = $result->create_date;
+
+        // ตรวจสอบว่า $create_date เป็น DateTime object หรือไม่
+        if (!$create_date instanceof DateTime) {
+            $create_date = new DateTime($create_date); // แปลงสตริงเป็น DateTime object
+        }
+
+        $approve_status_detail = $result->approve_status === "Y" ? "อนุมัติ" : "ยังไม่อนุมัติ";
+        $lineData = array(
+            $line_no,
+            $result->lotto_name,
+            strval($result->lotto_phone),
+            $result->lotto_province,
+            strval($result->lotto_number),
+            $result->sale_name,
+            $create_date->format('d-m-Y H:i:s'), // แปลงวันที่ให้เป็นรูปแบบที่ต้องการ
+            $approve_status_detail,
+            $result->remark
+        );
         $excelData[] = $lineData;
     }
 }

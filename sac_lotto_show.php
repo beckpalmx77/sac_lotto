@@ -61,7 +61,13 @@ require_once 'config/connect_lotto_db.php';
                         <td class="text-center text-<?= $rows['approve_status'] == 'Y' ? 'success' : 'secondary'; ?>">
                             <?= $rows['approve_status'] == 'Y' ? 'อนุมัติ' : 'ยังไม่อนุมัติ'; ?>
                         </td>
-                        <td><?= htmlspecialchars($rows['create_date']); ?></td>
+
+                        <?php
+                            $create_date = new DateTime($rows['create_date']);
+                            //echo $date->format('d-m-Y');
+                        ?>
+
+                        <td><?= htmlspecialchars($create_date->format('d-m-Y H:i:s')); ?></td>
                         <td>
                             <button type="button" class="btn btn-success text-white"
                                     onclick="openLottoCheck(<?= $rows['id']; ?>)">Check
