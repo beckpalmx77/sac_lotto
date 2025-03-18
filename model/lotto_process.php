@@ -64,7 +64,7 @@ if ($_POST["action"] === 'SAVE_DATA') {
     $lotto_phone = str_replace("-", "", $_POST["lotto_phone"]);
     $lotto_province = $_POST["lotto_province"];
     $sale_name = $_POST["sale_name"];
-    $remark = $_POST["remark"];
+    $remark = $_POST["remark"]===null||$_POST["remark"]===""?"-":$_POST["remark"];
 
     // ตรวจสอบว่ามีไฟล์ถูกอัปโหลดหรือไม่
     if (!empty($_FILES['lotto_file']['name'][0])) {
@@ -268,7 +268,7 @@ if ($_POST["action"] === 'UPDATE') {
     $sale_name = $_POST["sale_name"];
     $lotto_number = sprintf("%03d", $_POST["lotto_number"]);
     $approve_status = $_POST["approve_status"];
-    $remark = $_POST["remark"];
+    $remark = $_POST["remark"]===null||$_POST["remark"]===""?"-":$_POST["remark"];
 
     /*
         $txt = $id . " | " .  $lotto_province . " | " .  $approve_status . " | " . $lotto_name;
