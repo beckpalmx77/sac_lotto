@@ -52,6 +52,9 @@ $images5 = getImages($data['lotto_file5']);
             <div class="mb-4">
                 <strong>🎟️ หมายเลข:</strong> <?= htmlspecialchars($data['lotto_number']) ?>
             </div>
+            <div class="mb-4">
+                <strong>🗺️ หมายเหตุ:</strong> <?= htmlspecialchars($data['remark']) ?>
+            </div>
 
             <?php
             // ฟังก์ชันแสดงรูปภาพ

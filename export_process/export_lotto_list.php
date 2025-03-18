@@ -14,7 +14,7 @@ $fileName = "sac_lotto_list" . "-" . date('m/d/Y H:i:s', time()) . ".xlsx";
 @header("Content-Disposition: attachment; filename=" . $filename);
 
 // Define column names
-$excelData[] = array('ลำดับ', 'ชื่อร้าน', 'หมายเลขโทรศัพท์', 'จังหวัด', 'หมายเลขที่เลือก', 'ชื่อ Sale', 'วันที่บันทึก', 'สถานะการอนุมัติ');
+$excelData[] = array('ลำดับ', 'ชื่อร้าน', 'หมายเลขโทรศัพท์', 'จังหวัด', 'หมายเลขที่เลือก', 'ชื่อ Sale', 'วันที่บันทึก', 'สถานะการอนุมัติ','หมายเหตุ');
 
 // Fetch records from database and store in an array
 
@@ -31,7 +31,7 @@ if ($query->rowCount() >= 1) {
     foreach ($results as $result) {
         $line_no++;
         $approve_status_detail  = $result->approve_status==="Y"?"อนุมัติ":"ยังไม่อนุมัติ";
-        $lineData = array($line_no , $result->lotto_name, strval($result->lotto_phone), $result->lotto_province, strval($result->lotto_number), $result->sale_name, $result->create_date,$approve_status_detail);
+        $lineData = array($line_no , $result->lotto_name, strval($result->lotto_phone), $result->lotto_province, strval($result->lotto_number), $result->sale_name, $result->create_date,$approve_status_detail, $result->remark);
         $excelData[] = $lineData;
     }
 }

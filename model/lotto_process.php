@@ -26,6 +26,7 @@ if ($_POST["action"] === 'GET_DATA') {
             "lotto_file3" => $result['lotto_file3'],
             "lotto_file4" => $result['lotto_file4'],
             "lotto_file5" => $result['lotto_file5'],
+            "remark" => $result['remark'],
             "approve_status" => $result['approve_status']
         );
         echo json_encode($return_arr);
@@ -63,6 +64,7 @@ if ($_POST["action"] === 'SAVE_DATA') {
     $lotto_phone = str_replace("-", "", $_POST["lotto_phone"]);
     $lotto_province = $_POST["lotto_province"];
     $sale_name = $_POST["sale_name"];
+    $remark = $_POST["remark"]===null||$_POST["remark"]===""?"-":$_POST["remark"];
 
     // ตรวจสอบว่ามีไฟล์ถูกอัปโหลดหรือไม่
     if (!empty($_FILES['lotto_file']['name'][0])) {
@@ -221,9 +223,9 @@ if ($_POST["action"] === 'SAVE_DATA') {
         // Insert ข้อมูลใหม่
         try {
             $sql = "INSERT INTO ims_lotto(lotto_name, lotto_phone, lotto_province, lotto_number, sale_name, client_ip_address, lotto_file, lotto_file1, lotto_file2
-                    , lotto_file3, lotto_file4, lotto_file5)
+                    , lotto_file3, lotto_file4, lotto_file5,remark)
                     VALUES (:lotto_name, :lotto_phone, :lotto_province, :lotto_number, :sale_name, :client_ip_address, :lotto_file, :lotto_file1, :lotto_file2
-                    , :lotto_file3, :lotto_file4, :lotto_file5)";
+                    , :lotto_file3, :lotto_file4, :lotto_file5, :remark)";
             $query = $conn->prepare($sql);
             $query->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
             $query->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
@@ -237,6 +239,7 @@ if ($_POST["action"] === 'SAVE_DATA') {
             $query->bindParam(':lotto_file3', $lotto_files3_str, PDO::PARAM_STR);
             $query->bindParam(':lotto_file4', $lotto_files4_str, PDO::PARAM_STR);
             $query->bindParam(':lotto_file5', $lotto_files5_str, PDO::PARAM_STR);
+            $query->bindParam(':remark', $remark, PDO::PARAM_STR);
 
             if ($query->execute()) {
                 $lastInsertId = $conn->lastInsertId();
@@ -265,6 +268,7 @@ if ($_POST["action"] === 'UPDATE') {
     $sale_name = $_POST["sale_name"];
     $lotto_number = sprintf("%03d", $_POST["lotto_number"]);
     $approve_status = $_POST["approve_status"];
+    $remark = $_POST["remark"]===null||$_POST["remark"]===""?"-":$_POST["remark"];
 
     /*
         $txt = $id . " | " .  $lotto_province . " | " .  $approve_status . " | " . $lotto_name;
@@ -384,7 +388,8 @@ if ($_POST["action"] === 'UPDATE') {
             lotto_province = :lotto_province,
             lotto_number = :lotto_number,
             sale_name = :sale_name,  
-            approve_status = :approve_status";
+            approve_status = :approve_status,
+            remark = :remark ";
 
     // เพิ่มการอัปเดตไฟล์ถ้ามี
     if ($lotto_files_str !== null) {
@@ -415,6 +420,7 @@ if ($_POST["action"] === 'UPDATE') {
     $query->bindParam(':lotto_number', $lotto_number, PDO::PARAM_STR);
     $query->bindParam(':sale_name', $sale_name, PDO::PARAM_STR);
     $query->bindParam(':approve_status', $approve_status, PDO::PARAM_STR);
+    $query->bindParam(':remark', $remark, PDO::PARAM_STR);
 
     if ($lotto_files_str !== null) {
         $query->bindParam(':lotto_file', $lotto_files_str, PDO::PARAM_STR);
@@ -567,6 +573,7 @@ if ($_POST["action"] === 'GET_SHOW_LOTTO') {
                 "lotto_phone" => $rows['lotto_phone'],
                 "lotto_province" => $rows['lotto_province'],
                 "lotto_number" => $rows['lotto_number'],
+                "remark" => $rows['remark'],
                 "approve_status" => $rows['approve_status']
 
             );

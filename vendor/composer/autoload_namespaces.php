@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
+    'ConvertApi\\' => array($vendorDir . '/convertapi/convertapi-php/lib'),
 );

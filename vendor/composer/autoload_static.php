@@ -152,6 +152,13 @@ class ComposerStaticInit81749a0b49ac44f05f3399940816f0e6
                 0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
             ),
         ),
+        'C' => 
+        array (
+            'ConvertApi\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/convertapi/convertapi-php/lib',
+            ),
+        ),
     );
 
     public static $classMap = array (

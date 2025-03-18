@@ -198,6 +198,18 @@ include('includes/CheckDevice.php');
                                     </div>
 
                                 </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="remark" class="control-label">หมายเหตุ</label>
+                                        <input type="text" class="form-control" id="remark"
+                                               name="remark"
+                                               required="true"
+                                               value=""
+                                               placeholder="">
+                                    </div>
+                                </div>
+
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <button type="button" name="saveBtn" id="saveBtn" tabindex="4"
@@ -399,6 +411,7 @@ include('includes/CheckDevice.php');
             let lotto_province = $('#lotto_province').val().trim();
             let lotto_number = $('#lotto_number').val().trim();
             let sale_name = $('#sale_name').val().trim();
+            let remark = $('#remark').val().trim();
             let files = $('#lotto_file')[0].files;
             let files1 = $('#lotto_file1')[0].files;
             let files2 = $('#lotto_file2')[0].files;
@@ -443,6 +456,7 @@ include('includes/CheckDevice.php');
             formData.append("lotto_province", lotto_province);
             formData.append("lotto_number", lotto_number);
             formData.append("sale_name", sale_name);
+            formData.append("remark", remark);
 
             for (let i = 0; i < files.length; i++) {
                 formData.append("lotto_file[]", files[i]);
