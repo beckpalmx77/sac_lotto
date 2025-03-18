@@ -25,6 +25,9 @@ $images2 = isset($data['lotto_file2']) ? explode(',', $data['lotto_file2']) : []
 $images3 = isset($data['lotto_file3']) ? explode(',', $data['lotto_file3']) : [];
 $images4 = isset($data['lotto_file4']) ? explode(',', $data['lotto_file4']) : [];
 $images5 = isset($data['lotto_file5']) ? explode(',', $data['lotto_file5']) : [];
+$images6 = isset($data['lotto_file6']) ? explode(',', $data['lotto_file6']) : [];
+$images7 = isset($data['lotto_file7']) ? explode(',', $data['lotto_file7']) : [];
+$images8 = isset($data['lotto_file8']) ? explode(',', $data['lotto_file8']) : [];
 
 ?>
 
@@ -77,6 +80,28 @@ $images5 = isset($data['lotto_file5']) ? explode(',', $data['lotto_file5']) : []
 
             <?php
             $all_images = ['images3' => $images3, 'images4' => $images4, 'images5' => $images5];
+            foreach ($all_images as $key => $img_array):
+                if (!empty($img_array)): ?>
+                    <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย)</h5>
+                    <div class="row text-center">
+                        <?php foreach ($img_array as $image):
+                            $image = trim($image);
+                            if (!empty($image)): ?>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <a href="uploads/<?= htmlspecialchars($image) ?>" target="_blank">
+                                            <img src="uploads/<?= htmlspecialchars($image) ?>" class="card-img-top img-fluid" alt="รูปภาพ">
+                                        </a>
+                                    </div>
+                                </div>
+                            <?php endif;
+                        endforeach; ?>
+                    </div>
+                <?php endif;
+            endforeach; ?>
+
+            <?php
+            $all_images = ['images6' => $images6, 'images7' => $images7, 'images8' => $images8];
             foreach ($all_images as $key => $img_array):
                 if (!empty($img_array)): ?>
                     <h5 class="text-center mb-3">🖼️ รูปภาพป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย)</h5>

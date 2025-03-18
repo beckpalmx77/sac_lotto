@@ -22,6 +22,9 @@ $images = [
     'lotto_file3' => getImages($data, 'lotto_file3'),
     'lotto_file4' => getImages($data, 'lotto_file4'),
     'lotto_file5' => getImages($data, 'lotto_file5'),
+    'lotto_file6' => getImages($data, 'lotto_file6'),
+    'lotto_file7' => getImages($data, 'lotto_file7'),
+    'lotto_file8' => getImages($data, 'lotto_file8'),
     'lotto_file2' => getImages($data, 'lotto_file2') // เลขหลังป้าย
 ];
 
@@ -77,6 +80,9 @@ $images = [
             renderImages('🖼️ รูปภาพป้ายไวนิลที่บันทึก', $images['lotto_file3']);
             renderImages('🖼️ รูปภาพป้ายไวนิลที่บันทึก', $images['lotto_file4']);
             renderImages('🖼️ รูปภาพป้ายไวนิลที่บันทึก', $images['lotto_file5']);
+            renderImages('🖼️ รูปภาพป้ายไวนิลที่บันทึก', $images['lotto_file6']);
+            renderImages('🖼️ รูปภาพป้ายไวนิลที่บันทึก', $images['lotto_file7']);
+            renderImages('🖼️ รูปภาพป้ายไวนิลที่บันทึก', $images['lotto_file8']);
             renderImages('🖼️ รูปภาพเลขหลังป้ายไวนิลที่บันทึก (Click ที่รูปเพื่อขยาย)', $images['lotto_file2']);
             ?>
 
@@ -99,3 +105,4 @@ $images = [
 
 </body>
 </html>
+
