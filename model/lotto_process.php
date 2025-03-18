@@ -26,6 +26,9 @@ if ($_POST["action"] === 'GET_DATA') {
             "lotto_file3" => $result['lotto_file3'],
             "lotto_file4" => $result['lotto_file4'],
             "lotto_file5" => $result['lotto_file5'],
+            "lotto_file6" => $result['lotto_file6'],
+            "lotto_file7" => $result['lotto_file7'],
+            "lotto_file8" => $result['lotto_file8'],
             "remark" => $result['remark'],
             "approve_status" => $result['approve_status']
         );
@@ -258,7 +261,7 @@ if ($_POST["action"] === 'SAVE_DATA') {
     }
 }
 
-
+/*
 if ($_POST["action"] === 'UPDATE') {
 
     $id = $_POST['id'];
@@ -270,19 +273,10 @@ if ($_POST["action"] === 'UPDATE') {
     $approve_status = $_POST["approve_status"];
     $remark = $_POST["remark"]===null||$_POST["remark"]===""?"-":$_POST["remark"];
 
-    /*
-        $txt = $id . " | " .  $lotto_province . " | " .  $approve_status . " | " . $lotto_name;
-        ;
-        $my_file = fopen("lotto_data.txt", "w") or die("Unable to open file!");
-        fwrite($my_file, " txt = " . $txt);
-        fclose($my_file);
-    */
-
     $upload_dir = "../uploads/";
     $lotto_files_str = null;
     $lotto_files2_str = null;
 
-    // อัปโหลดไฟล์ lotto_file ถ้ามี
     if (!empty($_FILES['lotto_file']['name'][0])) {
         $lotto_files = [];
         foreach ($_FILES['lotto_file']['name'] as $index => $name) {
@@ -299,7 +293,6 @@ if ($_POST["action"] === 'UPDATE') {
         $lotto_files_str = implode(",", $lotto_files);
     }
 
-    // อัปโหลดไฟล์ lotto_file1 ถ้ามี
     if (!empty($_FILES['lotto_file1']['name'][0])) {
         $lotto_files1 = [];
         foreach ($_FILES['lotto_file1']['name'] as $index => $name) {
@@ -316,7 +309,6 @@ if ($_POST["action"] === 'UPDATE') {
         $lotto_files1_str = implode(",", $lotto_files1);
     }
 
-    // อัปโหลดไฟล์ lotto_file2 ถ้ามี
     if (!empty($_FILES['lotto_file2']['name'][0])) {
         $lotto_files2 = [];
         foreach ($_FILES['lotto_file2']['name'] as $index => $name) {
@@ -381,7 +373,6 @@ if ($_POST["action"] === 'UPDATE') {
         $lotto_files5_str = implode(",", $lotto_files5);
     }
 
-    // สร้างคำสั่ง SQL แบบไดนามิก
     $sql = "UPDATE ims_lotto SET 
             lotto_name = :lotto_name, 
             lotto_phone = :lotto_phone, 
@@ -391,7 +382,6 @@ if ($_POST["action"] === 'UPDATE') {
             approve_status = :approve_status,
             remark = :remark ";
 
-    // เพิ่มการอัปเดตไฟล์ถ้ามี
     if ($lotto_files_str !== null) {
         $sql .= ", lotto_file = :lotto_file";
     }
@@ -449,6 +439,80 @@ if ($_POST["action"] === 'UPDATE') {
     }
 }
 
+*/
+
+if ($_POST["action"] === 'UPDATE') {
+    $id = $_POST['id'];
+    $lotto_name = $_POST["lotto_name"];
+    $lotto_phone = str_replace("-", "", $_POST["lotto_phone"]);
+    $lotto_province = $_POST["lotto_province"];
+    $sale_name = $_POST["sale_name"];
+    $lotto_number = sprintf("%03d", $_POST["lotto_number"]);
+    $approve_status = $_POST["approve_status"];
+    $remark = empty($_POST["remark"]) ? "-" : $_POST["remark"];
+
+    $upload_dir = "../uploads/";
+    $file_fields = ["lotto_file", "lotto_file1", "lotto_file2", "lotto_file3", "lotto_file4", "lotto_file5", "lotto_file6", "lotto_file7", "lotto_file8"];
+    $uploaded_files = [];
+
+    function uploadFiles($field_name, $upload_dir) {
+        if (!empty($_FILES[$field_name]['name'][0])) {
+            $files = [];
+            foreach ($_FILES[$field_name]['name'] as $index => $name) {
+                $file_extension = pathinfo($name, PATHINFO_EXTENSION);
+                $file_name = uniqid("file_") . "." . $file_extension;
+                $file_path = $upload_dir . $file_name;
+                if (move_uploaded_file($_FILES[$field_name]['tmp_name'][$index], $file_path)) {
+                    $files[] = $file_name;
+                } else {
+                    echo "UPLOAD_FAILED";
+                    exit();
+                }
+            }
+            return implode(",", $files);
+        }
+        return null;
+    }
+
+    foreach ($file_fields as $field) {
+        $uploaded_files[$field] = uploadFiles($field, $upload_dir);
+    }
+
+    $sql = "UPDATE ims_lotto SET 
+            lotto_name = :lotto_name, 
+            lotto_phone = :lotto_phone, 
+            lotto_province = :lotto_province,
+            lotto_number = :lotto_number,
+            sale_name = :sale_name,  
+            approve_status = :approve_status,
+            remark = :remark";
+
+    foreach ($uploaded_files as $key => $value) {
+        if ($value !== null) {
+            $sql .= ", $key = :$key";
+        }
+    }
+
+    $sql .= " WHERE id = :id";
+    $query = $conn->prepare($sql);
+    $query->bindParam(':lotto_name', $lotto_name, PDO::PARAM_STR);
+    $query->bindParam(':lotto_phone', $lotto_phone, PDO::PARAM_STR);
+    $query->bindParam(':lotto_province', $lotto_province, PDO::PARAM_STR);
+    $query->bindParam(':lotto_number', $lotto_number, PDO::PARAM_STR);
+    $query->bindParam(':sale_name', $sale_name, PDO::PARAM_STR);
+    $query->bindParam(':approve_status', $approve_status, PDO::PARAM_STR);
+    $query->bindParam(':remark', $remark, PDO::PARAM_STR);
+
+    foreach ($uploaded_files as $key => $value) {
+        if ($value !== null) {
+            $query->bindParam(":" . $key, $uploaded_files[$key], PDO::PARAM_STR);
+        }
+    }
+
+    $query->bindParam(':id', $id, PDO::PARAM_INT);
+
+    echo $query->execute() ? $id : 0;
+}
 
 if ($_POST["action"] === 'DELETE') {
 

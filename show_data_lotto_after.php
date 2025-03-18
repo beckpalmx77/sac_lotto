@@ -20,6 +20,9 @@ $images2 = getImages($data['lotto_file2']);
 $images3 = getImages($data['lotto_file3']);
 $images4 = getImages($data['lotto_file4']);
 $images5 = getImages($data['lotto_file5']);
+$images6 = getImages($data['lotto_file6']);
+$images7 = getImages($data['lotto_file7']);
+$images8 = getImages($data['lotto_file8']);
 
 ?>
 
@@ -80,6 +83,9 @@ $images5 = getImages($data['lotto_file5']);
             displayImages($images3, "🖼️ รูปภาพเพิ่มเติม");
             displayImages($images4, "🖼️ รูปภาพเพิ่มเติม");
             displayImages($images5, "🖼️ รูปภาพเพิ่มเติม");
+            displayImages($images6, "🖼️ รูปภาพเพิ่มเติม");
+            displayImages($images7, "🖼️ รูปภาพเพิ่มเติม");
+            displayImages($images8, "🖼️ รูปภาพเพิ่มเติม");
             ?>
 
             <div class="col-md-12">
