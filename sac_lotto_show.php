@@ -209,7 +209,7 @@ require_once 'config/connect_lotto_db.php';
 
                     <div class="mb-3">
                         <label>หมายเหตุ</label>
-                        <textarea id="remark" name="remark" rows="2" cols="44"></textarea><br>
+                        <input type="text" class="form-control" id="remark" name="remark">
                     </div>
 
                     <input type="hidden" id="action" name="action" value="">
