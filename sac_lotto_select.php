@@ -197,8 +197,8 @@ include('includes/CheckDevice.php');
 
                                     <div class="form-group">
                                         <label for="lotto_file7" class=" control-label">อัปโหลดรูปภาพ (ไฟล์ jpg หรือ png
-                                        เท่านั้น)
-                                        (รูปป้ายไวนิล รูปที่ 7)</label>
+                                            เท่านั้น)
+                                            (รูปป้ายไวนิล รูปที่ 7)</label>
                                         <input type="file" class="form-control" id="lotto_file7" name="lotto_file7[]"
                                                accept="image/jpeg, image/png" multiple>
                                         <div class="preview mt-2" id="previewContainer7">
