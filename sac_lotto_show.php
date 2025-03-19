@@ -169,12 +169,16 @@ require_once 'config/connect_lotto_db.php';
                             <option value="Y">อนุมัติ</option>
                         </select>
                     </div>
+                    
                     <input type="hidden" id="text_lotto_file_input" value="">
                     <input type="hidden" id="text_lotto_file1_input" value="">
                     <input type="hidden" id="text_lotto_file2_input" value="">
                     <input type="hidden" id="text_lotto_file3_input" value="">
                     <input type="hidden" id="text_lotto_file4_input" value="">
                     <input type="hidden" id="text_lotto_file5_input" value="">
+                    <input type="hidden" id="text_lotto_file6_input" value="">
+                    <input type="hidden" id="text_lotto_file7_input" value="">
+                    <input type="hidden" id="text_lotto_file8_input" value="">
 
                     <div class="form-group">
                         <label>อัพโหลดรูปป้ายไวนิล 1</label>
