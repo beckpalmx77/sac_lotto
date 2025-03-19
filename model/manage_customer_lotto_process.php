@@ -99,7 +99,7 @@ if ($_POST["action"] === 'DELETE') {
     }
 }
 
-if ($_POST["action"] === 'GET_SALE_NAME') {
+if ($_POST["action"] === 'GET_CUSTOMER_LOTTO') {
 
     ## Read value
     $draw = $_POST['draw'];
