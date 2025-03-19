@@ -74,10 +74,10 @@ include('includes/Header.php');
                                                         <div class="modal-body">
 
                                                             <div class="form-group">
-                                                                <label for="sale_name"
+                                                                <label for="customer_name"
                                                                        class="control-label">ชื่อ Sale</label>
-                                                                <input type="sale_name" class="form-control"
-                                                                       id="sale_name" name="sale_name"
+                                                                <input type="customer_name" class="form-control"
+                                                                       id="customer_name" name="customer_name"
                                                                        placeholder="">
                                                             </div>
 
@@ -193,11 +193,11 @@ include('includes/Footer.php');
     $("#remark").blur(function () {
         let method = $('#action').val();
         if (method === "ADD") {
-            let sale_name = $('#sale_name').val();
+            let customer_name = $('#customer_name').val();
             let remark = $('#remark').val();
-            let formData = {action: "SEARCH", sale_name: sale_name, remark: remark};
+            let formData = {action: "SEARCH", customer_name: customer_name, remark: remark};
             $.ajax({
-                url: 'model/manage_sale_team_process.php',
+                url: 'model/manage_customer_lotto_process.php',
                 method: "POST",
                 data: formData,
                 success: function (data) {
@@ -213,7 +213,7 @@ include('includes/Footer.php');
 
 <script>
     $(document).ready(function () {
-        let formData = {action: "GET_SALE_NAME", sub_action: "GET_MASTER"};
+        let formData = {action: "GET_CUSTOMER_LOTTO", sub_action: "GET_MASTER"};
         let dataRecords = $('#TableRecordList').DataTable({
             'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
             'language': {
@@ -237,11 +237,11 @@ include('includes/Footer.php');
             }?>
             'serverMethod': 'post',
             'ajax': {
-                'url': 'model/manage_sale_team_process.php',
+                'url': 'model/manage_customer_lotto_process.php',
                 'data': formData
             },
             'columns': [
-                {data: 'sale_name'},
+                {data: 'customer_name'},
                 {data: 'remark'},
                 {data: 'status'},
                 {data: 'update'},
@@ -255,7 +255,7 @@ include('includes/Footer.php');
             $('#save').attr('disabled', 'disabled');
             let formData = $(this).serialize();
             $.ajax({
-                url: 'model/manage_sale_team_process.php',
+                url: 'model/manage_customer_lotto_process.php',
                 method: "POST",
                 data: formData,
                 success: function (data) {
@@ -276,7 +276,7 @@ include('includes/Footer.php');
         $("#btnAdd").click(function () {
             $('#recordModal').modal('show');
             $('#id').val("");
-            $('#sale_name').val("");
+            $('#customer_name').val("");
             $('#remark').val("");
             $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
             $('#action').val('ADD');
@@ -293,20 +293,20 @@ include('includes/Footer.php');
         let formData = {action: "GET_DATA", id: id};
         $.ajax({
             type: "POST",
-            url: 'model/manage_sale_team_process.php',
+            url: 'model/manage_customer_lotto_process.php',
             dataType: "json",
             data: formData,
             success: function (response) {
                 let len = response.length;
                 for (let i = 0; i < len; i++) {
                     let id = response[i].id;
-                    let sale_name = response[i].sale_name;
+                    let customer_name = response[i].customer_name;
                     let remark = response[i].remark;
                     let status = response[i].status;
 
                     $('#recordModal').modal('show');
                     $('#id').val(id);
-                    $('#sale_name').val(sale_name);
+                    $('#customer_name').val(customer_name);
                     $('#remark').val(remark);
                     $('#status').val(status);
                     $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
@@ -329,20 +329,20 @@ include('includes/Footer.php');
         let formData = {action: "GET_DATA", id: id};
         $.ajax({
             type: "POST",
-            url: 'model/manage_sale_team_process.php',
+            url: 'model/manage_customer_lotto_process.php',
             dataType: "json",
             data: formData,
             success: function (response) {
                 let len = response.length;
                 for (let i = 0; i < len; i++) {
                     let id = response[i].id;
-                    let sale_name = response[i].sale_name;
+                    let customer_name = response[i].customer_name;
                     let remark = response[i].remark;
                     let status = response[i].status;
 
                     $('#recordModal').modal('show');
                     $('#id').val(id);
-                    $('#sale_name').val(sale_name);
+                    $('#customer_name').val(customer_name);
                     $('#remark').val(remark);
                     $('#status').val(status);
                     $('.modal-title').html("<i class='fa fa-minus'></i> Delete Record");
