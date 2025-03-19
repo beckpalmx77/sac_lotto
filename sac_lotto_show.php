@@ -98,7 +98,7 @@ require_once 'config/connect_lotto_db.php';
 <!-- Modal -->
 <div class="modal fade" id="updateModal" name="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="updateModalLabel">Update Record</h5>
@@ -107,15 +107,15 @@ require_once 'config/connect_lotto_db.php';
             <div class="modal-body">
                 <form id="updateForm" enctype="multipart/form-data">
                     <input type="hidden" id="id" name="id">
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>ชื่อร้าน</label>
                         <input type="text" class="form-control" id="lotto_name" name="name" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>โทรศัพท์</label>
                         <input type="text" class="form-control" id="lotto_phone" name="phone" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label class="control-label" for="lotto_province">จังหวัด</label>
                         <select id="lotto_province" name="lotto_province" required="true"
                                 class="form-control" data-live-search="true"
@@ -133,7 +133,7 @@ require_once 'config/connect_lotto_db.php';
                             } ?>
                         </select>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label for="lotto_number" class="control-label">หมายเลขที่เลือก
                             (000-999)</label>
                         <input type="number" class="form-control" id="lotto_number"
@@ -142,7 +142,7 @@ require_once 'config/connect_lotto_db.php';
                                value=""
                                placeholder="">
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <div class="form-group">
                             <label class="control-label" for="sale_name">ชื่อ Sale</label>
                             <select id="sale_name" name="sale_name" required="true"
@@ -162,7 +162,7 @@ require_once 'config/connect_lotto_db.php';
                             </select>
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>สถานะอนุมัติ</label>
                         <select class="form-select" id="approve_status" name="status">
                             <option value="N">ยังไม่อนุมัติ</option>
@@ -176,62 +176,62 @@ require_once 'config/connect_lotto_db.php';
                     <input type="hidden" id="text_lotto_file4_input" value="">
                     <input type="hidden" id="text_lotto_file5_input" value="">
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>อัพโหลดรูปป้ายไวนิล 1</label>
                         <input type="file" name="lotto_file[]" id="lotto_file_input" multiple>
                     </div>
                     <div id="lotto_file_images"></div> <!-- แสดงรูปจาก lotto_file -->
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>อัพโหลดรูปป้ายไวนิล 2</label>
                         <input type="file" name="lotto_file1[]" id="lotto_file1_input" multiple>
                     </div>
                     <div id="lotto_file1_images"></div> <!-- แสดงรูปจาก lotto_file2 -->
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>อัพโหลดรูปป้ายไวนิล 3</label>
                         <input type="file" name="lotto_file3[]" id="lotto_file3_input" multiple>
                     </div>
                     <div id="lotto_file3_images"></div> <!-- แสดงรูปจาก lotto_file2 -->
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>อัพโหลดรูปป้ายไวนิล 4</label>
                         <input type="file" name="lotto_file4[]" id="lotto_file4_input" multiple>
                     </div>
                     <div id="lotto_file4_images"></div> <!-- แสดงรูปจาก lotto_file2 -->
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>อัพโหลดรูปป้ายไวนิล 5</label>
                         <input type="file" name="lotto_file5[]" id="lotto_file5_input" multiple>
                     </div>
                     <div id="lotto_file5_images"></div> <!-- แสดงรูปจาก lotto_file2 -->
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>อัพโหลดรูปป้ายไวนิล 6</label>
                         <input type="file" name="lotto_file6[]" id="lotto_file6_input" multiple>
                     </div>
                     <div id="lotto_file6_images"></div> <!-- แสดงรูปจาก lotto_file2 -->
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>อัพโหลดรูปป้ายไวนิล 7</label>
                         <input type="file" name="lotto_file7[]" id="lotto_file7_input" multiple>
                     </div>
                     <div id="lotto_file7_images"></div> <!-- แสดงรูปจาก lotto_file2 -->
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>อัพโหลดรูปป้ายไวนิล 8</label>
                         <input type="file" name="lotto_file8[]" id="lotto_file8_input" multiple>
                     </div>
                     <div id="lotto_file8_images"></div> <!-- แสดงรูปจาก lotto_file2 -->
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>อัพโหลดรูปเลขหลังป้าย</label>
                         <input type="file" name="lotto_file2[]" id="lotto_file2_input" multiple>
                     </div>
                     <div id="lotto_file2_images"></div> <!-- แสดงรูปจาก lotto_file2 -->
 
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>หมายเหตุ</label>
                         <input type="text" class="form-control" id="remark" name="remark">
                     </div>
