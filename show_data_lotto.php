@@ -62,15 +62,51 @@ $images = [
                 if (!empty($images)) {
                     echo "<h5 class='text-left mb-3'>$title</h5><div class='row text-left'>";
                     foreach ($images as $image) {
+                        $imagePath = 'uploads/' . htmlspecialchars(trim($image));
                         echo "<div class='col-md-4 mb-3'>
-                                <div class='card'>
-                                    <a href='uploads/" . htmlspecialchars(trim($image)) . "' target='_blank'>
-                                        <img src='uploads/" . htmlspecialchars(trim($image)) . "' class='card-img-top img-fluid' alt='รูปภาพ'>
-                                    </a>
-                                </div>
-                              </div>";
+                    <div class='card'>
+                        <a href='#' class='open-image' data-img='$imagePath'>
+                            <img src='$imagePath' class='card-img-top img-fluid' alt='รูปภาพ'>
+                        </a>
+                    </div>
+                  </div>";
                     }
                     echo "</div>";
+
+                    // เพิ่ม Popup และ JavaScript
+                    echo "
+        <div id='imagePopup' style='display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center;'>
+            <div class='popup-content' style='position:relative; background:#fff; padding:15px; border-radius:10px; max-width:90%; max-height:90%; display:flex; flex-direction:column; align-items:center;'>
+                <button class='close-popup' style='position:absolute; top:10px; right:10px; background:red; color:white; border:none; padding:5px 10px; cursor:pointer; font-size:16px; border-radius:50%;'>×</button>
+                <img id='popupImage' src='' alt='รูปภาพ' style='max-width:100%; max-height:80vh; border-radius:5px;'>
+            </div>
+        </div>
+
+        <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+        <script>
+            $(document).ready(function () {
+                $(document).on('click', '.open-image', function (event) {
+                    event.preventDefault();
+                    let imgSrc = $(this).attr('data-img');
+                    if (imgSrc) {
+                        $('#popupImage').attr('src', imgSrc);
+                        $('#imagePopup').fadeIn();
+                    }
+                });
+
+                $(document).on('click', '.close-popup, #imagePopup', function () {
+                    $('#imagePopup').fadeOut();
+                });
+
+                $(document).on('click', '.popup-content', function (event) {
+                    event.stopPropagation();
+                });
+
+                // เพิ่ม Favicon เมื่อเปิด Popup
+                $('<link rel=\"icon\" href=\"img/favicon.ico\" type=\"image/x-icon\">').appendTo('head');
+            });
+        </script>
+        ";
                 }
             }
 
