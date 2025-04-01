@@ -61,11 +61,11 @@
                                     </div>
 
                                     <div class="d-flex">
-                                        <button type="button" id="LottoResultCheckBtn"
+                                        <!--button type="button" id="LottoResultCheckBtn"
                                                 class="btn btn-outline-primary flex-fill">
                                             <span><i class="fa fa-check-square-o"
                                                      aria-hidden="true"></i> ตรวจรางวัล Lotto</span>
-                                        </button>
+                                        </button-->
                                         <button type="button" id="exportExcelBtn"
                                                 class="btn btn-outline-success flex-fill">
                                             <span><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export Excel</span>
