@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
             // ตรวจสอบประเภทของรางวัล (เลขท้าย 2 ตัว หรือ 3 ตัว)
-            if ($row['lotto_type'] === 2) {
+            if ($row['lotto_type'] == 2) {
                 $lotto_type_desc = "เลขท้าย 3 ตัว ";
                 $where = "WHERE lotto_number = '" . $row['lotto_number_result'] . "'";
 /*
