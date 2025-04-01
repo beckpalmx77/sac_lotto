@@ -4,6 +4,7 @@ include('config/connect_lotto_db.php');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $txt = "";
+    $txt2 = "";
 
     // รับค่าที่ส่งมาจากฟอร์ม
     $period_no = $_POST['period_no'];
@@ -39,11 +40,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // ตรวจสอบประเภทของรางวัล (เลขท้าย 2 ตัว หรือ 3 ตัว)
             if ($row['lotto_type'] === 2) {
                 $lotto_type_desc = "เลขท้าย 3 ตัว ";
-                $where = "WHERE lotto_number = " . $row['lotto_number_result'];
+                $where = "WHERE lotto_number = '" . $row['lotto_number_result'] . "'";
+/*
+                $my_file = fopen("cond1.txt", "w") or die("Unable to open file!");
+                fwrite($my_file, " 3 digit where = " . $where);
+                fclose($my_file);
+*/
             } else {
                 $lotto_type_desc = "เลขท้าย 2 ตัว ";
                 $lotto_number_result_last2 = substr($row['lotto_number_result'], -2);
                 $where = "WHERE lotto_number LIKE '%" . $lotto_number_result_last2 . "'"; // เปรียบเทียบเลขท้าย 2 ตัว
+/*
+                $my_file = fopen("cond2.txt", "w") or die("Unable to open file!");
+                fwrite($my_file, " 2 digit where = " . $where);
+                fclose($my_file);
+*/
             }
             echo "<br>";
             echo "<div class='result-item'>";
@@ -53,6 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // ค้นหาผู้ถูกรางวัลจากตาราง ims_lotto
             $sql_str = "SELECT * FROM ims_lotto " . $where;
+/*
+            $txt2 .= $sql_str . "\n\r";
+            $my_file = fopen("cond3.txt", "w") or die("Unable to open file!");
+            fwrite($my_file,  $txt2);
+            fclose($my_file);
+*/
             $stmt_lotto = $conn->prepare($sql_str);
             $stmt_lotto->execute();
 
