@@ -3,6 +3,8 @@ include('config/connect_lotto_db.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+    $txt = "";
+
     // รับค่าที่ส่งมาจากฟอร์ม
     $period_no = $_POST['period_no'];
     $period_month = $_POST['period_month'];
@@ -12,7 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "SELECT ims_lotto_period.*,prize.prize_id,prize.detail,prize.prize FROM ims_lotto_period
                 LEFT JOIN ims_lotto_prize prize ON prize.prize_id = ims_lotto_period.lotto_type
                 WHERE period_no = :period_no AND period_month = :period_month AND period_year = :period_year ORDER BY lotto_type DESC";
-
+    /*
+        $txt .= $sql .  "\n\r" . " | " . $period_no . " | " . $period_month . " | " . $period_year;
+        $my_file = fopen("cond.txt", "w") or die("Unable to open file!");
+        fwrite($my_file, " sql = " . $txt);
+        fclose($my_file);
+    */
     // เตรียมคำสั่ง SQL
     $stmt = $conn->prepare($sql);
 
