@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <th width="15%">รูปภาพป้ายไวนิล 2</th>
                         <th width="15%">รูปภาพเลขหลังป้ายไวนิล</th-->
                         <th width="15%">ดูข้อมูล</th>
-                        <!--th width="15%">ตรวจรางวัล</th-->
+                        <th width="15%">ตรวจรางวัล</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -170,12 +170,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     Click
                                 </a>
                             </td>
-                            <!--td style="text-align: center;">
+                            <td style="text-align: center;">
                                 <a href="javascript:void(0);" class="btn btn-success btn-sm"
                                    onclick="openLottoResult('<?= $rows['id']; ?>', '<?= $rows['lotto_name']; ?>', '<?= $rows['lotto_phone']; ?>', '<?= $rows['lotto_number']; ?>')">
                                     Click
                                 </a>
-                            </td-->
+                            </td>
                         </tr>
                     <?php } ?>
                     </tbody>
