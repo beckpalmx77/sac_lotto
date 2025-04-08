@@ -205,7 +205,7 @@ if ($_POST["action"] === 'GET_LOTTO_PERIOD_RESULT') {
         if ($_POST['sub_action'] === "GET_MASTER") {
 
             $month_name = $month_arr[$row['period_month']];
-            $lotto_type = $row['lotto_type'] === 2 ? "เลขท้าย 3 ตัว" : "เลขท้าย 2 ตัว";
+            $lotto_type = $row['lotto_type'] == 2 ? "เลขท้าย 3 ตัว" : "เลขท้าย 2 ตัว";
 
             $data[] = array(
                 "id" => $row['id'],

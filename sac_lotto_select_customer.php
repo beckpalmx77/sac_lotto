@@ -29,10 +29,10 @@ include('includes/CheckDevice.php');
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <!--label for="customer_select"><b style="color: blue;">เลือกรายชื่อลูกค้า</b> <b
+                                        <label for="customer_select"><b style="color: blue;">เลือกรายชื่อลูกค้า</b> <b
                                                     style="color: orangered;">ถ้าค้นหาไม่พบให้พิมพ์ชื่อร้านค้าในช่อง</b><b
-                                                    style="color: green;"> ชื่อร้านค้า</b></label-->
-                                        <!--select id="customer_select" class="form-control" style="width: 100%;">
+                                                    style="color: green;"> ชื่อร้านค้า</b></label>
+                                        <select id="customer_select" class="form-control" style="width: 100%;">
                                             <option value="">-- ค้นหารายชื่อลูกค้า --</option>
                                             <?php
                                             $sql = "SELECT * FROM ims_customer_master";
@@ -43,7 +43,7 @@ include('includes/CheckDevice.php');
                                                 echo "<option value='{$customer['id']}' data-name='{$customer['customer_name']}' data-phone='{$customer['phone']}' data-province='{$customer['province']}' data-sale='{$customer['sale_name']}'>{$customer['customer_name']}</option>";
                                             }
                                             ?>
-                                        </select-->
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">

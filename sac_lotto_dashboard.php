@@ -81,7 +81,8 @@ include('includes/Header.php');
 <script>
     $(document).ready(function () {
         $("#LottoSelBtn").click(function () {
-            window.location.href = "sac_lotto_select";
+            //window.location.href = "sac_lotto_select";
+            window.location.href = "sac_lotto_select_customer";
         });
 
         $("#LottoShoBtn").click(function () {
