@@ -3,6 +3,9 @@ include('config/connect_lotto_db.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+    $txt = "";
+    $txt2 = "";
+
     // รับค่าที่ส่งมาจากฟอร์ม
     $period_no = $_POST['period_no'];
     $period_month = $_POST['period_month'];
@@ -12,7 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "SELECT ims_lotto_period.*,prize.prize_id,prize.detail,prize.prize FROM ims_lotto_period
                 LEFT JOIN ims_lotto_prize prize ON prize.prize_id = ims_lotto_period.lotto_type
                 WHERE period_no = :period_no AND period_month = :period_month AND period_year = :period_year ORDER BY lotto_type DESC";
-
+    /*
+        $txt .= $sql .  "\n\r" . " | " . $period_no . " | " . $period_month . " | " . $period_year;
+        $my_file = fopen("cond.txt", "w") or die("Unable to open file!");
+        fwrite($my_file, " sql = " . $txt);
+        fclose($my_file);
+    */
     // เตรียมคำสั่ง SQL
     $stmt = $conn->prepare($sql);
 
@@ -30,13 +38,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
             // ตรวจสอบประเภทของรางวัล (เลขท้าย 2 ตัว หรือ 3 ตัว)
-            if ($row['lotto_type'] === 2) {
+            if ($row['lotto_type'] == 2) {
                 $lotto_type_desc = "เลขท้าย 3 ตัว ";
-                $where = "WHERE lotto_number = " . $row['lotto_number_result'];
+                $where = "WHERE lotto_number = '" . $row['lotto_number_result'] . "'";
+/*
+                $my_file = fopen("cond1.txt", "w") or die("Unable to open file!");
+                fwrite($my_file, " 3 digit where = " . $where);
+                fclose($my_file);
+*/
             } else {
                 $lotto_type_desc = "เลขท้าย 2 ตัว ";
                 $lotto_number_result_last2 = substr($row['lotto_number_result'], -2);
                 $where = "WHERE lotto_number LIKE '%" . $lotto_number_result_last2 . "'"; // เปรียบเทียบเลขท้าย 2 ตัว
+/*
+                $my_file = fopen("cond2.txt", "w") or die("Unable to open file!");
+                fwrite($my_file, " 2 digit where = " . $where);
+                fclose($my_file);
+*/
             }
             echo "<br>";
             echo "<div class='result-item'>";
@@ -46,6 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // ค้นหาผู้ถูกรางวัลจากตาราง ims_lotto
             $sql_str = "SELECT * FROM ims_lotto " . $where;
+/*
+            $txt2 .= $sql_str . "\n\r";
+            $my_file = fopen("cond3.txt", "w") or die("Unable to open file!");
+            fwrite($my_file,  $txt2);
+            fclose($my_file);
+*/
             $stmt_lotto = $conn->prepare($sql_str);
             $stmt_lotto->execute();
 

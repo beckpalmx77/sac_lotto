@@ -10,23 +10,19 @@ $lotto_number = $_GET['lotto_number'];
 
 // ดึงข้อมูลรางวัลจากงวดที่ประกาศ
 $sql = "SELECT ims_lotto_period.*, prize.prize_id, prize.detail AS prize_detail, prize.prize, 
-                   ims_lotto_period.period_no, ims_lotto_period.period_month, ims_lotto_period.period_year 
-            FROM ims_lotto_period
-            LEFT JOIN ims_lotto_prize prize ON prize.prize_id = ims_lotto_period.lotto_type
-            WHERE lotto_number_result LIKE :search_number OR lotto_number_result LIKE :search_number_last_two
-            ORDER BY ims_lotto_period.period_no, ims_lotto_period.period_month, ims_lotto_period.period_year ";
+               ims_lotto_period.period_no, ims_lotto_period.period_month, ims_lotto_period.period_year 
+        FROM ims_lotto_period
+        LEFT JOIN ims_lotto_prize prize ON prize.prize_id = ims_lotto_period.lotto_type
+        WHERE (lotto_number_result = :search_number AND ims_lotto_period.lotto_type = '2') 
+              OR (lotto_number_result LIKE :search_number_last_two AND ims_lotto_period.lotto_type = '1')
+        ORDER BY ims_lotto_period.period_no, ims_lotto_period.period_month, ims_lotto_period.period_year";
 
 $stmt = $conn->prepare($sql);
-
-// ใช้ LIKE เพื่อให้รองรับการค้นหาเลข 3 ตัวและเลข 2 ตัว
-$search_number = '%' . $lotto_number; // เลขที่กรอกมา (เช่น 428)
-$search_number_last_two = '%' . substr($lotto_number, -2); // เลขท้าย 2 ตัว (เช่น 28)
-
-$stmt->bindParam(':search_number', $search_number, PDO::PARAM_STR);
+$search_number_last_two = '%' . substr($lotto_number, -2); // ใช้ LIKE เฉพาะเลขท้าย 2 ตัว
+$stmt->bindParam(':search_number', $lotto_number, PDO::PARAM_STR);
 $stmt->bindParam(':search_number_last_two', $search_number_last_two, PDO::PARAM_STR);
-
-// Execute คำสั่ง SQL
 $stmt->execute();
+
 
 ?>
 
@@ -108,7 +104,7 @@ $stmt->execute();
                 }
                 echo "</tbody></table>";
             } else {
-                echo "<p style='color: red; font-weight: bold;'>ไม่พบผลรางวัลที่ค้นหา</p>";
+                echo "<p style='color: red; font-weight: bold;'>ไม่พบรายการที่ได้รับรางวัล</p>";
             }
             ?>
 
