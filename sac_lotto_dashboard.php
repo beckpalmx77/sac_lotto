@@ -68,7 +68,9 @@ include('includes/Header.php');
                                         <span><i class="fa fa-reply" aria-hidden="true"></i> กลับหน้าแรก</span>
                                     </button>
                                 </div>
-
+                                <p style="color:#F8F8FF; font-family: 'Arial', sans-serif; font-size: 16px;">
+                                    <?php echo "DB By : " . $_SESSION['DB_NAME']; ?>
+                                </p>
                             </div>
                         </div>
                     </div>

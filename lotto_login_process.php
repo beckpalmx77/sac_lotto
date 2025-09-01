@@ -8,6 +8,8 @@ if ($_SESSION['alogin'] != '') {
     $_SESSION['alogin'] = '';
 }
 
+$DB_NAME = DB_NAME;
+
 $username = $_POST['username'];
 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 $remember = $_POST['remember'];
@@ -36,6 +38,8 @@ if ($query->rowCount() == 1) {
             $_SESSION['permission_price'] = $result->permission_price;
             $_SESSION['dashboard_page'] = $result->dashboard_page;
             $_SESSION['system_name'] = $system_name;
+
+            $_SESSION['DB_NAME'] = $DB_NAME;
 
 
             if ($remember == "on") { // ถ้าติ๊กถูก Login ตลอดไป ให้ทำการสร้าง cookie
